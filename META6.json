@@ -1,19 +1,30 @@
 {
+  "auth" : "cpan:JFORGET",
   "authors" : [
     "Jean Forget"
   ],
   "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "blah blah blah",
-  "license" : "Artistic-2.0",
-  "name" : "Date::Calendar::MayanAztec",
-  "perl" : "6.c",
+  "depends" : [
+      "Date::Calendar::Strftime"
+  ],
+  "description" : "conversions from/to the Mayan calendar and conversions to the Aztec calendar",
+  "license"     : "Artistic-2.0",
+  "name"        : "Date::Calendar::MayanAztec",
+  "perl"        : "6.c",
   "provides" : {
     "Date::Calendar::MayanAztec" : "lib/Date/Calendar/MayanAztec.pm6"
   },
   "resources" : [ ],
-  "source-url" : "",
-  "tags" : [ ],
-  "test-depends" : [ ],
+  "source-url" : "https://github.com/jforget/raku-Date-Calendar-MayanAztec.git",
+  "support" : {
+    "email" : "JFORGET@cpan.org"
+  },
+  "tags" : [
+      "date"
+    , "calendar"
+  ],
+  "test-depends" : [ 
+      "Test::META"
+  ],
   "version" : "0.0.1"
 }
