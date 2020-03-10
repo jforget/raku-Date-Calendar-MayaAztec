@@ -27,8 +27,8 @@ my Date                  $d-greg  .= new(2020, 6, 20);
 my Date::Calendar::Aztec $d-aztec .= new-from-date($d-greg);
 my Date::Calendar::Mayan $d-mayan .= new-from-date($d-greg);
 
-say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
-# --> 12 Tecpatl 20 Teotleco
+say "{.tzolkin} {.haab"} {.long-count}" with $d-mayan;
+# --> 12 Etznab 1 Tzec 13.0.7.10.18
 $d-aztec.locale = 'en';
 say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
 # --> 12 Flint 20 God arrives

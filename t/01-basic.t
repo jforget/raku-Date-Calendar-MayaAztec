@@ -1,6 +1,7 @@
 use v6.c;
 use Test;
-use Date::Calendar::MayanAztec;
+use Date::Calendar::Aztec;
+use Date::Calendar::Mayan;
 
 pass "replace me";
 
