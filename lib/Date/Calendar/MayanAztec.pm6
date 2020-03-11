@@ -1,6 +1,11 @@
 use v6.c;
 unit role Date::Calendar::MayanAztec:ver<0.0.1>:auth<cpan:JFORGET>;
 
+has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
+has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
+has Int $.clerical-number where { 1 ≤ $_ ≤ 13 }; # Tzolkin number or tonalpohualli number
+has Int $.clerical-index  where { 1 ≤ $_ ≤ 20 }; # Number equivalent of the Tzolkin name or tonalpohualli name
+has Str $.locale is rw;
 
 =begin pod
 
