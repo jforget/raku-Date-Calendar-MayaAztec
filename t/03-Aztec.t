@@ -25,8 +25,8 @@ is($date.locale         , 'nah');
 $date.locale = 'en';
 is($date.locale         , 'en');
 # is($date.tonalpohualli-number,  7);
-# is($date.tonalpohualli-name  , 'Quake');
-# is($date.tonalpohualli       , '7 Quake');
+# is($date.tonalpohualli-name  , 'Movement');
+# is($date.tonalpohualli       , '7 Movement');
 # is($date.xiuhpohualli-number , 19
 # is($date.xiuhpohualli-name   , '1-lords feast');
 # is($date.xiuhpohualli        , '19 1-lords feast');
