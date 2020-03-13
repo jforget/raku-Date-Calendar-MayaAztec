@@ -3,7 +3,7 @@ use v6.c;
 
 unit module Date::Calendar::Aztec::Names:ver<0.0.1>:auth<cpan:JFORGET>;
 
-my @day-names = 'nah' => qw/
+my %day-names = 'nah' => qw/
                            Cipactli      Ehecatl   Calli   Cuetzpalin Coatl
                            Miquizti      Mazatl    Tochtli Atl        Itzcuintli
                            Ozomahtli     Malinalli Acatl   Ocelot     Cuauhtli
@@ -21,7 +21,7 @@ my @day-names = 'nah' => qw/
                            Singe         Herbe     Roseau  Jaguar     Aigle     
                            Vautour       Mouvement Silex   Pluie      Fleur     
                            /;
-my @month-names = 'nah' => (  "Izcalli"             
+my %month-names = 'nah' => (  "Izcalli"             
                            ,  "Atlcahualo"          
                            ,  "Tlacaxipehualiztli"  
                            ,  "Tozoztontli"         

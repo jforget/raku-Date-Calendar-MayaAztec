@@ -2,11 +2,17 @@ use v6.c;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::MayanAztec;
+use Date::Calendar::Aztec::Common;
 
 unit class Date::Calendar::Aztec:ver<0.0.1>:auth<cpan:JFORGET>
       does Date::Calendar::MayanAztec
+      does Date::Calendar::Aztec::Common
       does Date::Calendar::Strftime;
 
+method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale) {
+  self!check-build-args(    $month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+}
 
 =begin pod
 

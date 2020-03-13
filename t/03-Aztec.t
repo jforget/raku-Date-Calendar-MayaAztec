@@ -2,7 +2,7 @@ use v6.c;
 use Test;
 use Date::Calendar::Aztec;
 
-plan 6;
+plan 7;
 
 my Date::Calendar::Aztec $date .= new(month           =>  8
                                     , day             => 19
@@ -15,6 +15,7 @@ is($date.day            , 19);
 is($date.clerical-number,  2);
 is($date.clerical-index ,  7);
 is($date.locale         , 'nah');
+is($date.gist           , '19-8 2-7');
 # is($date.tonalpohualli-number,  7);
 # is($date.tonalpohualli-name  , 'Ollin');
 # is($date.tonalpohualli       , '7 Ollin');

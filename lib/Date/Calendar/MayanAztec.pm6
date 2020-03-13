@@ -7,6 +7,15 @@ has Int $.clerical-number where { 1 ≤ $_ ≤ 13 }; # Tzolkin number or tonalpo
 has Int $.clerical-index  where { 1 ≤ $_ ≤ 20 }; # Number equivalent of the Tzolkin name or tonalpohualli name
 has Str $.locale is rw;
 
+
+method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {
+  $!month           = $month;
+  $!day             = $day;
+  $!clerical-index  = $clerical-index;
+  $!clerical-number = $clerical-number;
+  $!locale          = $locale;
+}
+
 =begin pod
 
 =head1 NAME
