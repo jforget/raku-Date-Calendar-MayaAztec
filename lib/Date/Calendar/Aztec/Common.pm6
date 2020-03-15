@@ -53,7 +53,7 @@ method month-name {
 }
 
 method day-name {
-  Date::Calendar::Aztec::Names::day-name($.locale, $.day);
+  Date::Calendar::Aztec::Names::day-name($.locale, $.clerical-index);
 }
 
 # method specific-format { %( Oj => { $.feast },
