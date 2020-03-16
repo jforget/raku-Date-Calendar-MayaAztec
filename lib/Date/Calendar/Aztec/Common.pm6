@@ -4,6 +4,16 @@ use Date::Calendar::MayanAztec;
 
 unit role Date::Calendar::Aztec::Common:ver<0.0.1>:auth<cpan:JFORGET>;
 
+multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah') {
+  self!check-build-args(    $month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+}
+
+multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah') {
+  self!check-build-args(    $xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
+  self!build-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
+}
+
 method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {
 
   unless 1 ≤ $month ≤ 19 {

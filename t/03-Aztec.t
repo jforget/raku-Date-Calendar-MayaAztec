@@ -8,29 +8,35 @@ use Date::Calendar::Aztec;
 # or checking 2072-02-27 with the Caso correlation (1 calendar round later)
 # or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
-plan 1              # date
+plan 2              # dates
      × ( 8          # locale-independant methods
         + 3 × 7)    # locales and locale-dependant methods
 ;
 
-my Date::Calendar::Aztec $date .= new(month           =>  8
-                                    , day             => 19
-                                    , clerical-number =>  2
-                                    , clerical-index  => 17
-                                    , locale          => 'nah');
+my Date::Calendar::Aztec $date1 .= new(month           =>  8
+                                     , day             => 19
+                                     , clerical-number =>  2
+                                     , clerical-index  => 17
+                                     , locale          => 'nah');
+
+my Date::Calendar::Aztec $date2 .= new(xiuhpohualli-index   =>  8
+                                     , xiuhpohualli-number  => 19
+                                     , tonalpohualli-number =>  2
+                                     , tonalpohualli-index  => 17
+                                     , locale               => 'nah');
 
 #my Date::Calendar::Aztec         $d1 .= new-from-date(Date.new('1968-03-24');
 #my Date::Calendar::Aztec         $d2 .= new-from-date(Date.new('2020-03-11');
 #my Date::Calendar::Aztec         $d3 .= new-from-date(Date.new('2072-02-27');
 #my Date::Calendar::Aztec::Cortes $dc .= new-from-date(Date.new('2020-03-08');
 #
-#for ($date, $d1, $d2, $d3, $dc) -> $d {
-for ($date) -> $d {
+#for ($date1, $date2, $d1, $d2, $d3, $dc) -> $d {
+for ($date1, $date2) -> $d {
   testing-calendar-round($d);
   testing-Nahuatl($d);
-  $date.locale = 'en';
+  $d.locale = 'en';
   testing-English($d);
-  $date.locale = 'fr';
+  $d.locale = 'fr';
   testing-French($d);
 }
 
