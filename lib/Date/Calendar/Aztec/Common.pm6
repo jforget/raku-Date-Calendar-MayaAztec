@@ -56,6 +56,34 @@ method day-name {
   Date::Calendar::Aztec::Names::day-name($.locale, $.clerical-index);
 }
 
+method tonalpohualli-number {
+  $.clerical-number;
+}
+
+method tonalpohualli-index {
+  $.clerical-index;
+}
+
+method tonalpohualli-name {
+  $.day-name;
+}
+
+method tonalpohualli {
+  "{$.tonalpohualli-number} {$.tonalpohualli-name}";
+}
+
+method xiuhpohualli-number {
+  $.day;
+}
+
+method xiuhpohualli-name {
+  $.month-name;
+}
+
+method xiuhpohualli {
+  "{$.xiuhpohualli-number} {$.xiuhpohualli-name}";
+}
+
 # method specific-format { %( Oj => { $.feast },
 #                            '*' => { $.feast },
 #                             Ej => { $.feast-long },
