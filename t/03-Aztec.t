@@ -2,10 +2,13 @@ use v6.c;
 use Test;
 use Date::Calendar::Aztec;
 
-# Checking 2020-03-11 with the Caso correlation
+# Checking 2020-03-11 with the Alfonso Caso correlation
 # see https://www.azteccalendar.com/?day=11&month=3&year=2020
+# or checking 2020-03-08 with the Francisco Cortès correlation
+# or checking 2072-02-27 with the Caso correlation (1 calendar round later)
+# or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
-plan 1  # date
+plan 1              # date
      × ( 8          # locale-independant methods
         + 3 × 7)    # locales and locale-dependant methods
 ;
@@ -16,16 +19,24 @@ my Date::Calendar::Aztec $date .= new(month           =>  8
                                     , clerical-index  => 17
                                     , locale          => 'nah');
 
-testing-calendar-round;
-testing-Nahuatl;
-$date.locale = 'en';
-testing-English;
-$date.locale = 'fr';
-testing-French;
+#my Date::Calendar::Aztec         $d1 .= new-from-date(Date.new('1968-03-24');
+#my Date::Calendar::Aztec         $d2 .= new-from-date(Date.new('2020-03-11');
+#my Date::Calendar::Aztec         $d3 .= new-from-date(Date.new('2072-02-27');
+#my Date::Calendar::Aztec::Cortes $dc .= new-from-date(Date.new('2020-03-08');
+#
+#for ($date, $d1, $d2, $d3, $dc) -> $d {
+for ($date) -> $d {
+  testing-calendar-round($d);
+  testing-Nahuatl($d);
+  $date.locale = 'en';
+  testing-English($d);
+  $date.locale = 'fr';
+  testing-French($d);
+}
 
 done-testing;
 
-sub testing-calendar-round {
+sub testing-calendar-round($date) {
   is($date.month               ,  8);
   is($date.day                 , 19);
   is($date.clerical-number     ,  2);
@@ -36,7 +47,7 @@ sub testing-calendar-round {
   is($date.xiuhpohualli-number , 19);
 }
 
-sub testing-Nahuatl {
+sub testing-Nahuatl($date) {
   is($date.locale         , 'nah');
   is($date.month-name     , 'Tecuilhuitontli');
   is($date.day-name       , 'Ollin');
@@ -46,7 +57,7 @@ sub testing-Nahuatl {
   is($date.xiuhpohualli        , '19 Tecuilhuitontli');
 }
 
-sub testing-English {
+sub testing-English($date) {
   is($date.locale         , 'en');
   is($date.month-name     , '1-lords feast');
   is($date.day-name       , 'Movement');
@@ -56,7 +67,7 @@ sub testing-English {
   is($date.xiuhpohualli        , '19 1-lords feast');
 }
 
-sub testing-French {
+sub testing-French($date) {
   is($date.locale         , 'fr');
   is($date.month-name     , 'Petite fête des dignitaires');
   is($date.day-name       , 'Mouvement');
