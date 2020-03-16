@@ -41,6 +41,57 @@ say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
 Date::Calendar::Aztec is  a class that implements  the Aztec calendars
 (tonalpohualli and xiuhpohualli).
 
+=head1 METHODS
+
+=head2 Object Creation
+
+=head2 Attribute getters
+
+=head3 month
+
+The numeric equivalent of the xiuhpohualli name.
+
+=head3 month-name, xiuhpohualli-name
+
+The name part of the  civil calendar (xiuhpohualli). Its value depends
+on the value of the C<locale> attribute.
+
+=head3 day
+
+The numeric part of the civil calendar (xiuhpohualli), 1 to 20.
+
+=head3 xiuhpohualli
+
+A  string merging  the numeric  part and  the name  part of  the civil
+calendar  (xiuhpohualli).  Its  value  depends on  the  value  of  the
+C<locale> attribute.
+
+=head3 clerical-number, tonalpohualli-number
+
+The numeric part of the clerical calendar (tonalpohualli).
+
+=head3 clerical-name, tonalpohualli-name
+
+The  name part  of the  clerical calendar  (tonalpohualli). Its  value
+depends on the value of the C<locale> attribute.
+
+=head3 clerical-index, tonalpohualli-index
+
+The  numeric equivalent  of the  name  part of  the clerical  calendar
+(tonalpohualli), 1 to 20.
+
+=head3 tonalpohualli
+
+A string  merging the numeric part  and the name part  of the clerical
+calendar  (tonalpohualli).  Its value  depends  on  the value  of  the
+C<locale> attribute.
+
+=head3 gist
+
+Print the numeric values for the civil and clerical calendar.
+
+=head1 ISSUES
+
 =head1 SEE ALSO
 
 =head2 Raku Software
