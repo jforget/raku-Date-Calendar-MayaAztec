@@ -9,6 +9,12 @@ unit class Date::Calendar::Aztec:ver<0.0.1>:auth<cpan:JFORGET>
       does Date::Calendar::Aztec::Common
       does Date::Calendar::Strftime;
 
+# Julian day of the epoch.
+# Since tonalpohualli-Caso is synchronised with Tzolkin-GMT, I have used the same value.
+method epoch {
+  584283;
+}
+
 =begin pod
 
 =head1 NAME

@@ -50,6 +50,16 @@ method new-from-date($date) {
   $.new-from-daycount($date.daycount);
 }
 
+method new-from-daycount($nb) {
+  my $delta = $nb + 2400001 - $.epoch;
+  my $doy = ($delta + 162) % 365;
+  my $x_num = ($doy - 1) % 20 + 1;
+  my $x_idx = ceiling($doy / 20);
+  my $t_num = 1 + ($delta +  3) % 13;
+  my $t_idx = 1 + ($delta + 19) % 20;
+  $.new( month => $x_idx, day => $x_num, clerical-index => $t_idx, clerical-number => $t_num);
+}
+
 method gist {
   sprintf("%d-%d %d-%d", $.day, $.month, $.clerical-number, $.clerical-index);
 }
