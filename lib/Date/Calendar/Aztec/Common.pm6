@@ -52,7 +52,7 @@ method new-from-date($date) {
 
 method new-from-daycount($nb) {
   my $delta = $nb + 2400001 - $.epoch;
-  my $doy = ($delta + 162) % 365;
+  my $doy = ($delta + 161) % 365 + 1;
   my $x_num = ($doy - 1) % 20 + 1;
   my $x_idx = ceiling($doy / 20);
   my $t_num = 1 + ($delta +  3) % 13;
