@@ -16,6 +16,7 @@
     , "Date::Calendar::Mayan"        : "lib/Date/Calendar/Mayan.pm6"
     , "Date::Calendar::MayanAztec"   : "lib/Date/Calendar/MayanAztec.pm6"
     , "Date::Calendar::Aztec/Common" : "lib/Date/Calendar/Aztec/Common.pm6"
+    , "Date::Calendar::Aztec/Cortes" : "lib/Date/Calendar/Aztec/Cortes.pm6"
     , "Date::Calendar::Aztec/Names"  : "lib/Date/Calendar/Aztec/Names.pm6"
   },
   "resources" : [ ],

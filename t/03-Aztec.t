@@ -1,6 +1,7 @@
 use v6.c;
 use Test;
 use Date::Calendar::Aztec;
+use Date::Calendar::Aztec::Cortes;
 
 # Checking 2020-03-11 with the Alfonso Caso correlation
 # see https://www.azteccalendar.com/?day=11&month=3&year=2020
@@ -8,7 +9,7 @@ use Date::Calendar::Aztec;
 # or checking 2072-02-27 with the Caso correlation (1 calendar round later)
 # or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
-plan 5              # dates
+plan 6              # dates
      × ( 8          # locale-independant methods
         + 3 × 7)    # locales and locale-dependant methods
 ;
@@ -28,10 +29,9 @@ my Date::Calendar::Aztec $date2 .= new(xiuhpohualli-index   =>  8
 my Date::Calendar::Aztec         $d1 .= new-from-date(Date.new(1968, 3, 24));
 my Date::Calendar::Aztec         $d2 .= new-from-date(Date.new(2020, 3, 11));
 my Date::Calendar::Aztec         $d3 .= new-from-date(Date.new(2072, 2, 27));
-#my Date::Calendar::Aztec::Cortes $dc .= new-from-date(Date.new(2020, 3,  8));
-#
-#for ($date1, $date2, $d1, $d2, $d3, $dc) -> $d {
-for $date1, $date2, $d1, $d2, $d3 -> $d {
+my Date::Calendar::Aztec::Cortes $dc .= new-from-date(Date.new(2020, 3,  8));
+
+for $date1, $date2, $d1, $d2, $d3, $dc -> $d {
   testing-calendar-round($d);
   testing-Nahuatl($d);
   $d.locale = 'en';
