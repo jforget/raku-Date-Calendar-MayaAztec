@@ -52,9 +52,9 @@ method new-from-date($date) {
 
 method new-from-daycount($nb) {
   my $delta = $nb + 2400001 - $.epoch;
-  my $doy = ($delta + 161) % 365 + 1;
-  my $x_num = ($doy - 1) % 20 + 1;
-  my $x_idx = ceiling($doy / 20);
+  my $doy   = ($delta + 161) % 365;       # day of year, range 0..364
+  my $x_num = $doy % 20 + $.day-nb-begin-with;
+  my $x_idx = floor($doy / 20) + 1;
   my $t_num = 1 + ($delta +  3) % 13;
   my $t_idx = 1 + ($delta + 19) % 20;
   $.new( month => $x_idx, day => $x_num, clerical-index => $t_idx, clerical-number => $t_num);
@@ -102,6 +102,11 @@ method xiuhpohualli-name {
 
 method xiuhpohualli {
   "{$.xiuhpohualli-number} {$.xiuhpohualli-name}";
+}
+
+# Aztec days are numbered 1 to 20 in the civil calendar, while Mayan days are numbered 0 to 19
+method day-nb-begin-with {
+  1;
 }
 
 # method specific-format { %( Oj => { $.feast },
