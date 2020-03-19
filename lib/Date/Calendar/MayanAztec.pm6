@@ -16,6 +16,20 @@ method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $cle
   $!locale          = $locale;
 }
 
+method new-from-date($date) {
+  $.new-from-daycount($date.daycount);
+}
+
+method calendar-round-from-daycount($nb) {
+  my $delta   = $nb + 2400001 - $.epoch;
+  my $doy     = ($delta + 161) % 365;       # day of year, range 0..364
+  my $day     = $doy % 20 + $.day-nb-begin-with;
+  my $month   = floor($doy / 20) + 1;
+  my $cle-num = 1 + ($delta +  3) % 13;
+  my $cle-idx = 1 + ($delta + 19) % 20;
+  return $day, $month, $cle-num, $cle-idx
+}
+
 =begin pod
 
 =head1 NAME
@@ -32,10 +46,10 @@ my Date                  $d-greg  .= new(2020, 6, 20);
 my Date::Calendar::Aztec $d-aztec .= new-from-date($d-greg);
 my Date::Calendar::Mayan $d-mayan .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab"} {.long-count}" with $d-mayan;
+say "{.tzolkin} {.haab} {.long-count}" with $d-mayan;
 # --> 12 Etznab 1 Tzec 13.0.7.10.18
 $d-mayan.locale = 'en';
-say "{.tzolkin} {.haab"}" with $d-mayan;
+say "{.tzolkin} {.haab}" with $d-mayan;
 # --> 12 Flint 1 Skull
 
 say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;

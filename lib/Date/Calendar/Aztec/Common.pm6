@@ -46,18 +46,9 @@ method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerica
   }
 }
 
-method new-from-date($date) {
-  $.new-from-daycount($date.daycount);
-}
-
 method new-from-daycount($nb) {
-  my $delta = $nb + 2400001 - $.epoch;
-  my $doy   = ($delta + 161) % 365;       # day of year, range 0..364
-  my $x_num = $doy % 20 + $.day-nb-begin-with;
-  my $x_idx = floor($doy / 20) + 1;
-  my $t_num = 1 + ($delta +  3) % 13;
-  my $t_idx = 1 + ($delta + 19) % 20;
-  $.new( month => $x_idx, day => $x_num, clerical-index => $t_idx, clerical-number => $t_num);
+  my ($day, $month, $clerical-num, $clerical-idx) = $.calendar-round-from-daycount($nb);
+  $.new( month => $month, day => $day, clerical-index => $clerical-idx, clerical-number => $clerical-num);
 }
 
 method gist {
