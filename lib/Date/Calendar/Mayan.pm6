@@ -2,11 +2,17 @@ use v6.c;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::MayanAztec;
+use Date::Calendar::Mayan::Common;
 
 unit class Date::Calendar::Mayan:ver<0.0.1>:auth<cpan:JFORGET>
       does Date::Calendar::MayanAztec
+      does Date::Calendar::Mayan::Common
       does Date::Calendar::Strftime;
 
+# Goodman-Martinez-Thompson correlation: day 0.0.0.0.0 is 11 August -3113 (or 3114 BC)
+method epoch {
+  584283;
+}
 
 =begin pod
 
