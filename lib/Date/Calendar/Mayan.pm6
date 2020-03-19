@@ -28,10 +28,10 @@ use Date::Calendar::Mayan;
 my Date                  $d-greg  .= new(2020, 6, 20);
 my Date::Calendar::Mayan $d-mayan .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab"} {.long-count}" with $d-mayan;
+say "{.tzolkin} {.haab} {.long-count}" with $d-mayan;
 # --> 12 Etznab 1 Tzec 13.0.7.10.18
 $d-mayan.locale = 'en';
-say "{.tzolkin} {.haab"}" with $d-mayan;
+say "{.tzolkin} {.haab}" with $d-mayan;
 # --> 12 Flint 1 Skull
 
 =end code
