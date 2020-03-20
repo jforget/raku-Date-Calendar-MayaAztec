@@ -100,6 +100,13 @@ method day-nb-begin-with {
   1;
 }
 
+# For any correlation, the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl and the Mayan Epoch is 4 Ahau 8 Cumku.
+# No problem with the clerical calendars, but the civil calendars are not synchronised.
+# Here is the "day of year" (0..364) for the Aztec epoch
+method epoch-doy {
+  161;
+}
+
 # method specific-format { %( Oj => { $.feast },
 #                            '*' => { $.feast },
 #                             Ej => { $.feast-long },

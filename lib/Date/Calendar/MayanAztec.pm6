@@ -22,7 +22,7 @@ method new-from-date($date) {
 
 method calendar-round-from-daycount($nb) {
   my $delta   = $nb + 2400001 - $.epoch;
-  my $doy     = ($delta + 161) % 365;       # day of year, range 0..364
+  my $doy     = ($delta + $.epoch-doy) % 365;       # day of year, range 0..364
   my $day     = $doy % 20 + $.day-nb-begin-with;
   my $month   = floor($doy / 20) + 1;
   my $cle-num = 1 + ($delta +  3) % 13;
