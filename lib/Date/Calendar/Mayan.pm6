@@ -41,6 +41,127 @@ say "{.tzolkin} {.haab}" with $d-mayan;
 Date::Calendar::Mayan is a class  which implements the Mayan calendars
 (long count, Haab and Tzolkin).
 
+This  class  uses  the  Goodman-Martinez-Thompson  correlation.  Other
+classes uses the  Spinden correlation or what  is named "Astronomical"
+on the website L<http://research.famsi.org/date_mayaLC.php>.
+
+Mayas  used  three different  calendars,  the  Long Count,  the  civil
+calendar or "Haab" and the clerical calendar or "Tzolkin".
+
+The  civil  calendar is  organized  like  other calendars,  with  days
+grouped  in  months  groupes  in  years.  The  difference  with  other
+calendars is  that the months lasts  20 days each, not  around 30, and
+there are 18 months,  not 12. Days are numbered 0 to 19,  not 1 to 20.
+In theory  months are not numbered,  but in this module  they are, for
+convenience reasons. In addition, there are 5 additional days (uyaeb),
+but no leap days are defined.
+
+A last difference with other calendars is that years are not numbered.
+
+The clerical calendar  consists of two simultaneous  cycles, the first
+one with numbers 1  to 13, the second one with 20  names. This gives a
+clerical year of 260 days. As for the civil calendar, the 20 names are
+numbered for convenience reasons.
+
+The long count consists of five embedded cycles:
+
+=item kin or day
+=item uinal, 1 uinal = 20 days
+=item tun, 1 tun = 18 uinals
+=item katun, 1 katun = 20 tuns
+=item baktun, 1 baktun = 20 katuns
+
+The uinal can  be considered as a  month, its duration is  the same as
+the Haab month. The  tun is a bit shorter than a  solar year, 360 days
+instead of 36.24.
+
+=head1 METHODS
+
+=head2 Object Creation
+
+=head3 new
+
+
+=head3 new-from-date
+
+Build an  Mayan date  by cloning  an object  from another  class. This
+other   class    can   be    the   core    class   C<Date>    or   any
+C<Date::Calendar::>R<xxx> class with a C<daycount> method.
+
+=head3 new-from-daycount
+
+Build an Mayan date from the Modified Julian Day number.
+
+=head2 Attribute getters
+
+=head3 month
+
+The numeric equivalent of the Haab name.
+
+=head3 month-name, Haab-name
+
+The name part  of the civil calendar (Haab). Its  value depends on the
+value of the C<locale> attribute.
+
+=head3 day
+
+The numeric part of the civil calendar (Haab), 0 to 19.
+
+=head3 Haab
+
+A  string merging  the numeric  part and  the name  part of  the civil
+calendar  (Haab). Its  value depends  on  the value  of the  C<locale>
+attribute.
+
+=head3 clerical-number, tzolkin-number
+
+The numeric part of the clerical calendar (Tzolkin).
+
+=head3 clerical-name, tzolkin-name
+
+The name part of the clerical calendar (Tzolkin). Its value depends on
+the value of the C<locale> attribute.
+
+=head3 clerical-index, tzolkin-index
+
+The  numeric equivalent  of the  name  part of  the clerical  calendar
+(Tzolkin), 1 to 20.
+
+=head3 tzolkin
+
+A string  merging the numeric part  and the name part  of the clerical
+calendar (Tzolkin).  Its value depends  on the value of  the C<locale>
+attribute.
+
+=head3 gist, long-count
+
+The long count in dotted notation.
+
+=head1 ISSUES
+
+=head2 Baktun Numbering
+
+The long count uses base-20 numbering, with the exception of the uinal
+number, which uses  the 0..17 range instead of 0..19.  But some people
+think that  there is another  exception with the baktun  number, which
+uses a cycle  ending with number 13. See  L<Claus Tøndering's Calendar
+FAQ|https://www.tondering.dk/claus/cal/maya.php#baktun>.
+
+The belief that baktun 13 is a special one may come from the fact that
+for end-of-the-worldists  in the  late XXth century  and in  the early
+XXIst  century, the  switch from  12 to  13 would  occur during  their
+lifetimes. Other  considerations point at the  special significance of
+number  13  in  the  Maya  civilization.  Actually,  as  described  in
+Wikipedia   (L<https://en.wikipedia.org/wiki/Maya_calendar#Long_Count>
+and L<https://en.wikipedia.org/wiki/Mesoamerican_Long_Count_calendar#2012_and_the_Long_Count>)
+archeologists have found carved long count dates beyond the 13.0.0.0.0
+date, which means that in the mind  of the carver, the world would not
+end at 13.0.0.0.0.
+
+This module  assumes that  baktun 13 has  no special  significance and
+that baktuns are  numbered until 19. The  higher-order cycles, piktun,
+calabtun, kinchiltun and alautun are not implemented.
+
 =head1 SEE ALSO
 
 =head2 Raku Software
