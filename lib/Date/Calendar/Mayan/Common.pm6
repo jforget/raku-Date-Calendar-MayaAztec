@@ -4,9 +4,14 @@ use Date::Calendar::MayanAztec;
 
 unit role Date::Calendar::Mayan::Common:ver<0.0.1>:auth<cpan:JFORGET>;
 
+has Int $kin     where { 0 ≤ $_ ≤ 19 };
+has Int $uinal   where { 0 ≤ $_ ≤ 17 };
+has Int $tun     where { 0 ≤ $_ ≤ 19 };
+has Int $katun   where { 0 ≤ $_ ≤ 19 };
+has Int $baktun  where { 0 ≤ $_ ≤ 19 };
+
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
-  #my $daycount = $.long-count-to-daycount($long-count);
-  my $daycount = 0; # for the moment
+  my $daycount = $.long-count-to-daycount($long-count);
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
 }
@@ -16,6 +21,13 @@ multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
 }
 
+method long-count-to-daycount(Str $long-count) {
+  my ($baktun, $katun, $tun, $uinal, $kin) = $long-count.split('.');
+  return ((($baktun × 20 + $katun
+                  ) × 20 + $tun
+                  ) × 18 + $uinal
+                  ) × 20 + $kin + $.epoch -  2400001;
+}
 
 method new-from-daycount(Int $nb) {
   $.new(daycount => $nb);

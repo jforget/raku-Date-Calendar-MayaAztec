@@ -5,17 +5,19 @@ use Date::Calendar::Mayan;
 
 # Checking 2020-03-11 with the Goodman Martinez Thompson correlation
 # see http://research.famsi.org/date_mayaLC.php
-# or checking 2020-03-08 with the Spinden correlation
+# or checking 2020-03-12 with the Spinden correlation
 
-plan 1              # dates
+plan 2              # dates
      × ( 8          # locale-independant methods
         + 3 × 7)    # locales and locale-dependant methods
 ;
 
 my Date::Calendar::Mayan          $d1 .= new-from-date(Date.new(2020, 3, 11));
-#my Date::Calendar::Mayan::Spinden $ds .= new-from-date(Date.new(2020, 3, xx));
+my Date::Calendar::Mayan          $d2 .= new(long-count => '13.0.7.5.17');
+#my Date::Calendar::Mayan::Spinden      $d3 .= new-from-date(Date.new(2020, 3, 12));
+#my Date::Calendar::Mayan::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
 
-for $d1 -> $d {
+for $d1, $d2 -> $d {
   testing-calendar-round($d);
   testing-Yucatec($d);
   $d.locale = 'en';
