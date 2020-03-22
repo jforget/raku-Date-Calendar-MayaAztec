@@ -11,9 +11,11 @@ has Int $katun   where { 0 ≤ $_ ≤ 19 };
 has Int $baktun  where { 0 ≤ $_ ≤ 19 };
 
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
-  my $daycount = $.long-count-to-daycount($long-count);
+  my ($baktun, $katun, $tun, $uinal, $kin) =  parse-long-count($long-count);
+  my $daycount = $.daycount-from-long-count($baktun, $katun, $tun, $uinal, $kin);
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin);
 }
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
@@ -21,8 +23,15 @@ multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
 }
 
-method long-count-to-daycount(Str $long-count) {
-  my ($baktun, $katun, $tun, $uinal, $kin) = $long-count.split('.');
+method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
+  $!baktun = $baktun;
+  $!katun  = $katun;
+  $!tun    = $tun;
+  $!uinal  = $uinal;
+  $!kin    = $kin;
+}
+
+method daycount-from-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
   return ((($baktun × 20 + $katun
                   ) × 20 + $tun
                   ) × 18 + $uinal
@@ -87,6 +96,19 @@ method day-nb-begin-with {
 # Here is the "day of year" (0..364) for the Mayan epoch
 method epoch-doy {
   348;
+}
+
+sub parse-long-count(Str $long-count) {
+  unless $long-count ~~ / ^ (\d+) ** 5 % '.' $ / {
+    X::Invalid::Value.new(:method<BUILD>, :name<long-count>, :value($long-count)).throw;
+  }
+  unless 0 ≤ $0[0] ≤ 19 { X::OutOfRange.new(:what<Baktun component>, :got(+ $0[0]), :range<0..19>).throw; }
+  unless 0 ≤ $0[1] ≤ 19 { X::OutOfRange.new(:what<Katun component>,  :got(+ $0[1]), :range<0..19>).throw; }
+  unless 0 ≤ $0[2] ≤ 19 { X::OutOfRange.new(:what<Tun component>,    :got(+ $0[2]), :range<0..19>).throw; }
+  unless 0 ≤ $0[3] ≤ 17 { X::OutOfRange.new(:what<Uinal component>,  :got(+ $0[3]), :range<0..17>).throw; }
+  unless 0 ≤ $0[4] ≤ 19 { X::OutOfRange.new(:what<Kin component>,    :got(+ $0[4]), :range<0..19>).throw; }
+  say $/;
+  return $0.map( { + $_ } );
 }
 
 # method specific-format { %( Oj => { $.feast },

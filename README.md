@@ -10,7 +10,7 @@ When was the last time the end of the universe happened?
 
 ```perl6
 use Date::Calendar::Mayan;
-my Date::Calendar::Mayan $d-mayan .= new('13.0.0.0.0');
+my Date::Calendar::Mayan $d-mayan .= new(long-count => '13.0.0.0.0');
 my Date                  $d-greg = $d-mayan.to-date('Date');
 say $d-greg;
 # --> 2012-12-21 for 21st December 2012
