@@ -8,7 +8,7 @@ use Date::Calendar::Mayan;
 # or checking 2020-03-12 with the Spinden correlation
 
 plan 2              # dates
-     × ( 8          # locale-independant methods
+     × ( 7          # locale-independant methods
         + 3 × 7)    # locales and locale-dependant methods
 ;
 
@@ -33,7 +33,6 @@ sub testing-calendar-round($date) {
   is($date.day                 ,  5);
   is($date.clerical-number     ,  2);
   is($date.clerical-index      , 17);
-  is($date.gist                , '5-18 2-17');
   is($date.tzolkin-number      ,  2);
   is($date.tzolkin-index       , 17);
   is($date.haab-number         ,  5);

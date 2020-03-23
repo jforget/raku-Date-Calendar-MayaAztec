@@ -4,11 +4,11 @@ use Date::Calendar::MayanAztec;
 
 unit role Date::Calendar::Mayan::Common:ver<0.0.1>:auth<cpan:JFORGET>;
 
-has Int $kin     where { 0 ≤ $_ ≤ 19 };
-has Int $uinal   where { 0 ≤ $_ ≤ 17 };
-has Int $tun     where { 0 ≤ $_ ≤ 19 };
-has Int $katun   where { 0 ≤ $_ ≤ 19 };
-has Int $baktun  where { 0 ≤ $_ ≤ 19 };
+has Int $.kin    where { 0 ≤ $_ ≤ 19 };
+has Int $.uinal  where { 0 ≤ $_ ≤ 17 };
+has Int $.tun    where { 0 ≤ $_ ≤ 19 };
+has Int $.katun  where { 0 ≤ $_ ≤ 19 };
+has Int $.baktun where { 0 ≤ $_ ≤ 19 };
 
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
   my ($baktun, $katun, $tun, $uinal, $kin) =  parse-long-count($long-count);
@@ -43,8 +43,13 @@ method new-from-daycount(Int $nb) {
 }
 
 method gist {
-  sprintf("%d-%d %d-%d", $.day, $.month, $.clerical-number, $.clerical-index);
+  $.long-count;
 }
+
+method long-count {
+  sprintf("%d.%d.%d.%d.%d", $.baktun, $.katun, $.tun, $.uinal, $.kin);
+}
+  
 
 method day-of-year {
   $.day + 20 × ($.month - 1);
