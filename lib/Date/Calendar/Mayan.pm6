@@ -81,6 +81,18 @@ instead of 36.24.
 
 =head3 new
 
+Build a Mayan date by giving a string containing the long count.
+The method accepts two keyword parameters:
+
+=item C<long-count>  a string built  of 5 numbers in  dotted notation.
+These numbers  are the  components of the  long count,  baktun, katun,
+tun, uinal and kin.  Each one is in the 0..19  range, except the uinal
+component which is in the 0..17 range.
+
+=item C<locale>  a string giving the  language in which the  names are
+displayed.  For the  moment,  you  can use  C<'yua'>  for the  Yucatec
+language,  C<'en'> for  the  English language  and  C<'fr'> a  partial
+support of the French language.
 
 =head3 new-from-date
 
