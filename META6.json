@@ -12,14 +12,16 @@
   "name"        : "Date::Calendar::MayanAztec",
   "perl"        : "6.c",
   "provides" : {
-      "Date::Calendar::Aztec"        : "lib/Date/Calendar/Aztec.pm6"
-    , "Date::Calendar::Mayan"        : "lib/Date/Calendar/Mayan.pm6"
-    , "Date::Calendar::MayanAztec"   : "lib/Date/Calendar/MayanAztec.pm6"
-    , "Date::Calendar::Aztec/Common" : "lib/Date/Calendar/Aztec/Common.pm6"
-    , "Date::Calendar::Aztec/Cortes" : "lib/Date/Calendar/Aztec/Cortes.pm6"
-    , "Date::Calendar::Aztec/Names"  : "lib/Date/Calendar/Aztec/Names.pm6"
-    , "Date::Calendar::Mayan/Common" : "lib/Date/Calendar/Mayan/Common.pm6"
-    , "Date::Calendar::Mayan/Names"  : "lib/Date/Calendar/Mayan/Names.pm6"
+      "Date::Calendar::Aztec"        	   : "lib/Date/Calendar/Aztec.pm6"
+    , "Date::Calendar::Mayan"        	   : "lib/Date/Calendar/Mayan.pm6"
+    , "Date::Calendar::MayanAztec"   	   : "lib/Date/Calendar/MayanAztec.pm6"
+    , "Date::Calendar::Aztec/Common" 	   : "lib/Date/Calendar/Aztec/Common.pm6"
+    , "Date::Calendar::Aztec/Cortes" 	   : "lib/Date/Calendar/Aztec/Cortes.pm6"
+    , "Date::Calendar::Aztec/Names"  	   : "lib/Date/Calendar/Aztec/Names.pm6"
+    , "Date::Calendar::Mayan/Astronomical" : "lib/Date/Calendar/Mayan/Astronomical.pm6"
+    , "Date::Calendar::Mayan/Spinden" 	   : "lib/Date/Calendar/Mayan/Spinden.pm6"
+    , "Date::Calendar::Mayan/Common"  	   : "lib/Date/Calendar/Mayan/Common.pm6"
+    , "Date::Calendar::Mayan/Names"   	   : "lib/Date/Calendar/Mayan/Names.pm6"
   },
   "resources" : [ ],
   "source-url" : "https://github.com/jforget/raku-Date-Calendar-MayanAztec.git",
