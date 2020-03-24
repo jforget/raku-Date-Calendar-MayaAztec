@@ -20,7 +20,9 @@ multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+  my ($baktun, $katun, $tun, $uinal, $kin)             =     $.long-count-from-daycount($daycount);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin);
 }
 
 method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
@@ -36,6 +38,12 @@ method daycount-from-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, I
                   ) × 20 + $tun
                   ) × 18 + $uinal
                   ) × 20 + $kin + $.epoch -  2400001;
+}
+
+method long-count-from-daycount(Int $daycount) {
+  my $nbj = $daycount - $.epoch + 2400001;
+  my ($kin, $uinal, $tun, $katun, $baktun) = $nbj.polymod(20, 18, 20, 20, 20);
+  return ($baktun, $katun, $tun, $uinal, $kin) ;
 }
 
 method new-from-daycount(Int $nb) {
@@ -112,7 +120,6 @@ sub parse-long-count(Str $long-count) {
   unless 0 ≤ $0[2] ≤ 19 { X::OutOfRange.new(:what<Tun component>,    :got(+ $0[2]), :range<0..19>).throw; }
   unless 0 ≤ $0[3] ≤ 17 { X::OutOfRange.new(:what<Uinal component>,  :got(+ $0[3]), :range<0..17>).throw; }
   unless 0 ≤ $0[4] ≤ 19 { X::OutOfRange.new(:what<Kin component>,    :got(+ $0[4]), :range<0..19>).throw; }
-  say $/;
   return $0.map( { + $_ } );
 }
 
