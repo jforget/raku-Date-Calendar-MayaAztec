@@ -9,28 +9,30 @@ has Int $.uinal  where { 0 ≤ $_ ≤ 17 };
 has Int $.tun    where { 0 ≤ $_ ≤ 19 };
 has Int $.katun  where { 0 ≤ $_ ≤ 19 };
 has Int $.baktun where { 0 ≤ $_ ≤ 19 };
+has Int $.daycount;
 
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
   my ($baktun, $katun, $tun, $uinal, $kin) =  parse-long-count($long-count);
   my $daycount = $.daycount-from-long-count($baktun, $katun, $tun, $uinal, $kin);
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
-  self!build-long-count($baktun, $katun, $tun, $uinal, $kin);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
   my ($baktun, $katun, $tun, $uinal, $kin)             =     $.long-count-from-daycount($daycount);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
-  self!build-long-count($baktun, $katun, $tun, $uinal, $kin);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
-method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
-  $!baktun = $baktun;
-  $!katun  = $katun;
-  $!tun    = $tun;
-  $!uinal  = $uinal;
-  $!kin    = $kin;
+method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin, Int $daycount) {
+  $!baktun   = $baktun;
+  $!katun    = $katun;
+  $!tun      = $tun;
+  $!uinal    = $uinal;
+  $!kin      = $kin;
+  $!daycount = $daycount;
 }
 
 method daycount-from-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
@@ -48,6 +50,12 @@ method long-count-from-daycount(Int $daycount) {
 
 method new-from-daycount(Int $nb) {
   $.new(daycount => $nb);
+}
+
+method to-date($class = 'Date') {
+  # See "Learning Perl 6" page 177
+  my $d = ::($class).new-from-daycount($.daycount);
+  return $d;
 }
 
 method gist {
@@ -106,7 +114,7 @@ method day-nb-begin-with {
 
 # For any correlation, the Mayan Epoch is 4 Ahau 8 Cumku and the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl.
 # No problem with the clerical calendars, but the civil calendars are not synchronised.
-# Here is the "day of year" (0..364) for the Mayan epoch
+# Here is the "day of year" (0..364) for the Mayan epoch 8 Cumku
 method epoch-doy {
   348;
 }

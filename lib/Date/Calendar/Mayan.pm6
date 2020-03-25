@@ -149,6 +149,52 @@ attribute.
 
 The long count in dotted notation.
 
+=head2 Other Methods
+
+=head3 to-date
+
+Clones  the   date  into   a  core  class   C<Date>  object   or  some
+C<Date::Calendar::>R<xxx> compatible calendar  class. The target class
+name is given  as a positional parameter. This  parameter is optional,
+the default value is C<"Date"> for the Gregorian calendar.
+
+To convert a date from a  calendar to another, you have two conversion
+styles,  a "push"  conversion and  a "pull"  conversion. For  example,
+while converting  "13.0.7.6.11" to the French  Revolutionary calendar,
+you can code:
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Mayan;
+use Date::Calendar::FrenchRevolutionary;
+
+my  Date::Calendar::Mayan               $d-orig;
+my  Date::Calendar::FrenchRevolutionary $d-dest-push;
+my  Date::Calendar::FrenchRevolutionary $d-dest-pull;
+
+$d-orig .= new(long-count => '13.0.7.6.11');
+$d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary");
+$d-dest-pull .= new-from-date($d-orig);
+
+=end code
+
+When converting I<from> Gregorian, use the pull style. When converting
+I<to> Gregorian, use the push style. When converting from any calendar
+other than Gregorian  to any other calendar other  than Gregorian, use
+the style you prefer.
+
+Even  if both  calendars use  a C<locale>  attribute, when  a date  is
+created by  the conversion  of another  date, it  is created  with the
+default  locale. If  you  want the  locale to  be  transmitted in  the
+conversion, you should add this line:
+
+=begin code :lang<perl6>
+
+$d-dest-pull.locale = $d-orig.locale;
+
+=end code
+
+
 =head1 ISSUES
 
 =head2 Baktun Numbering

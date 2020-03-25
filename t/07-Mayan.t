@@ -5,14 +5,14 @@ use Date::Calendar::Mayan;
 
 my @tests = load-data();
 
-plan 3 × @tests.elems;
+plan 4 × @tests.elems;
 
-#for @tests -> $data {
-#  my ($greg, $long-count, $tzolkin, $haab) = $data;
-#  my Date::Calendar::Mayan $date-m .= new( long-count => $long-count);
-#  my Date $date-g = $date-m.to-date('Date');
-#  is($date-g.gist, $greg);
-#}
+for @tests -> $data {
+  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my Date::Calendar::Mayan $date-m .= new( long-count => $long-count);
+  my Date $date-g = $date-m.to-date('Date');
+  is($date-g.gist, $greg);
+}
 for @tests -> $data {
   my ($greg, $long-count, $tzolkin, $haab) = $data;
   my Date::Calendar::Mayan $date-m .= new-from-date(Date.new($greg));
