@@ -135,6 +135,15 @@ Print the numeric values for the civil and clerical calendar.
 
 =head1 ISSUES
 
+=head2 Definition of the Day
+
+This class  assumes that days  are midnight  to midnight. My  guess it
+that actually, the Aztecs used another convention, sunset to sunset or
+sunrise to  sunrise. I have not  found any information on  this in the
+sources I have read.
+
+=head2 Rollover
+
 The  Aztecs had  nothing  like the  Mayas' long  count  or like  other
 calendars'  year numbers.  By combining  the civil  calendar with  the
 clerical calendar, we  get different combinations for  about 52 years.
@@ -148,9 +157,20 @@ this Aztec date.
 For this reason, there is no method to convert from the Aztec calendar
 into another calendar.
 
-Another  issue it  the month  between Izcalli  and Tlacaxipehualiztli.
-Most   sources  gives   the   name  "Atlcahualo",   but  the   website
-L<https://www.azteccalendar.com> gives the name "Cuauhuitlehua".
+=head2 The Name of Month 2
+
+Another   issue    it   month   number   2,    between   Izcalli   and
+Tlacaxipehualiztli. Most sources gives  the name "Atlcahualo", but the
+website     L<https://www.azteccalendar.com>     gives    the     name
+"Cuauhuitlehua".
+
+=head2 Year Bearer For Additional Days
+
+According to Reingold  and Dershowitz, the year bearer  is not defined
+for  additional  days (nemontemi).  On  the  other hand,  the  website
+L<https://www.azteccalendar.com/>   displays  the   year  bearer   for
+additional  days.  I  have  taken the  programmer-friendly  option  of
+computing the year bearer for additional days as for the normal days.
 
 =head1 SEE ALSO
 
