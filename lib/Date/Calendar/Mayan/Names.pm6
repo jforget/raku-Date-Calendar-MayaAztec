@@ -62,6 +62,7 @@ my %month-names = 'yua' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul
                  , 'fr' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul    
                                Yaskin Mol    Chen Yax  Zac   Ceh    
                                Mac    Kankin Muan Pax  Kayab Cumku  
+                               Uayeb  
                             /;
 
 our sub allowed-locale(Str:D $locale) {

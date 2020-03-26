@@ -9,88 +9,91 @@ my @tests-GMT     = load-GMT();
 my @tests-Spinden = load-Spinden();
 my @tests-astro   = load-astro();
 
-plan 4 × (@tests-GMT.elems + @tests-Spinden.elems + @tests-astro.elems);
+plan 5 × (@tests-GMT.elems + @tests-Spinden.elems + @tests-astro.elems);
 
 for @tests-GMT -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg);
 }
 for @tests-GMT -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan $date-m .= new-from-date(Date.new($greg));
-  is($date-m.gist   , $long-count);
-  is($date-m.tzolkin, $tzolkin);
-  is($date-m.haab   , $haab);
+  is($date-m.gist   	, $long-count , "long count for $greg" );
+  is($date-m.tzolkin	, $tzolkin    , "Tzolkin for $greg"    );
+  is($date-m.haab   	, $haab       , "Haab for $greg"       );
+  is($date-m.year-bearer, $year-bearer, "year bearer for $greg");
 }
 
 for @tests-Spinden -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan::Spinden $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg);
 }
 for @tests-Spinden -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan::Spinden $date-m .= new-from-date(Date.new($greg));
-  is($date-m.gist   , $long-count);
-  is($date-m.tzolkin, $tzolkin);
-  is($date-m.haab   , $haab);
+  is($date-m.gist   	, $long-count , "long count for $greg" );
+  is($date-m.tzolkin	, $tzolkin    , "Tzolkin for $greg"    );
+  is($date-m.haab   	, $haab       , "Haab for $greg"       );
+  is($date-m.year-bearer, $year-bearer, "year bearer for $greg");
 }
 
 for @tests-astro -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan::Astronomical $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg);
 }
 for @tests-astro -> $data {
-  my ($greg, $long-count, $tzolkin, $haab) = $data;
+  my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
   my Date::Calendar::Mayan::Astronomical $date-m .= new-from-date(Date.new($greg));
-  is($date-m.gist   , $long-count);
-  is($date-m.tzolkin, $tzolkin);
-  is($date-m.haab   , $haab);
+  is($date-m.gist   	, $long-count , "long count for $greg" );
+  is($date-m.tzolkin	, $tzolkin    , "Tzolkin for $greg"    );
+  is($date-m.haab   	, $haab       , "Haab for $greg"       );
+  is($date-m.year-bearer, $year-bearer, "year bearer for $greg");
 }
 
 sub load-GMT {
   # generated with Reingold's and Dershowitz' calendar.l
   # some dates cross-checked with http://research.famsi.org/date_mayaLC.php
   return ( 
-      ('-3113-08-11', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'      )
-    , ('-3113-08-13', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku'     )
-    , ('-3113-08-31', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'        )
-    , ('-3112-08-04', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'      )
-    , ('-3112-08-05', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'      )
-    , ( '1618-09-17', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'      )
-    , ( '1618-09-18', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'      )
-    , ( '2012-12-20', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin'     )
-    , ( '2012-12-21', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin'     )
-    , ( '2019-11-14', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'        )
-    , ( '2019-11-15', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'        )
-    , ( '2020-03-23', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku'     )
-    , ( '2020-11-08', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'        )
-    , ( '2020-11-09', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'        )
+      ('-3113-08-11', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'  , '7 Eb'       )
+    , ('-3113-08-13', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku' , '7 Eb'       )
+    , ('-3113-08-31', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'    , '8 Caban'    )
+    , ('-3112-08-04', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'  , '8 Caban'    )
+    , ('-3112-08-05', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'  , '8 Caban'    )
+    , ( '1618-09-17', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'  , '10 Manik'   )
+    , ( '1618-09-18', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'  , '10 Manik'   )
+    , ( '2012-12-20', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin' , '1 Caban'    )
+    , ( '2012-12-21', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin' , '1 Caban'    )
+    , ( '2019-11-14', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'    , '8 Eb'       )
+    , ( '2019-11-15', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'    , '8 Eb'       )
+    , ( '2020-03-23', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku' , '8 Eb'       )
+    , ( '2020-11-08', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'    , '9 Caban'    )
+    , ( '2020-11-09', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'    , '9 Caban'    )
 );
 }
 
 sub load-Spinden {
   # dates generated by http://research.famsi.org/date_mayaLC.php
   return ( 
-      ('-3373-10-15', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'      )
-    , ('-3373-10-17', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku'     )
-    , ('-3373-11-04', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'        )
-    , ('-3372-10-08', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'      )
-    , ('-3372-10-09', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'      )
-    , ( '1358-11-20', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'      )
-    , ( '1358-11-21', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'      )
-    , ( '1753-02-22', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin'     )
-    , ( '1753-02-23', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin'     )
-    , ( '1760-01-17', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'        )
-    , ( '1760-01-18', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'        )
-    , ( '1760-05-26', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku'     )
-    , ( '1761-01-11', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'        )
-    , ( '1761-01-12', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'        )
+      ('-3373-10-15', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'  , '7 Eb'       )
+    , ('-3373-10-17', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku' , '7 Eb'       )
+    , ('-3373-11-04', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'    , '8 Caban'    )
+    , ('-3372-10-08', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'  , '8 Caban'    )
+    , ('-3372-10-09', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'  , '8 Caban'    )
+    , ( '1358-11-20', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'  , '10 Manik'   )
+    , ( '1358-11-21', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'  , '10 Manik'   )
+    , ( '1753-02-22', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin' , '1 Caban'    )
+    , ( '1753-02-23', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin' , '1 Caban'    )
+    , ( '1760-01-17', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'    , '8 Eb'       )
+    , ( '1760-01-18', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'    , '8 Eb'       )
+    , ( '1760-05-26', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku' , '8 Eb'       )
+    , ( '1761-01-11', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'    , '9 Caban'    )
+    , ( '1761-01-12', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'    , '9 Caban'    )
 );
 }
 
@@ -98,19 +101,19 @@ sub load-astro {
   # copied-pasted-fixed from load-GMT
   # some dates cross-checked with http://research.famsi.org/date_mayaLC.php
   return ( 
-      ('-3113-08-13', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'      )
-    , ('-3113-08-15', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku'     )
-    , ('-3113-09-02', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'        )
-    , ('-3112-08-06', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'      )
-    , ('-3112-08-07', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'      )
-    , ( '1618-09-19', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'      )
-    , ( '1618-09-20', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'      )
-    , ( '2012-12-22', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin'     )
-    , ( '2012-12-23', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin'     )
-    , ( '2019-11-16', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'        )
-    , ( '2019-11-17', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'        )
-    , ( '2020-03-25', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku'     )
-    , ( '2020-11-10', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'        )
-    , ( '2020-11-11', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'        )
+      ('-3113-08-13', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'  , '7 Eb'       )
+    , ('-3113-08-15', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku' , '7 Eb'       )
+    , ('-3113-09-02', '0.0.0.1.0'      , '11 Ahau'      , '3 Pop'    , '8 Caban'    )
+    , ('-3112-08-06', '0.0.0.17.19'    , '12 Cauac'     , '2 Cumku'  , '8 Caban'    )
+    , ('-3112-08-07', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'  , '8 Caban'    )
+    , ( '1618-09-19', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'  , '10 Manik'   )
+    , ( '1618-09-20', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'  , '10 Manik'   )
+    , ( '2012-12-22', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin' , '1 Caban'    )
+    , ( '2012-12-23', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin' , '1 Caban'    )
+    , ( '2019-11-16', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'    , '8 Eb'       )
+    , ( '2019-11-17', '13.0.7.0.0'     , '2 Ahau'       , '8 Ceh'    , '8 Eb'       )
+    , ( '2020-03-25', '13.0.7.6.9'     , '1 Muluc'      , '17 Cumku' , '8 Eb'       )
+    , ( '2020-11-10', '13.0.7.17.19'   , '10 Cauac'     , '2 Ceh'    , '9 Caban'    )
+    , ( '2020-11-11', '13.0.8.0.0'     , '11 Ahau'      , '3 Ceh'    , '9 Caban'    )
 );
 }

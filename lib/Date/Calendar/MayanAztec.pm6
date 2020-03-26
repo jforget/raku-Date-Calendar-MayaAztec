@@ -27,7 +27,7 @@ method calendar-round-from-daycount($nb) {
   my $month   = floor($doy / 20) + 1;
   my $cle-num = 1 + ($delta +  3) % 13;
   my $cle-idx = 1 + ($delta + 19) % 20;
-  return $day, $month, $cle-num, $cle-idx
+  return $day, $month, $cle-num, $cle-idx;
 }
 
 =begin pod

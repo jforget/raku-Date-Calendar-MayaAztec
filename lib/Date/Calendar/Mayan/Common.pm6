@@ -107,6 +107,22 @@ method haab {
   "{$.haab-number} {$.haab-name}";
 }
 
+method year-bearer-number {
+  ($.tzolkin-number - $.day-of-year) % 13;
+}
+
+method year-bearer-index {
+  ($.tzolkin-index - $.day-of-year) % 20;
+}
+
+method year-bearer-name {
+  Date::Calendar::Mayan::Names::day-name($.locale, $.year-bearer-index);
+}
+
+method year-bearer {
+  "{$.year-bearer-number} {$.year-bearer-name}";
+}
+
 # Mayan days are numbered 0 to 19 in the civil calendar, while Aztec days are numbered 1 to 20
 method day-nb-begin-with {
   0;

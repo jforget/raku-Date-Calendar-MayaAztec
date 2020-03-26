@@ -145,6 +145,18 @@ A string  merging the numeric part  and the name part  of the clerical
 calendar (Tzolkin).  Its value depends  on the value of  the C<locale>
 attribute.
 
+=head3 year-bearer-number, year-bearer-index, year-bearer-name, year-bearer
+
+The year bearer is  the Tzolkin date for the first  day of the current
+Haab year, that  is, 0 Pop. The  year bearer is some kind  of name for
+the Haab year, which is unnumbered. Yet it cannot define unambiguously
+the year, since it cycles every 52 Haab years (a calendar round).
+
+These four methods define the year  bearer. Their names are similar to
+the C<clerical->R<xxx> and the  C<tzolkin->R<xxx> methods, because the
+year bearer is a Tzolkin date.
+
+
 =head3 gist, long-count
 
 The long count in dotted notation.
