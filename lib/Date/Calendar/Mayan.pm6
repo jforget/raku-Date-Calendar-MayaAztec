@@ -149,6 +149,10 @@ attribute.
 
 The long count in dotted notation.
 
+=head3 daycount
+
+The MJD (Modified Julian Date) number for the date.
+
 =head2 Other Methods
 
 =head3 to-date
@@ -197,6 +201,13 @@ $d-dest-pull.locale = $d-orig.locale;
 
 =head1 ISSUES
 
+=head2 Day Definition
+
+This class  assumes that days  are midnight to midnight.  According to
+Reingold and  Dershowitz, we suppose  that actually the Haab  days are
+sunrise to sunrise and that the Tzolkin days are sunset to sunset. But
+this is only a supposition.
+
 =head2 Baktun Numbering
 
 The long count uses base-20 numbering, with the exception of the uinal
@@ -219,6 +230,26 @@ end at 13.0.0.0.0.
 This module  assumes that  baktun 13 has  no special  significance and
 that baktuns are  numbered until 19. The  higher-order cycles, piktun,
 calabtun, kinchiltun and alautun are not implemented.
+
+=head2 Calendar Rollover
+
+As a  consequence of the  previous paragraph, the calendar  rolls over
+every 20 baktuns, that is, every 7885 years. The next rollover date is
+4772-10-12. So there is time before a fix is needed.
+
+=head2 French Translation
+
+I have  found the French  translation for  Tzolkin names, but  not for
+Haab names.  So while using  the French  locale, Haab names  are given
+with the default locale, Yucatec.
+
+=head2 Year Bearer For Additional Days
+
+According to Reingold  and Dershowitz, the year bearer  is not defined
+for  additional  days   (uayeb).  On  the  other   hand,  the  website
+L<http://research.famsi.org/date_mayaLC.php> displays  the year bearer
+for additional  days. I have  taken the programmer-friendly  option of
+computing the year bearer for additional days as for the normal days.
 
 =head1 SEE ALSO
 
