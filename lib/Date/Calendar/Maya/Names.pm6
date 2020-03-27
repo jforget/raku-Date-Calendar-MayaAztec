@@ -1,7 +1,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 use v6.c;
 
-unit module Date::Calendar::Mayan::Names:ver<0.0.1>:auth<cpan:JFORGET>;
+unit module Date::Calendar::Maya::Names:ver<0.0.1>:auth<cpan:JFORGET>;
 
 my %day-names = 'yua' => qw/ Imix      Ik    Akbal  Kan    Chicchan
                              Cimi      Manik Lamat  Muluc  Oc     
@@ -81,18 +81,18 @@ our sub day-name(Str:D $locale, Int:D $index --> Str) {
 
 =head1 NAME
 
-Date::Calendar::Mayan::Names - Names for the Mayan calendar
+Date::Calendar::Maya::Names - Names for the Maya calendar
 
 =head1 DESCRIPTION
 
-Date::Calendar::Mayan::Names    is    a     companion    module    to
-Date::Calendar::Mayan. It provides the day  names and the month names
+Date::Calendar::Maya::Names     is    a     companion    module     to
+Date::Calendar::Maya. It  provides the day  names and the  month names
 for this calendar.
 
 =head1 ISSUES
 
-Most sources about the Mayan calendar give  a list of Haab names and a
-list of Tzolkin names, usually  without specifying which precise Mayan
+Most sources about the  Maya calendar give a list of  Haab names and a
+list of Tzolkin  names, usually without specifying  which precise Maya
 language  they use.  A footnote  in Calendrical  Calculations mentions
 that names are translitterated from  the Yucatec language. This is why
 I have adopted these names (and their English translations).
@@ -102,7 +102,7 @@ only for Tzolkin names. So the Haab names are left untranslated.
 
 =head1 SOURCES
 
-The  Mayan names  come  from Calendrical  Calculations Third  Edition
+The  Mayan  names come  from  Calendrical  Calculations Third  Edition
 (L<http://www.cs.tau.ac.il/~nachum/calendar-book/third-edition/>).
 
 The  English  names  come   Calendrical  Calculations  Third  Edition

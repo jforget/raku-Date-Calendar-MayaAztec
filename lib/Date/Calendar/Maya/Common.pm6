@@ -1,8 +1,8 @@
 use v6.c;
-use Date::Calendar::Mayan::Names;
-use Date::Calendar::MayanAztec;
+use Date::Calendar::Maya::Names;
+use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Mayan::Common:ver<0.0.1>:auth<cpan:JFORGET>;
+unit role Date::Calendar::Maya::Common:ver<0.0.1>:auth<cpan:JFORGET>;
 
 has Int $.kin    where { 0 ≤ $_ ≤ 19 };
 has Int $.uinal  where { 0 ≤ $_ ≤ 17 };
@@ -72,11 +72,11 @@ method day-of-year {
 }
 
 method month-name {
-  Date::Calendar::Mayan::Names::month-name($.locale, $.month);
+  Date::Calendar::Maya::Names::month-name($.locale, $.month);
 }
 
 method day-name {
-  Date::Calendar::Mayan::Names::day-name($.locale, $.clerical-index);
+  Date::Calendar::Maya::Names::day-name($.locale, $.clerical-index);
 }
 
 method tzolkin-number {
@@ -116,21 +116,21 @@ method year-bearer-index {
 }
 
 method year-bearer-name {
-  Date::Calendar::Mayan::Names::day-name($.locale, $.year-bearer-index);
+  Date::Calendar::Maya::Names::day-name($.locale, $.year-bearer-index);
 }
 
 method year-bearer {
   "{$.year-bearer-number} {$.year-bearer-name}";
 }
 
-# Mayan days are numbered 0 to 19 in the civil calendar, while Aztec days are numbered 1 to 20
+# Maya days are numbered 0 to 19 in the civil calendar, while Aztec days are numbered 1 to 20
 method day-nb-begin-with {
   0;
 }
 
-# For any correlation, the Mayan Epoch is 4 Ahau 8 Cumku and the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl.
+# For any correlation, the Maya Epoch is 4 Ahau 8 Cumku and the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl.
 # No problem with the clerical calendars, but the civil calendars are not synchronised.
-# Here is the "day of year" (0..364) for the Mayan epoch 8 Cumku
+# Here is the "day of year" (0..364) for the Maya epoch 8 Cumku
 method epoch-doy {
   348;
 }
@@ -161,14 +161,14 @@ sub parse-long-count(Str $long-count) {
 
 =head1 NAME
 
-Date::Calendar::Mayan::Common - Common code for the variants of Date::Calendar::Mayan
+Date::Calendar::Maya::Common - Common code for the variants of Date::Calendar::Maya
 
 =head1 DESCRIPTION
 
-Date::Calendar::Mayan is a  module defining a role which  is shared by
-the variants of the Date::Calendar::Mayan class.
+Date::Calendar::Maya::Common  is a  module  defining a  role which  is
+shared by the variants of the Date::Calendar::Maya class.
 
-See the full documentation in the main class, C<Date::Calendar::Mayan>.
+See the full documentation in the main class, C<Date::Calendar::Maya>.
 
 =head1 AUTHOR
 

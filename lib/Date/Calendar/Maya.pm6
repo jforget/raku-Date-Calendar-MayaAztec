@@ -1,12 +1,12 @@
 use v6.c;
 
 use Date::Calendar::Strftime;
-use Date::Calendar::MayanAztec;
-use Date::Calendar::Mayan::Common;
+use Date::Calendar::MayaAztec;
+use Date::Calendar::Maya::Common;
 
-unit class Date::Calendar::Mayan:ver<0.0.1>:auth<cpan:JFORGET>
-      does Date::Calendar::MayanAztec
-      does Date::Calendar::Mayan::Common
+unit class Date::Calendar::Maya:ver<0.0.1>:auth<cpan:JFORGET>
+      does Date::Calendar::MayaAztec
+      does Date::Calendar::Maya::Common
       does Date::Calendar::Strftime;
 
 # Goodman-Martinez-Thompson correlation: day 0.0.0.0.0 is 11 August -3113 (or 3114 BC)
@@ -18,27 +18,27 @@ method epoch {
 
 =head1 NAME
 
-Date::Calendar::Mayan - conversions from/to the Mayan calendar
+Date::Calendar::Maya - conversions from/to the Maya calendar
 
 =head1 SYNOPSIS
 
 =begin code :lang<perl6>
 
-use Date::Calendar::Mayan;
-my Date                  $d-greg  .= new(2020, 6, 20);
-my Date::Calendar::Mayan $d-mayan .= new-from-date($d-greg);
+use Date::Calendar::Maya;
+my Date                 $d-greg .= new(2020, 6, 20);
+my Date::Calendar::Maya $d-maya .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab} {.long-count}" with $d-mayan;
+say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
 # --> 12 Etznab 1 Tzec 13.0.7.10.18
-$d-mayan.locale = 'en';
-say "{.tzolkin} {.haab}" with $d-mayan;
+$d-maya.locale = 'en';
+say "{.tzolkin} {.haab}" with $d-maya;
 # --> 12 Flint 1 Skull
 
 =end code
 
 =head1 DESCRIPTION
 
-Date::Calendar::Mayan is a class  which implements the Mayan calendars
+Date::Calendar::Maya is  a class  which implements the  Maya calendars
 (long count, Haab and Tzolkin).
 
 This  class  uses  the  Goodman-Martinez-Thompson  correlation.  Other
@@ -81,7 +81,7 @@ instead of 365.24.
 
 =head3 new
 
-Build a Mayan  date by giving a string containing  the long count. The
+Build a  Maya date by giving  a string containing the  long count. The
 method accepts two keyword parameters:
 
 =item C<long-count>  a string built  of 5 numbers in  dotted notation.
@@ -96,13 +96,13 @@ support of the French language.
 
 =head3 new-from-date
 
-Build an  Mayan date  by cloning  an object  from another  class. This
-other   class    can   be    the   core    class   C<Date>    or   any
-C<Date::Calendar::>R<xxx> class with a C<daycount> method.
+Build an Maya date by cloning an object from another class. This other
+class can be  the core class C<Date>  or any C<Date::Calendar::>R<xxx>
+class with a C<daycount> method.
 
 =head3 new-from-daycount
 
-Build an Mayan date from the Modified Julian Day number.
+Build an Maya date from the Modified Julian Day number.
 
 =head2 Attribute getters
 
@@ -181,10 +181,10 @@ you can code:
 
 =begin code :lang<perl6>
 
-use Date::Calendar::Mayan;
+use Date::Calendar::Maya;
 use Date::Calendar::FrenchRevolutionary;
 
-my  Date::Calendar::Mayan               $d-orig;
+my  Date::Calendar::Maya                $d-orig;
 my  Date::Calendar::FrenchRevolutionary $d-dest-push;
 my  Date::Calendar::FrenchRevolutionary $d-dest-pull;
 
@@ -212,6 +212,13 @@ $d-dest-pull.locale = $d-orig.locale;
 
 
 =head1 ISSUES
+
+=head2 Mayan or Maya?
+
+According to L<http://www.famsi.org/research/vanstone/2012/faq.html#mayan>,
+the word  "Mayan" applies only to  the class of languages  used by the
+Mayas. In all other cases, including  the calendars, we should use the
+word "Maya".
 
 =head2 Day Definition
 

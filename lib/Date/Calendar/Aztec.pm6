@@ -1,11 +1,11 @@
 use v6.c;
 
 use Date::Calendar::Strftime;
-use Date::Calendar::MayanAztec;
+use Date::Calendar::MayaAztec;
 use Date::Calendar::Aztec::Common;
 
 unit class Date::Calendar::Aztec:ver<0.0.1>:auth<cpan:JFORGET>
-      does Date::Calendar::MayanAztec
+      does Date::Calendar::MayaAztec
       does Date::Calendar::Aztec::Common
       does Date::Calendar::Strftime;
 

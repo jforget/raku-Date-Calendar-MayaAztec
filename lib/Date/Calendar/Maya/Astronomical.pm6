@@ -1,12 +1,12 @@
 use v6.c;
 
 use Date::Calendar::Strftime;
-use Date::Calendar::MayanAztec;
-use Date::Calendar::Mayan::Common;
+use Date::Calendar::MayaAztec;
+use Date::Calendar::Maya::Common;
 
-unit class Date::Calendar::Mayan::Astronomical:ver<0.0.1>:auth<cpan:JFORGET>
-      does Date::Calendar::MayanAztec
-      does Date::Calendar::Mayan::Common
+unit class Date::Calendar::Maya::Astronomical:ver<0.0.1>:auth<cpan:JFORGET>
+      does Date::Calendar::MayaAztec
+      does Date::Calendar::Maya::Common
       does Date::Calendar::Strftime;
 
 # Spinden correlation: day 0.0.0.0.0 is 15 October -3373 (or 3374 BC)
@@ -18,29 +18,29 @@ method epoch {
 
 =head1 NAME
 
-Date::Calendar::Mayan::Astronomical - conversions from/to the Mayan calendar
+Date::Calendar::Maya::Astronomical - conversions from/to the Maya calendar
 
 =head1 SYNOPSIS
 
 =begin code :lang<perl6>
 
-use Date::Calendar::Mayan::Astronomical;
-my Date $d-greg  .= new(2020, 6, 20);
-my Date::Calendar::Mayan::Astronomical
-        $d-mayan .= new-from-date($d-greg);
+use Date::Calendar::Maya::Astronomical;
+my Date $d-greg .= new(2020, 6, 20);
+my Date::Calendar::Maya::Astronomical
+        $d-maya .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab} {.long-count}" with $d-mayan;
+say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
 # --> 10 Cib  19 Sotz 13.0.7.10.16
-$d-mayan.locale = 'en';
-say "{.tzolkin} {.haab}" with $d-mayan;
+$d-maya.locale = 'en';
+say "{.tzolkin} {.haab}" with $d-maya;
 # --> 10 Owl 19 Bat
 
 =end code
 
 =head1 DESCRIPTION
 
-Date::Calendar::Mayan::Astronomical  is a  class which  implements the
-Mayan calendars (long count, Haab and Tzolkin).
+Date::Calendar::Maya::Astronomical  is a  class  which implements  the
+Maya calendars (long count, Haab and Tzolkin).
 
 This class uses the Astronomical  correlation, as named by the website
 L<http://research.famsi.org/date_mayaLC.php>. This  may refer  to some
@@ -79,7 +79,7 @@ The uinal can  be considered as a  month, its duration is  the same as
 the Haab month. The  tun is a bit shorter than a  solar year, 360 days
 instead of 36.24.
 
-See the full documentation in the main class C<Date::Calendar::Mayan>.
+See the full documentation in the main class C<Date::Calendar::Maya>.
 
 =head1 AUTHOR
 

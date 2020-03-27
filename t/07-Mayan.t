@@ -1,8 +1,8 @@
 use v6.c;
 use Test;
-use Date::Calendar::Mayan;
-use Date::Calendar::Mayan::Spinden;
-use Date::Calendar::Mayan::Astronomical;
+use Date::Calendar::Maya;
+use Date::Calendar::Maya::Spinden;
+use Date::Calendar::Maya::Astronomical;
 
 
 my @tests-GMT     = load-GMT();
@@ -13,13 +13,13 @@ plan 5 × (@tests-GMT.elems + @tests-Spinden.elems + @tests-astro.elems);
 
 for @tests-GMT -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan $date-m .= new( long-count => $long-count);
+  my Date::Calendar::Maya $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg, "Gregorian date for $long-count using GMT");
 }
 for @tests-GMT -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan $date-m .= new-from-date(Date.new($greg));
+  my Date::Calendar::Maya $date-m .= new-from-date(Date.new($greg));
   is($date-m.gist       , $long-count , "long count for $greg" );
   is($date-m.tzolkin    , $tzolkin    , "Tzolkin for $greg"    );
   is($date-m.haab       , $haab       , "Haab for $greg"       );
@@ -28,13 +28,13 @@ for @tests-GMT -> $data {
 
 for @tests-Spinden -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan::Spinden $date-m .= new( long-count => $long-count);
+  my Date::Calendar::Maya::Spinden $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg, "Gregorian date for $long-count using Spinden");
 }
 for @tests-Spinden -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan::Spinden $date-m .= new-from-date(Date.new($greg));
+  my Date::Calendar::Maya::Spinden $date-m .= new-from-date(Date.new($greg));
   is($date-m.gist       , $long-count , "long count for $greg" );
   is($date-m.tzolkin    , $tzolkin    , "Tzolkin for $greg"    );
   is($date-m.haab       , $haab       , "Haab for $greg"       );
@@ -43,13 +43,13 @@ for @tests-Spinden -> $data {
 
 for @tests-astro -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan::Astronomical $date-m .= new( long-count => $long-count);
+  my Date::Calendar::Maya::Astronomical $date-m .= new( long-count => $long-count);
   my Date $date-g = $date-m.to-date('Date');
   is($date-g.gist, $greg, "Gregorian date for $long-count using Astronomical");
 }
 for @tests-astro -> $data {
   my ($greg, $long-count, $tzolkin, $haab, $year-bearer) = $data;
-  my Date::Calendar::Mayan::Astronomical $date-m .= new-from-date(Date.new($greg));
+  my Date::Calendar::Maya::Astronomical $date-m .= new-from-date(Date.new($greg));
   is($date-m.gist       , $long-count , "long count for $greg" );
   is($date-m.tzolkin    , $tzolkin    , "Tzolkin for $greg"    );
   is($date-m.haab       , $haab       , "Haab for $greg"       );

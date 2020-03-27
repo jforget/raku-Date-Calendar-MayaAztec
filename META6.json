@@ -9,22 +9,22 @@
   ],
   "description" : "conversions from/to the Mayan calendar and conversions to the Aztec calendar",
   "license"     : "Artistic-2.0",
-  "name"        : "Date::Calendar::MayanAztec",
+  "name"        : "Date::Calendar::MayaAztec",
   "perl"        : "6.c",
   "provides" : {
-      "Date::Calendar::Aztec"             : "lib/Date/Calendar/Aztec.pm6"
-    , "Date::Calendar::Maya"              : "lib/Date/Calendar/Maya.pm6"
-    , "Date::Calendar::MayaAztec"         : "lib/Date/Calendar/MayaAztec.pm6"
-    , "Date::Calendar::Aztec/Common"      : "lib/Date/Calendar/Aztec/Common.pm6"
-    , "Date::Calendar::Aztec/Cortes"      : "lib/Date/Calendar/Aztec/Cortes.pm6"
-    , "Date::Calendar::Aztec/Names"       : "lib/Date/Calendar/Aztec/Names.pm6"
-    , "Date::Calendar::Maya/Astronomical" : "lib/Date/Calendar/Maya/Astronomical.pm6"
-    , "Date::Calendar::Maya/Spinden"      : "lib/Date/Calendar/Maya/Spinden.pm6"
-    , "Date::Calendar::Maya/Common"       : "lib/Date/Calendar/Maya/Common.pm6"
-    , "Date::Calendar::Maya/Names"        : "lib/Date/Calendar/Maya/Names.pm6"
+      "Date::Calendar::Aztec"              : "lib/Date/Calendar/Aztec.pm6"
+    , "Date::Calendar::Maya"               : "lib/Date/Calendar/Maya.pm6"
+    , "Date::Calendar::MayaAztec"          : "lib/Date/Calendar/MayaAztec.pm6"
+    , "Date::Calendar::Aztec::Common"      : "lib/Date/Calendar/Aztec/Common.pm6"
+    , "Date::Calendar::Aztec::Cortes"      : "lib/Date/Calendar/Aztec/Cortes.pm6"
+    , "Date::Calendar::Aztec::Names"       : "lib/Date/Calendar/Aztec/Names.pm6"
+    , "Date::Calendar::Maya::Astronomical" : "lib/Date/Calendar/Maya/Astronomical.pm6"
+    , "Date::Calendar::Maya::Spinden"      : "lib/Date/Calendar/Maya/Spinden.pm6"
+    , "Date::Calendar::Maya::Common"       : "lib/Date/Calendar/Maya/Common.pm6"
+    , "Date::Calendar::Maya::Names"        : "lib/Date/Calendar/Maya/Names.pm6"
   },
   "resources" : [ ],
-  "source-url" : "https://github.com/jforget/raku-Date-Calendar-MayanAztec.git",
+  "source-url" : "https://github.com/jforget/raku-Date-Calendar-MayaAztec.git",
   "support" : {
     "email" : "JFORGET@cpan.org"
   },

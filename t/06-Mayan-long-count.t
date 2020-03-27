@@ -1,8 +1,8 @@
 use v6.c;
 use Test;
-use Date::Calendar::Mayan;
-use Date::Calendar::Mayan::Spinden;
-use Date::Calendar::Mayan::Astronomical;
+use Date::Calendar::Maya;
+use Date::Calendar::Maya::Spinden;
+use Date::Calendar::Maya::Astronomical;
 
 # Checking 2020-03-11 with the Goodman Martinez Thompson correlation
 # see http://research.famsi.org/date_mayaLC.php
@@ -13,10 +13,10 @@ plan 4     # dates
      × 7   # locale-independant methods
 ;
 
-my Date::Calendar::Mayan          $d1 .= new-from-date(Date.new(2020, 3, 11));
-my Date::Calendar::Mayan          $d2 .= new(long-count => '13.0.7.5.17');
-my Date::Calendar::Mayan::Spinden      $d3 .= new-from-date(Date.new(1760, 5, 14));
-my Date::Calendar::Mayan::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
+my Date::Calendar::Maya               $d1 .= new-from-date(Date.new(2020, 3, 11));
+my Date::Calendar::Maya               $d2 .= new(long-count => '13.0.7.5.17');
+my Date::Calendar::Maya::Spinden      $d3 .= new-from-date(Date.new(1760, 5, 14));
+my Date::Calendar::Maya::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
 
 for $d1, $d2, $d3, $d4 -> $date {
   is($date.baktun    , 13);

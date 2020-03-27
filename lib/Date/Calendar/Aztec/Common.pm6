@@ -1,6 +1,6 @@
 use v6.c;
 use Date::Calendar::Aztec::Names;
-use Date::Calendar::MayanAztec;
+use Date::Calendar::MayaAztec;
 
 unit role Date::Calendar::Aztec::Common:ver<0.0.1>:auth<cpan:JFORGET>;
 
@@ -112,12 +112,12 @@ method year-bearer {
 }
 
 
-# Aztec days are numbered 1 to 20 in the civil calendar, while Mayan days are numbered 0 to 19
+# Aztec days are numbered 1 to 20 in the civil calendar, while Maya days are numbered 0 to 19
 method day-nb-begin-with {
   1;
 }
 
-# For any correlation, the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl and the Mayan Epoch is 4 Ahau 8 Cumku.
+# For any correlation, the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl and the Maya Epoch is 4 Ahau 8 Cumku.
 # No problem with the clerical calendars, but the civil calendars are not synchronised.
 # Here is the "day of year" (0..364) for the Aztec epoch
 method epoch-doy {

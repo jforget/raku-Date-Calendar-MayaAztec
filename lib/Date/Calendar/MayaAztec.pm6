@@ -1,5 +1,5 @@
 use v6.c;
-unit role Date::Calendar::MayanAztec:ver<0.0.1>:auth<cpan:JFORGET>;
+unit role Date::Calendar::MayaAztec:ver<0.0.1>:auth<cpan:JFORGET>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
@@ -34,22 +34,22 @@ method calendar-round-from-daycount($nb) {
 
 =head1 NAME
 
-Date::Calendar::MayanAztec - conversions from/to the Mayan calendar and conversions to the Aztec calendar
+Date::Calendar::MayaAztec - conversions from/to the Maya calendar and conversions to the Aztec calendar
 
 =head1 SYNOPSIS
 
 =begin code :lang<perl6>
 
-use Date::Calendar::Mayan;
+use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
 my Date                  $d-greg  .= new(2020, 6, 20);
 my Date::Calendar::Aztec $d-aztec .= new-from-date($d-greg);
-my Date::Calendar::Mayan $d-mayan .= new-from-date($d-greg);
+my Date::Calendar::Maya  $d-maya  .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab} {.long-count}" with $d-mayan;
+say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
 # --> 12 Etznab 1 Tzec 13.0.7.10.18
-$d-mayan.locale = 'en';
-say "{.tzolkin} {.haab}" with $d-mayan;
+$d-maya.locale = 'en';
+say "{.tzolkin} {.haab}" with $d-maya;
 # --> 12 Flint 1 Skull
 
 say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
@@ -62,12 +62,12 @@ say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
 
 =head1 DESCRIPTION
 
-Date::Calendar::MayanAztec is  a distribution  with two  main classes,
-Date::Calendar::Mayan  implementing the  Mayan calendars  (long count,
-Haab  and Tzolkin)  and Date::Calendar::Aztec  implementing the  Aztec
+Date::Calendar::MayaAztec  is a  distribution with  two main  classes,
+Date::Calendar::Maya implementing the Maya calendars (long count, Haab
+and   Tzolkin)  and   Date::Calendar::Aztec  implementing   the  Aztec
 calendars (tonalpohualli and xiuhpohualli).
 
-See the full documentation in each class, L<Date::Calendar::Mayan> and
+See the full documentation  in each class, L<Date::Calendar::Maya> and
 L<Date::Calendar::Aztec>.
 
 =head1 SEE ALSO
@@ -93,7 +93,7 @@ or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
 
 L<Date::Maya>
 
-L<DateTime::Calendar::Mayan>
+L<DateTime::Calendar::Maya>
 
 =head2 Other Software
 
