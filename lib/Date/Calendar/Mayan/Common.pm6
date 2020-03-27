@@ -108,7 +108,7 @@ method haab {
 }
 
 method year-bearer-number {
-  ($.tzolkin-number - $.day-of-year) % 13;
+  ($.tzolkin-number - $.day-of-year - 1) % 13 + 1;
 }
 
 method year-bearer-index {

@@ -59,6 +59,9 @@ for @tests-astro -> $data {
 sub load-GMT {
   # generated with Reingold's and Dershowitz' calendar.l
   # some dates cross-checked with http://research.famsi.org/date_mayaLC.php
+  # Note: for year bearers, there is a discrepancy between calendar.l and FAMSI, not
+  # only for uayeb days, but also for days from 8 Cumku until 19 Cumku.
+  # I think that for these Cumku days, calendar.l is right and FAMSI is wrong.
   return ( 
       ('-3113-08-11', '0.0.0.0.0'      , '4 Ahau'       , '8 Cumku'  , '7 Eb'       )
     , ('-3113-08-13', '0.0.0.0.2'      , '6 Ik'         , '10 Cumku' , '7 Eb'       )
@@ -67,6 +70,12 @@ sub load-GMT {
     , ('-3112-08-05', '0.0.1.0.0'      , '13 Ahau'      , '3 Cumku'  , '8 Caban'    )
     , ( '1618-09-17', '11.19.19.17.19' , '4 Cauac'      , '12 Zotz'  , '10 Manik'   )
     , ( '1618-09-18', '12.0.0.0.0'     , '5 Ahau'       , '13 Zotz'  , '10 Manik'   )
+    , ( '2010-04-02', '12.19.17.4.6'   , '11 Cimi'      , '4 Uayeb'  , '11 Ik'      )
+    , ( '2010-04-03', '12.19.17.4.7'   , '12 Manik'     , '0 Pop'    , '12 Manik'   )
+    , ( '2011-04-02', '12.19.18.4.11'  , '12 Chuen'     , '4 Uayeb'  , '12 Manik'   )
+    , ( '2011-04-03', '12.19.18.4.12'  , '13 Eb'        , '0 Pop'    , '13 Eb'      )
+    , ( '2012-04-01', '12.19.19.4.16'  , '13 Cib'       , '4 Uayeb'  , '13 Eb'      )
+    , ( '2012-04-02', '12.19.19.4.17'  , '1 Caban'      , '0 Pop'    , '1 Caban'    )
     , ( '2012-12-20', '12.19.19.17.19' , '3 Cauac'      , '2 Kankin' , '1 Caban'    )
     , ( '2012-12-21', '13.0.0.0.0'     , '4 Ahau'       , '3 Kankin' , '1 Caban'    )
     , ( '2019-11-14', '13.0.6.17.19'   , '1 Cauac'      , '7 Ceh'    , '8 Eb'       )
