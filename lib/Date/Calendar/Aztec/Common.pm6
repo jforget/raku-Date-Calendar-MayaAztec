@@ -95,6 +95,23 @@ method xiuhpohualli {
   "{$.xiuhpohualli-number} {$.xiuhpohualli-name}";
 }
 
+method year-bearer-number {
+  ($.tonalpohualli-number - $.day-of-year - 5) % 13 + 1;
+}
+
+method year-bearer-index {
+  ($.tonalpohualli-index - $.day-of-year) % 20;
+}
+
+method year-bearer-name {
+  Date::Calendar::Aztec::Names::day-name($.locale, $.year-bearer-index);
+}
+
+method year-bearer {
+  "{$.year-bearer-number} {$.year-bearer-name}";
+}
+
+
 # Aztec days are numbered 1 to 20 in the civil calendar, while Mayan days are numbered 0 to 19
 method day-nb-begin-with {
   1;
