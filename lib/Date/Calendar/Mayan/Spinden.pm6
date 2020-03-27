@@ -50,8 +50,8 @@ Mayas  used  three different  calendars,  the  Long Count,  the  civil
 calendar or "Haab" and the clerical calendar or "Tzolkin".
 
 The  civil  calendar is  organized  like  other calendars,  with  days
-grouped  in  months  groupes  in  years.  The  difference  with  other
-calendars is  that the months lasts  20 days each, not  around 30, and
+grouped  in  months  grouped  in  years.  The  difference  with  other
+calendars is  that the months  last 20 days  each, not around  30, and
 there are 18 months,  not 12. Days are numbered 0 to 19,  not 1 to 20.
 In theory  months are not numbered,  but in this module  they are, for
 convenience reasons. In addition, there are 5 additional days (uyaeb),

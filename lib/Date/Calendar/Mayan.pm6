@@ -42,18 +42,18 @@ Date::Calendar::Mayan is a class  which implements the Mayan calendars
 (long count, Haab and Tzolkin).
 
 This  class  uses  the  Goodman-Martinez-Thompson  correlation.  Other
-classes uses the  Spinden correlation or what  is named "Astronomical"
-on the website L<http://research.famsi.org/date_mayaLC.php>.
+classes use the Spinden correlation or what is named "Astronomical" on
+the website L<http://research.famsi.org/date_mayaLC.php>.
 
 Mayas  used  three different  calendars,  the  Long Count,  the  civil
 calendar or "Haab" and the clerical calendar or "Tzolkin".
 
 The  civil  calendar is  organized  like  other calendars,  with  days
-grouped  in  months  groupes  in  years.  The  difference  with  other
-calendars is  that the months lasts  20 days each, not  around 30, and
+grouped  in  months  grouped  in  years.  The  difference  with  other
+calendars is  that the months  last 20 days  each, not around  30, and
 there are 18 months,  not 12. Days are numbered 0 to 19,  not 1 to 20.
 In theory  months are not numbered,  but in this module  they are, for
-convenience reasons. In addition, there are 5 additional days (uyaeb),
+convenience reasons. In addition, there are 5 additional days (uayeb),
 but no leap days are defined.
 
 A last difference with other calendars is that years are not numbered.
@@ -73,7 +73,7 @@ The long count consists of five embedded cycles:
 
 The uinal can  be considered as a  month, its duration is  the same as
 the Haab month. The  tun is a bit shorter than a  solar year, 360 days
-instead of 36.24.
+instead of 365.24.
 
 =head1 METHODS
 
@@ -81,8 +81,8 @@ instead of 36.24.
 
 =head3 new
 
-Build a Mayan date by giving a string containing the long count.
-The method accepts two keyword parameters:
+Build a Mayan  date by giving a string containing  the long count. The
+method accepts two keyword parameters:
 
 =item C<long-count>  a string built  of 5 numbers in  dotted notation.
 These numbers  are the  components of the  long count,  baktun, katun,

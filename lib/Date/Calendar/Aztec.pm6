@@ -49,8 +49,8 @@ Aztecs   used  two   different  calendars,   the  civil   calendar  or
 "xiuhpohualli" and the clerical calendar or "tonalpohualli".
 
 The  civil  calendar is  organized  like  other calendars,  with  days
-grouped  in  months  groupes  in  years.  The  difference  with  other
-calendars is  that the months lasts  20 days each, not  around 30, and
+grouped  in  months  grouped  in  years.  The  difference  with  other
+calendars is  that the months  last 20 days  each, not around  30, and
 there are 18 months, not 12.  In addition, there are 5 additional days
 (Nemontemi), but no leap days are defined.
 
@@ -135,6 +135,31 @@ Print the numeric values for the civil and clerical calendar.
 
 =head1 ISSUES
 
+=head2 The First Month of the Civil Year
+
+The website L<https://www.azteccalendar.com>  gives three options: the
+Alfonso   Caso  correlation,   the  Alfonso   Caso  correlation   with
+Nicholson's alignment  and the Francisco Cortes  correlation. With the
+plain Caso  correlation and  with the  Cortes correlation,  the months
+follow this sequence:
+
+=item 18 Tititl
+=item 19 Nemontemi
+=item 1 Izcalli
+=item 2 Atlcahualo
+
+while  the  Caso  correlation  with Nicholson's  alignment  uses  this
+sequence:
+
+=item 17 Tititl
+=item 18 Izcalli
+=item 19 Nemontemi
+=item 1 Atlcahualo
+
+I have decided to discard  Nicholson's alignment and to implement only
+the  plain Alfonso  Caso correlation  (this class)  and the  Francisco
+Cortes correlation (see L<Date::Calendar::Aztec::Cortes>).
+
 =head2 Definition of the Day
 
 This class  assumes that days  are midnight  to midnight. My  guess it
@@ -151,8 +176,8 @@ This period  is called the  "calendar round".  So when given  an Aztec
 date with the four values (tonalpohualli number and name, xiuhpohualli
 number and name), you cannot define a unique Gregorian date equivalent
 to this Aztec date. The Gregorian date 52 years later (or 104, or 156)
-and the Gregorian  52 years earlier (or 104 or...)  also correspond to
-this Aztec date.
+and the Gregorian date 52 years earlier (or 104 or...) also correspond
+to this Aztec date.
 
 For this reason, there is no method to convert from the Aztec calendar
 into another calendar.
@@ -160,17 +185,21 @@ into another calendar.
 =head2 The Name of Month 2
 
 Another   issue    it   month   number   2,    between   Izcalli   and
-Tlacaxipehualiztli. Most sources gives  the name "Atlcahualo", but the
+Tlacaxipehualiztli. Most  sources give the name  "Atlcahualo", but the
 website     L<https://www.azteccalendar.com>     gives    the     name
 "Cuauhuitlehua".
 
-=head2 Year Bearer For Additional Days
+=head2 Year Bearers
 
-According to Reingold  and Dershowitz, the year bearer  is not defined
-for  additional  days (nemontemi).  On  the  other hand,  the  website
-L<https://www.azteccalendar.com/>   displays  the   year  bearer   for
-additional  days.  I  have  taken the  programmer-friendly  option  of
-computing the year bearer for additional days as for the normal days.
+For a given civil year, the year  bearer is the clerical number + name
+of new year's day,  or possibly of new year's eve.  In other words, it
+is  either  the tonalpohualli  number  +  name  of  1 Izcalli  or  the
+tonalpohualli  number +  name  of  5 Nemontemi.  Yet,  when we  browse
+L<https://www.azteccalendar.com>, we find that the year bearer has the
+tonalpohualli name of  the previous 5 Nemontemi  and the tonalpohualli
+number of the previous  1 Nemontemi. Is this a bug  in this website or
+is it  a very convoluted definition  of the year bearer,  although the
+real definition? I have decided to stick with it.
 
 =head1 SEE ALSO
 

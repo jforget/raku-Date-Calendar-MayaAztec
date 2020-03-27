@@ -133,11 +133,10 @@ use Date::Calendar::Aztec;
 
 =head1 DESCRIPTION
 
-Date::Calendar::Aztec is a module defining a role
-which is shared by the two variants of the
-Date::Calendar::Aztec class.
+Date::Calendar::Aztec is a  module defining a role which  is shared by
+the two variants of the Date::Calendar::Aztec class.
 
-See the full documentation in the main module, 
+See the full documentation in the main class, 
 C<Date::Calendar::Aztec>.
 
 =head1 AUTHOR

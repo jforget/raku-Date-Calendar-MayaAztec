@@ -67,6 +67,9 @@ Date::Calendar::Mayan  implementing the  Mayan calendars  (long count,
 Haab  and Tzolkin)  and Date::Calendar::Aztec  implementing the  Aztec
 calendars (tonalpohualli and xiuhpohualli).
 
+See the full documentation in each class, L<Date::Calendar::Mayan> and
+L<Date::Calendar::Aztec>.
+
 =head1 SEE ALSO
 
 =head2 Raku Software

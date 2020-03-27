@@ -49,8 +49,8 @@ Aztecs   used  two   different  calendars,   the  civil   calendar  or
 "xiuhpohualli" and the clerical calendar or "tonalpohualli".
 
 The  civil  calendar is  organized  like  other calendars,  with  days
-grouped  in  months  groupes  in  years.  The  difference  with  other
-calendars is  that the months lasts  20 days each, not  around 30, and
+grouped  in  months  grouped  in  years.  The  difference  with  other
+calendars is  that the months  last 20 days  each, not around  30, and
 there are 18 months, not 12.  In addition, there are 5 additional days
 (Nemontemi), but no leap days are defined.
 

@@ -168,7 +168,7 @@ Date::Calendar::Mayan::Common - Common code for the variants of Date::Calendar::
 Date::Calendar::Mayan is a  module defining a role which  is shared by
 the variants of the Date::Calendar::Mayan class.
 
-See the full documentation in the main module, C<Date::Calendar::Mayan>.
+See the full documentation in the main class, C<Date::Calendar::Mayan>.
 
 =head1 AUTHOR
 
