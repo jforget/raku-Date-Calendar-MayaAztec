@@ -92,7 +92,7 @@ for this calendar.
 =head1 ISSUES
 
 Most sources about the  Maya calendar give a list of  Haab names and a
-list of Tzolkin  names, usually without specifying  which precise Maya
+list of Tzolkin names, usually  without specifying which precise Mayan
 language  they use.  A footnote  in Calendrical  Calculations mentions
 that names are translitterated from  the Yucatec language. This is why
 I have adopted these names (and their English translations).

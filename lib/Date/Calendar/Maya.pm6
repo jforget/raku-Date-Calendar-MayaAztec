@@ -216,9 +216,17 @@ $d-dest-pull.locale = $d-orig.locale;
 =head2 Mayan or Maya?
 
 According to L<http://www.famsi.org/research/vanstone/2012/faq.html#mayan>,
-the word  "Mayan" applies only to  the class of languages  used by the
+the word "Mayan"  applies only to the family of  languages used by the
 Mayas. In all other cases, including  the calendars, we should use the
 word "Maya".
+
+About the  utility module L<Date::Calendar::Maya::Names>:  this module
+contains   Mayan  names.   Yet,  I   have  chosen   not  to   call  it
+L<Date::Calendar::Mayan::Names>  for two  reasons:  first, that  would
+create two nearly similar  subdirectories C<Maya> and C<Mayan>, second
+this module contains  also English and French names, so  this is not a
+module  of I<Mayan  names>, it  is a  module of  I<names for  the Maya
+calendar>.
 
 =head2 Day Definition
 

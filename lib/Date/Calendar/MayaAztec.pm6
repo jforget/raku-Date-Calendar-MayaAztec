@@ -93,7 +93,7 @@ or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
 
 L<Date::Maya>
 
-L<DateTime::Calendar::Maya>
+L<DateTime::Calendar::Mayan>
 
 =head2 Other Software
 

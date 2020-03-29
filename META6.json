@@ -7,7 +7,7 @@
   "depends" : [
       "Date::Calendar::Strftime"
   ],
-  "description" : "conversions from/to the Mayan calendar and conversions to the Aztec calendar",
+  "description" : "conversions from/to the Maya calendar and conversions to the Aztec calendar",
   "license"     : "Artistic-2.0",
   "name"        : "Date::Calendar::MayaAztec",
   "perl"        : "6.c",
