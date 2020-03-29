@@ -40,7 +40,14 @@ method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerica
   }
 
   # check compatibility between civil values and clerical values: TODO
+  unless ($day - $clerical-index) % 5 == 2 {
+    die "Clerical index $clerical-index is incompatible with the day number $day";
+  }
 
+  check-locale($locale);
+}
+
+sub check-locale(Str $locale) {
   unless Date::Calendar::Aztec::Names::allowed-locale($locale) {
     X::Invalid::Value.new(:method<BUILD>, :name<locale>, :value($locale)).throw;
   }

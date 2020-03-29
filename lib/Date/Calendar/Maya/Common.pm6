@@ -12,18 +12,36 @@ has Int $.baktun where { 0 ≤ $_ ≤ 19 };
 has Int $.daycount;
 
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
+  # Checking values
   my ($baktun, $katun, $tun, $uinal, $kin) =  parse-long-count($long-count);
+  check-locale($locale);
+
+  # Computing derived attributes
   my $daycount = $.daycount-from-long-count($baktun, $katun, $tun, $uinal, $kin);
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+
+  # Building the object
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
+  # Checking values
+  check-locale($locale);
+
+  # Computing derived attributes
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
   my ($baktun, $katun, $tun, $uinal, $kin)             =     $.long-count-from-daycount($daycount);
+
+  # Building the object
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
+}
+
+sub check-locale(Str $locale) {
+  unless Date::Calendar::Maya::Names::allowed-locale($locale) {
+    X::Invalid::Value.new(:method<BUILD>, :name<locale>, :value($locale)).throw;
+  }
 }
 
 method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin, Int $daycount) {
