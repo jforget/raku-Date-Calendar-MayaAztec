@@ -4,17 +4,17 @@ use v6.c;
 unit module Date::Calendar::Maya::Names:ver<0.0.1>:auth<cpan:JFORGET>;
 
 my %day-names = 'yua' => qw/ Imix      Ik    Akbal  Kan    Chicchan
-                             Cimi      Manik Lamat  Muluc  Oc     
-                             Chuen     Eb    Ben    Ix     Men    
-                             Cib       Caban Etznab Cauac  Ahau   
+                             Cimi      Manik Lamat  Muluc  Oc
+                             Chuen     Eb    Ben    Ix     Men
+                             Cib       Caban Etznab Cauac  Ahau
                             /
-               , 'en' => qw/ Alligator Wind  Night  Iguana Serpent  
-                             Death     Deer  Rabbit Rain   Foot     
-                             Monkey    Tooth Cane   Jaguar Eagle    
-                             Owl       Quake Flint  Storm  Lord     
+               , 'en' => qw/ Alligator Wind  Night  Iguana Serpent
+                             Death     Deer  Rabbit Rain   Foot
+                             Monkey    Tooth Cane   Jaguar Eagle
+                             Owl       Quake Flint  Storm  Lord
                             /
                , 'fr'  => ( "Crocodile"
-                          , "Vent"                    
+                          , "Vent"
                           , "Maison"
                           , "Lézard"
                           , "Serpent"
@@ -34,12 +34,12 @@ my %day-names = 'yua' => qw/ Imix      Ik    Akbal  Kan    Chicchan
                           , "Pluie"
                           , "Fleur"
                           );
-my %month-names = 'yua' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul    
-                               Yaskin Mol    Chen Yax  Zac   Ceh    
-                               Mac    Kankin Muan Pax  Kayab Cumku  
-                               Uayeb  
+my %month-names = 'yua' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul
+                               Yaskin Mol    Chen Yax  Zac   Ceh
+                               Mac    Kankin Muan Pax  Kayab Cumku
+                               Uayeb
                             /
-                 , 'en'  => ( "Mat"                      
+                 , 'en'  => ( "Mat"
                             , "Frog"
                             , "Stag"
                             , "Bat"
@@ -59,10 +59,10 @@ my %month-names = 'yua' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul
                             , "Dark god"
                             , "void"
                            )
-                 , 'fr' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul    
-                               Yaskin Mol    Chen Yax  Zac   Ceh    
-                               Mac    Kankin Muan Pax  Kayab Cumku  
-                               Uayeb  
+                 , 'fr' => qw/ Pop    Uo     Zip  Zotz Tzec  Xul
+                               Yaskin Mol    Chen Yax  Zac   Ceh
+                               Mac    Kankin Muan Pax  Kayab Cumku
+                               Uayeb
                             /;
 
 our sub allowed-locale(Str:D $locale) {

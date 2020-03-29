@@ -160,7 +160,7 @@ use Date::Calendar::Aztec;
 Date::Calendar::Aztec is a  module defining a role which  is shared by
 the two variants of the Date::Calendar::Aztec class.
 
-See the full documentation in the main class, 
+See the full documentation in the main class,
 C<Date::Calendar::Aztec>.
 
 =head1 AUTHOR

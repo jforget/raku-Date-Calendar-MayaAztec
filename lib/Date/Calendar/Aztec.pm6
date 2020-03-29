@@ -70,9 +70,9 @@ The C<new> method can be called  either with plain English keywords or
 with  Nahuatl  keywords.  Here  is  the  equivalence  between  English
 parameters and Nahuatl parameters.
 
-  month            xiuhpohualli-index  
-  day              xiuhpohualli-number 
-  clerical-index   tonalpohualli-index 
+  month            xiuhpohualli-index
+  day              xiuhpohualli-number
+  clerical-index   tonalpohualli-index
   clerical-number  tonalpohualli-number
 
 In  addition, you  can provide  the optional  parameter C<locale>.  By

@@ -54,6 +54,7 @@ method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin
 }
 
 method daycount-from-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
+  # Inspired by Horner's method to compute values for polynomials
   return ((($baktun × 20 + $katun
                   ) × 20 + $tun
                   ) × 18 + $uinal
@@ -83,7 +84,6 @@ method gist {
 method long-count {
   sprintf("%d.%d.%d.%d.%d", $.baktun, $.katun, $.tun, $.uinal, $.kin);
 }
-  
 
 method day-of-year {
   $.day + 20 × ($.month - 1);
