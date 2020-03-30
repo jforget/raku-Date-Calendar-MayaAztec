@@ -28,10 +28,10 @@ my Date                  $d-greg  .= new(2020, 6, 20);
 my Date::Calendar::Aztec $d-aztec .= new-from-date($d-greg);
 my Date::Calendar::Maya  $d-maya  .= new-from-date($d-greg);
 
-say "{.tzolkin} {.haab"} {.long-count}" with $d-maya;
+say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
 # --> 12 Etznab 1 Tzec 13.0.7.10.18
 $d-maya.locale = 'en';
-say "{.tzolkin} {.haab"}" with $d-maya;
+say "{.tzolkin} {.haab}" with $d-maya;
 # --> 12 Flint 1 Skull
 
 say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
