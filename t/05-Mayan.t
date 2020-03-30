@@ -9,13 +9,13 @@ use Date::Calendar::Maya::Astronomical;
 # or checking 2020-03-12 with the Spinden correlation
 
 plan 4              # dates
-     × ( 9          # locale-independant methods
-        + 3 × 9)    # locales and locale-dependant methods
+     × ( 10         # locale-independant methods
+        + 3 × 10)   # locales and locale-dependant methods
 ;
 
 my Date::Calendar::Maya               $d1 .= new-from-date(Date.new(2020, 3, 11));
 my Date::Calendar::Maya               $d2 .= new(long-count => '13.0.7.5.17');
-my Date::Calendar::Maya::Spinden      $d3 .= new-from-date(Date.new(2020, 3, 12));
+my Date::Calendar::Maya::Spinden      $d3 .= new-from-date(Date.new(1760, 5, 14));
 my Date::Calendar::Maya::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
 
 for $d1, $d2, $d3, $d4 -> $d {
@@ -39,6 +39,7 @@ sub testing-calendar-round($date) {
   is($date.haab-number         ,  5);
   is($date.year-bearer-number  ,  8);
   is($date.year-bearer-index   , 12);
+  is($date.strftime("%a %b %c %d %e %f %F %j %m %u %V"), "%a %b %c 05  5 18 13.0.7.5.17 345 18 17 2");
 }
 
 sub testing-Yucatec($date) {
@@ -51,6 +52,7 @@ sub testing-Yucatec($date) {
   is($date.haab            , '5 Cumku');
   is($date.year-bearer-name, 'Eb');
   is($date.year-bearer     , '8 Eb');
+  is($date.strftime("%A %B %G %Y"), "Caban Cumku 8 Eb 8 Eb");
 }
 
 sub testing-English($date) {
@@ -63,6 +65,7 @@ sub testing-English($date) {
   is($date.haab            , '5 Dark god');
   is($date.year-bearer-name, 'Tooth');
   is($date.year-bearer     , '8 Tooth');
+  is($date.strftime("%A %B %G %Y"), "Quake Dark god 8 Tooth 8 Tooth");
 }
 
 sub testing-French($date) {
@@ -75,4 +78,5 @@ sub testing-French($date) {
   is($date.haab            , '5 Cumku');
   is($date.year-bearer-name, 'Herbe');
   is($date.year-bearer     , '8 Herbe');
+  is($date.strftime("%A %B %G %Y"), "Mouvement Cumku 8 Herbe 8 Herbe");
 }

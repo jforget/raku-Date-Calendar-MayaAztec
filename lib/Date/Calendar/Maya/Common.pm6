@@ -165,15 +165,13 @@ sub parse-long-count(Str $long-count) {
   return $0.map( { + $_ } );
 }
 
-# method specific-format { %( Oj => { $.feast },
-#                            '*' => { $.feast },
-#                             Ej => { $.feast-long },
-#                             EJ => { $.feast-caps },
-#                             Ey => { $.year-roman.lc },
-#                             EY => { $.year-roman },
-#                              u => { $.day-of-décade },
-#                              V => { $.décade-number },
-#                            ) }
+method specific-format { %(  A => { $.tzolkin-name },
+                             F => { $.long-count },
+                             G => { $.year-bearer },
+                             u => { $.tzolkin-index },
+                             V => { $.tzolkin-number },
+                             Y => { $.year-bearer },
+                            ) }
 
 =begin pod
 

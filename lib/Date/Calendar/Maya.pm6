@@ -110,14 +110,20 @@ Build an Maya date from the Modified Julian Day number.
 
 The numeric equivalent of the Haab name.
 
+For C<strftime>, use the C<%m> specifier.
+
 =head3 month-name, Haab-name
 
 The name part  of the civil calendar (Haab). Its  value depends on the
 value of the C<locale> attribute.
 
+For C<strftime>, use the C<%B> specifier.
+
 =head3 day
 
 The numeric part of the civil calendar (Haab), 0 to 19.
+
+For C<strftime>, use the C<%d> or C<%e> specifier.
 
 =head3 Haab
 
@@ -125,25 +131,36 @@ A  string merging  the numeric  part and  the name  part of  the civil
 calendar  (Haab). Its  value depends  on  the value  of the  C<locale>
 attribute.
 
+No single C<strftime>  specifier, you have to mix C<%B>  with C<%d> or
+C<%e>.
+
 =head3 clerical-number, tzolkin-number
 
 The numeric part of the clerical calendar (Tzolkin).
+
+For C<strftime>, use the C<%V> specifier.
 
 =head3 clerical-name, tzolkin-name
 
 The name part of the clerical calendar (Tzolkin). Its value depends on
 the value of the C<locale> attribute.
 
+For C<strftime>, use the C<%A> specifier.
+
 =head3 clerical-index, tzolkin-index
 
 The  numeric equivalent  of the  name  part of  the clerical  calendar
 (Tzolkin), 1 to 20.
+
+For C<strftime>, use the C<%u> specifier.
 
 =head3 tzolkin
 
 A string  merging the numeric part  and the name part  of the clerical
 calendar (Tzolkin).  Its value depends  on the value of  the C<locale>
 attribute.
+
+No single C<strftime>  specifier, you have to mix C<%V>  with C<%u>.
 
 =head3 year-bearer-number, year-bearer-index, year-bearer-name, year-bearer
 
@@ -156,6 +173,9 @@ These four methods define the year  bearer. Their names are similar to
 the C<clerical->R<xxx> and the  C<tzolkin->R<xxx> methods, because the
 year bearer is a Tzolkin date.
 
+For C<strftime>,  use the C<%Y> of  C<%G> specifier to print  the year
+bearer (number and name).
+
 
 =head3 gist, long-count
 
@@ -164,6 +184,12 @@ The long count in dotted notation.
 =head3 daycount
 
 The MJD (Modified Julian Date) number for the date.
+
+=head3 strftime
+
+This method gives a string containing several attributes listed above.
+It is similar  to the homonymous function in other  languages. See the
+L<strftime Specifiers> paragraph below.
 
 =head2 Other Methods
 
@@ -210,6 +236,147 @@ $d-dest-pull.locale = $d-orig.locale;
 
 =end code
 
+=head2 strftime Specifiers
+
+=head3 Designer's Notes
+
+The  Maya calendar  is not  like the  others, based  on year-month-day
+triplets. So defining which data  will be printed by which C<strftime>
+specifier  is not  obvious.  Let us  see  what can  be  done with  the
+principle of least surprise.
+
+At least, the common calendar (Haab)  is based on month-day pairs. And
+the  months have  an  unambiguous numeric  representation.  So we  can
+easily define what  will be printed by C<%B>, C<%d>,  C<%e>, C<%f> and
+C<%m>. The  tzolkin names (Imix, Ik...)  run through a cycle,  just as
+the week  days (Monday,  Tuesday...), so it  is natural  to assimilate
+both notions, even if the cycle lengths are different: 20 in the first
+case, 7  in the latter case.  So specifiers C<%A> and  C<%u> are cared
+for.
+
+That is  all for the  obvious equivalences.  Now, we can  define other
+specifiers by shoe-horning a Gregorian  concept into them. For example
+the  C<%F>  specifier.  Its  basic definition  is  "a  short-hand  for
+C<%Y-%m-%d>", but it  can be described as "a  specifier containing all
+the values to uniquely identify the date". The equivalent for the Maya
+calendar would  be the Long Count.  So the C<%F> specifier  will print
+the long count in dotted notation.
+
+And  the  C<%V> specifier?  It  represents  the  week number  for  the
+Gregorian calendar,  or how many  7-day cycles have elapsed  since the
+beginning of the year. This is  not interesting for the Maya calendar,
+because a Tzolkin 20-name cycle  coincidates with a Haab 20-day month.
+Another way  to describe the C<%V>  specifier is "the number  which is
+usually printed associated  to C<%u> (in the ISO  date format)". Since
+C<%u> gives  the numeric form of  the Tzolkin name, C<%V>  should give
+the Tzolkin number.
+
+What about  the year  numbers C<%Y>  and C<%G>? It  could be  the long
+count  truncated  to baktun-katun-tun.  Which  is  not interesting.  A
+better idea consists of describing  these specifiers as "the specifier
+which keeps the same value from  1st January to 31st December". In the
+Maya calendar, which notion keeps the  same value from 0 Pop until 19
+Cumku? The year bearer which, therefore, can uniquely identify a year,
+within  some  limits. More  precisely,  within  a calendar  round  (52
+years), the year  bearer is a unique identifier for  the Haab year. So
+the C<%Y>  specifier will print  the year  bearer. On the  other hand,
+identifying the  year with its year  bearer is flawed with  a rollover
+problem similar to  the Y2K bug, except that it  occurs every 52 years
+instead of every 100 years. So it  may be better to associate the year
+bearer  with  the  C<%y>  specifier,  which  can  be  defined  as  the
+"Y2K-flawed year specifier".
+
+=head3 Specifiers
+
+=defn C<%A>
+
+The Tzolkin name, similar to the name of the day of week.
+
+=defn C<%B>
+
+The Haab name, similar to a month name.
+
+=defn C<%d>
+
+The Haab number, which can be seen as the numerical form of the day of
+the month (range 00 to 19).
+
+=defn C<%e>
+
+Like C<%d>, the Haab  number or day of the month  as a decimal number,
+but a leading zero is replaced by a space.
+
+=defn C<%f>
+
+The numerical form of  the Haab name, or month as  a decimal number (1
+to 19). Unlike C<%m>, a leading zero is replaced by a space.
+
+=defn C<%F>
+
+The long count, in dotted notation.
+
+=defn C<%G>
+
+The year bearer.
+
+=defn C<%j>
+
+The day of the year as a decimal number (range 000 to 364).
+
+=defn C<%m>
+
+The  numeric form  of the  Haab  name, or  the month,  as a  two-digit
+decimal  number  (range  01  to  12),  including  a  leading  zero  if
+necessary.
+
+=defn C<%n>
+
+A newline character.
+
+=defn C<%t>
+
+A tab character.
+
+=defn C<%u>
+
+The Tzolkin index, that is the 1..20 numeric equivalent of the Tzolkin
+name.
+
+=defn C<%V>
+
+The Tzolkin number.
+
+=defn C<%Y>
+
+The year bearer.
+
+=defn C<%%>
+
+A literal `%' character.
+
+=head3 Modifiers
+
+A complete C<strftime> specifier consists of:
+
+=item A percent sign,
+
+=item An  optional minus sign, to  indicate on which side  the padding
+occurs. If the minus sign is present, the value is aligned to the left
+and the padding spaces are added to the right. If it is not there, the
+value is aligned to the right and the padding chars (spaces or zeroes)
+are added to the left.
+
+=item  An  optional  zero  digit,  to  choose  the  padding  char  for
+right-aligned values.  If the  zero char is  present, padding  is done
+with zeroes. Else, it is done wih spaces.
+
+=item An  optional length, which  specifies the minimum length  of the
+result substring.
+
+=item  An optional  C<"E">  or  C<"O"> modifier.  On  some older  UNIX
+system,  these  were used  to  give  the I<extended>  or  I<localized>
+version of the date attribute. Here, these C<"E"> and C<"O"> modifiers
+are ignored.
 
 =head1 ISSUES
 
