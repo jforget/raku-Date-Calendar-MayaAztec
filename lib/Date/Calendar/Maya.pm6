@@ -176,7 +176,6 @@ year bearer is a Tzolkin date.
 For C<strftime>,  use the C<%Y> of  C<%G> specifier to print  the year
 bearer (number and name).
 
-
 =head3 gist, long-count
 
 The long count in dotted notation.
@@ -184,6 +183,16 @@ The long count in dotted notation.
 =head3 daycount
 
 The MJD (Modified Julian Date) number for the date.
+
+=head3 locale
+
+The  abbreviation  of the  language  used  for names.  Actually,  this
+attribute is  read-write. You can  create a  date object with  a first
+locale and then change it to another locale.
+
+For the moment,  the allowed values are C<'yua'> for  Yucatec, a Mayan
+language, C<'en'>  for English and  C<'fr'> for French  (partial, only
+Tzolkin names are translated into French, Haab names are in Yucatec).
 
 =head3 strftime
 
@@ -298,7 +307,7 @@ The Haab name, similar to a month name.
 
 =defn C<%d>
 
-The Haab number, which can be seen as the numerical form of the day of
+The Haab number, which  can be seen as the numeric form  of the day of
 the month (range 00 to 19).
 
 =defn C<%e>
@@ -308,8 +317,8 @@ but a leading zero is replaced by a space.
 
 =defn C<%f>
 
-The numerical form of  the Haab name, or month as  a decimal number (1
-to 19). Unlike C<%m>, a leading zero is replaced by a space.
+The numeric form of the Haab name,  or month as a decimal number (1 to
+19). Unlike C<%m>, a leading zero is replaced by a space.
 
 =defn C<%F>
 

@@ -164,6 +164,21 @@ bearer (number and name).
 
 Print the numeric values for the civil and clerical calendar.
 
+=head3 locale
+
+The  abbreviation  of the  language  used  for names.  Actually,  this
+attribute is  read-write. You can  create a  date object with  a first
+locale and then change it to another locale.
+
+For the moment,  the allowed values are C<'nah'>  for Nahuatl, C<'en'>
+for English and C<'fr'> for French.
+
+=head3 strftime
+
+This method gives a string containing several attributes listed above.
+It is similar  to the homonymous function in other  languages. See the
+L<strftime Specifiers> paragraph below.
+
 =head2 strftime Specifiers
 
 =head3 Designer's Notes
