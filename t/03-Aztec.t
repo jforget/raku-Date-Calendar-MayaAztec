@@ -10,8 +10,8 @@ use Date::Calendar::Aztec::Cortes;
 # or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
 plan 6              # dates
-     × ( 8          # locale-independant methods
-        + 3 × 7)    # locales and locale-dependant methods
+     × ( 9          # locale-independant methods
+        + 3 × 8)    # locales and locale-dependant methods
 ;
 
 my Date::Calendar::Aztec $date1 .= new(month           =>  8
@@ -51,34 +51,38 @@ sub testing-calendar-round($date) {
   is($date.tonalpohualli-number,  2);
   is($date.tonalpohualli-index , 17);
   is($date.xiuhpohualli-number , 19);
+  is($date.strftime("%a %b %c %d %e %f %F %j %m %u %V"), "%a %b %c 19 19  8 %F 159 08 17 2");
 }
 
 sub testing-Nahuatl($date) {
-  is($date.locale         , 'nah');
-  is($date.month-name     , 'Tecuilhuitontli');
-  is($date.day-name       , 'Ollin');
-  is($date.tonalpohualli-name  , 'Ollin');
-  is($date.tonalpohualli       , '2 Ollin');
-  is($date.xiuhpohualli-name   , 'Tecuilhuitontli');
-  is($date.xiuhpohualli        , '19 Tecuilhuitontli');
+  is($date.locale                 , 'nah');
+  is($date.month-name             , 'Tecuilhuitontli');
+  is($date.day-name               , 'Ollin');
+  is($date.tonalpohualli-name     , 'Ollin');
+  is($date.tonalpohualli          , '2 Ollin');
+  is($date.xiuhpohualli-name      , 'Tecuilhuitontli');
+  is($date.xiuhpohualli           , '19 Tecuilhuitontli');
+  is($date.strftime("%A %B %G %Y"), "Ollin Tecuilhuitontli 8 Tecpatl 8 Tecpatl");
 }
 
 sub testing-English($date) {
-  is($date.locale         , 'en');
-  is($date.month-name     , '1-lords feast');
-  is($date.day-name       , 'Movement');
-  is($date.tonalpohualli-name  , 'Movement');
-  is($date.tonalpohualli       , '2 Movement');
-  is($date.xiuhpohualli-name   , '1-lords feast');
-  is($date.xiuhpohualli        , '19 1-lords feast');
+  is($date.locale                 , 'en');
+  is($date.month-name             , '1-lords feast');
+  is($date.day-name               , 'Movement');
+  is($date.tonalpohualli-name     , 'Movement');
+  is($date.tonalpohualli          , '2 Movement');
+  is($date.xiuhpohualli-name      , '1-lords feast');
+  is($date.xiuhpohualli           , '19 1-lords feast');
+  is($date.strftime("%A %B %G %Y"), "Movement 1-lords feast 8 Flint 8 Flint");
 }
 
 sub testing-French($date) {
-  is($date.locale         , 'fr');
-  is($date.month-name     , 'Petite fête des dignitaires');
-  is($date.day-name       , 'Mouvement');
-  is($date.tonalpohualli-name  , 'Mouvement');
-  is($date.tonalpohualli       , '2 Mouvement');
-  is($date.xiuhpohualli-name   , 'Petite fête des dignitaires');
-  is($date.xiuhpohualli        , '19 Petite fête des dignitaires');
+  is($date.locale                 , 'fr');
+  is($date.month-name             , 'Petite fête des dignitaires');
+  is($date.day-name               , 'Mouvement');
+  is($date.tonalpohualli-name     , 'Mouvement');
+  is($date.tonalpohualli          , '2 Mouvement');
+  is($date.xiuhpohualli-name      , 'Petite fête des dignitaires');
+  is($date.xiuhpohualli           , '19 Petite fête des dignitaires');
+  is($date.strftime("%A %B %G %Y"), "Mouvement Petite fête des dignitaires 8 Silex 8 Silex");
 }

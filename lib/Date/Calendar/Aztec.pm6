@@ -94,14 +94,20 @@ Build an Aztec date from the Modified Julian Day number.
 
 The numeric equivalent of the xiuhpohualli name.
 
+For C<strftime>, use the C<%m> specifier.
+
 =head3 month-name, xiuhpohualli-name
 
 The name part of the  civil calendar (xiuhpohualli). Its value depends
 on the value of the C<locale> attribute.
 
+For C<strftime>, use the C<%B> specifier.
+
 =head3 day
 
 The numeric part of the civil calendar (xiuhpohualli), 1 to 20.
+
+For C<strftime>, use the C<%d> or C<%e> specifier.
 
 =head3 xiuhpohualli
 
@@ -109,19 +115,27 @@ A  string merging  the numeric  part and  the name  part of  the civil
 calendar  (xiuhpohualli).  Its  value  depends on  the  value  of  the
 C<locale> attribute.
 
+No single C<strftime> specifier, you have to mix C<%B> with C<%d>.
+
 =head3 clerical-number, tonalpohualli-number
 
 The numeric part of the clerical calendar (tonalpohualli).
+
+For C<strftime>, use the C<%V> specifier.
 
 =head3 clerical-name, tonalpohualli-name
 
 The  name part  of the  clerical calendar  (tonalpohualli). Its  value
 depends on the value of the C<locale> attribute.
 
+For C<strftime>, use the C<%A> specifier.
+
 =head3 clerical-index, tonalpohualli-index
 
 The  numeric equivalent  of the  name  part of  the clerical  calendar
 (tonalpohualli), 1 to 20.
+
+For C<strftime>, use the C<%u> specifier.
 
 =head3 tonalpohualli
 
@@ -129,9 +143,165 @@ A string  merging the numeric part  and the name part  of the clerical
 calendar  (tonalpohualli).  Its value  depends  on  the value  of  the
 C<locale> attribute.
 
+No single C<strftime>  specifier, you have to mix C<%V>  with C<%u>.
+
+=head3 year-bearer-number, year-bearer-index, year-bearer-name, year-bearer
+
+The year bearer  is a tonalpohualli date which is  shared by all dates
+from a given "1  Tititl" to the next "5 Nemontemi"  364 days later. So
+we may  consider that it sort  of names the xiuhpohualli  year. Yet it
+cannot  define  unambiguously  the  year, since  it  cycles  every  52
+xiuhpohualli years (a calendar round).
+
+These four methods define the year  bearer. Their names are similar to
+the  C<clerical->R<xxx>   and  the   C<tonalpohualli->R<xxx>  methods,
+because the year bearer is a tonalpohualli date.
+
+For C<strftime>,  use the C<%Y> of  C<%G> specifier to print  the year
+bearer (number and name).
+
 =head3 gist
 
 Print the numeric values for the civil and clerical calendar.
+
+=head2 strftime Specifiers
+
+=head3 Designer's Notes
+
+The Aztec  calendar is  not like the  others, based  on year-month-day
+triplets. So defining which data  will be printed by which C<strftime>
+specifier  is not  obvious.  Let us  see  what can  be  done with  the
+principle of least surprise.
+
+At least,  the common  calendar (xiuhpohualli)  is based  on month-day
+pairs. And the  months have an unambiguous  numeric representation. So
+we can  easily define  what will  be printed  by C<%B>,  C<%d>, C<%e>,
+C<%f> and  C<%m>. The  tonalpohualli names (Cipactli,  Ehecatl...) run
+through a cycle, just as the  week days (Monday, Tuesday...), so it is
+natural  to assimilate  both notions,  even if  the cycle  lengths are
+different: 20 in  the first case, 7 in the  latter case. So specifiers
+C<%A> and C<%u> are cared for.
+
+That is  all for the  obvious equivalences.  Now, we can  define other
+specifiers by shoe-horning a Gregorian  concept into them. For example
+the C<%V> specifier.  It represents the week number  for the Gregorian
+calendar, or how many 7-day cycles have elapsed since the beginning of
+the year.  This is not interesting  for the Aztec calendar,  because a
+tonalpohualli  20-name cycle  coincidates with  a xiuhpohualli  20-day
+month.  Another way  to describe  the C<%V>  specifier is  "the number
+which  is  usually  printed  associated  to C<%u>  (in  the  ISO  date
+format)".  Since C<%u>  gives the  numeric form  of the  tonalpohualli
+name, C<%V> should give the tonalpohualli number.
+
+What about the  year numbers C<%Y> and C<%G>? The  C<%Y> specifier can
+be described  as "the specifier  which keeps  the same value  from 1st
+January to 31st  December". In the Aztec calendar,  which notion keeps
+the  same value  from 1  Izcalli until  5 Nemontemi?  The year  bearer
+which, therefore,  can uniquely identify  a year, within  some limits.
+More precisely, within a calendar round (52 years), the year bearer is
+a unique  identifier for the  Haab year.  So the C<%Y>  specifier will
+print the  year bearer. On the  other hand, identifying the  year with
+its year bearer  is flawed with a rollover problem  similar to the Y2K
+bug, except that it occurs every  52 years instead of every 100 years.
+So  it may  be better  to  associate the  year bearer  with the  C<%y>
+specifier, which  can be defined  as the "Y2K-flawed  year specifier".
+For the Gregorian calendar, the C<%G> specifier prints the year number
+for the week-based "ISO" date. There  is no week-related "ISO" date in
+the Aztec calendar, so C<%G> will print the same as C<%Y>.
+
+And the C<%F> specifier? For the  Maya calendar, I have decided to use
+it to  print the long count.  But the Aztec calendar  has nothing like
+the Maya  long count.  So the  C<%F> specifier will  not print  a date
+value, it will be printed without change in the output string.
+
+=head3 Specifiers
+
+=defn C<%A>
+
+The tonalpohualli name, similar to the name of the day of week.
+
+=defn C<%B>
+
+The xiuhpohualli name, similar to a month name.
+
+=defn C<%d>
+
+The xiuhpohualli number, which can be  seen as the numeric form of the
+day of the month (range 01 to 20).
+
+=defn C<%e>
+
+Like C<%d>, the  xiuhpohualli number or day of the  month as a decimal
+number, but a leading zero is replaced by a space.
+
+=defn C<%f>
+
+The  numeric form  of the  xiuhpohualli name,  or month  as a  decimal
+number (1 to 19). Unlike C<%m>, a leading zero is replaced by a space.
+
+=defn C<%G>
+
+The year bearer.
+
+=defn C<%j>
+
+The day of the year as a decimal number (range 001 to 365).
+
+=defn C<%m>
+
+The  numeric  form of  the  xiuhpohualli  name,  or  the month,  as  a
+two-digit decimal number (range 01 to 19), including a leading zero if
+necessary.
+
+=defn C<%n>
+
+A newline character.
+
+=defn C<%t>
+
+A tab character.
+
+=defn C<%u>
+
+The tonalpohualli index,  that is the 1..20 numeric  equivalent of the
+tonalpohualli name.
+
+=defn C<%V>
+
+The tonalpohualli number.
+
+=defn C<%Y>
+
+The year bearer.
+
+=defn C<%%>
+
+A literal `%' character.
+
+=head3 Modifiers
+
+A complete C<strftime> specifier consists of:
+
+=item A percent sign,
+
+=item An  optional minus sign, to  indicate on which side  the padding
+occurs. If the minus sign is present, the value is aligned to the left
+and the padding spaces are added to the right. If it is not there, the
+value is aligned to the right and the padding chars (spaces or zeroes)
+are added to the left.
+
+=item  An  optional  zero  digit,  to  choose  the  padding  char  for
+right-aligned values.  If the  zero char is  present, padding  is done
+with zeroes. Else, it is done wih spaces.
+
+=item An  optional length, which  specifies the minimum length  of the
+result substring.
+
+=item  An optional  C<"E">  or  C<"O"> modifier.  On  some older  UNIX
+system,  these  were used  to  give  the I<extended>  or  I<localized>
+version of the date attribute. Here, these C<"E"> and C<"O"> modifiers
+are ignored.
+
 
 =head1 ISSUES
 

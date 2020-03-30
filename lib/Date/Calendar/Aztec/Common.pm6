@@ -131,15 +131,13 @@ method epoch-doy {
   161;
 }
 
-# method specific-format { %( Oj => { $.feast },
-#                            '*' => { $.feast },
-#                             Ej => { $.feast-long },
-#                             EJ => { $.feast-caps },
-#                             Ey => { $.year-roman.lc },
-#                             EY => { $.year-roman },
-#                              u => { $.day-of-décade },
-#                              V => { $.décade-number },
-#                            ) }
+method specific-format { %(  A => { $.tonalpohualli-name },
+                             F => Nil,
+                             G => { $.year-bearer },
+                             u => { $.tonalpohualli-index },
+                             V => { $.tonalpohualli-number },
+                             Y => { $.year-bearer },
+                            ) }
 
 =begin pod
 
