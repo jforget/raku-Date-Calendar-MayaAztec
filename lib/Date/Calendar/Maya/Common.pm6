@@ -2,7 +2,7 @@ use v6.c;
 use Date::Calendar::Maya::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Maya::Common:ver<0.0.1>:auth<cpan:JFORGET>;
+unit role Date::Calendar::Maya::Common:ver<0.0.2>:auth<cpan:JFORGET>;
 
 has Int $.kin    where { 0 ≤ $_ ≤ 19 };
 has Int $.uinal  where { 0 ≤ $_ ≤ 17 };

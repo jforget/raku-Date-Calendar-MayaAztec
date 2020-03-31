@@ -1,5 +1,5 @@
 use v6.c;
-unit role Date::Calendar::MayaAztec:ver<0.0.1>:auth<cpan:JFORGET>;
+unit role Date::Calendar::MayaAztec:ver<0.0.2>:auth<cpan:JFORGET>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
