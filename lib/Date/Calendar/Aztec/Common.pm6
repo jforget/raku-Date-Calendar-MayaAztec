@@ -145,14 +145,6 @@ method specific-format { %(  A => { $.tonalpohualli-name },
 
 Date::Calendar::Aztec::Common - Common code for the two variants of Date::Calendar::Aztec
 
-=head1 SYNOPSIS
-
-=begin code :lang<perl6>
-
-use Date::Calendar::Aztec;
-
-=end code
-
 =head1 DESCRIPTION
 
 Date::Calendar::Aztec is a  module defining a role which  is shared by

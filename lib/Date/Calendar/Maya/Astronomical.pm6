@@ -30,7 +30,7 @@ my Date::Calendar::Maya::Astronomical
         $d-maya .= new-from-date($d-greg);
 
 say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
-# --> 10 Cib  19 Sotz 13.0.7.10.16
+# --> 10 Cib  19 Zotz 13.0.7.10.16
 $d-maya.locale = 'en';
 say "{.tzolkin} {.haab}" with $d-maya;
 # --> 10 Owl 19 Bat
