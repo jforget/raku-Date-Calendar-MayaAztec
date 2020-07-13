@@ -4,7 +4,10 @@ use Date::Calendar::MayaAztec;
 
 unit role Date::Calendar::Aztec::Common:ver<0.0.2>:auth<cpan:JFORGET>;
 
-multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah') {
+multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah',
+                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  self!check-ref-date(before => $before, on-or-before => $on-or-before
+                   ,  after  => $after,  on-or-after  => $on-or-after, nearest => $nearest);
   self!check-build-args(    $month, $day, $clerical-index, $clerical-number, $locale);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
 }

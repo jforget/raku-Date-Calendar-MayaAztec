@@ -30,6 +30,22 @@ method calendar-round-from-daycount($nb) {
   return $day, $month, $cle-num, $cle-idx;
 }
 
+method !check-ref-date(:$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  my Int $count = 0;
+  for ( ($before      , 'before'      )
+      , ($on-or-before, 'on-or-before')
+      , ($after       , 'after'       )
+      , ($on-or-after , 'on-or-after' )
+      , ($nearest     , 'nearest'     ) ) -> ($var, $name) {
+    if $var.defined {
+      ++$count;
+    }
+    if $count > 1 {
+      die "No more than one reference date";
+    }
+  }
+}
+
 =begin pod
 
 =head1 NAME

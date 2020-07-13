@@ -6,10 +6,11 @@ use Test;
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
 
-plan 17;
+plan 25;
 
 my  Date::Calendar::Maya  $dt-m;
 my  Date::Calendar::Aztec $dt-a;
+my  Date  $dt-ref .= new('2020-07-01');
 
 dies-ok(  { $dt-m .= new(long-count => '13.0.0.0'    ); }, "Incomplete long count");
 dies-ok(  { $dt-m .= new(long-count => '13.0.0.0.0.0'); }, "Long count is too long");
@@ -28,3 +29,18 @@ dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number => 14, clerical
 dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index =>  0); }, "Aztec: Wrong clerical index");
 dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 21); }, "Aztec: Wrong clerical index");
 dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 16); }, "Aztec: clerical index incompatible with day number");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15); }, "Aztec: fine");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                      on-or-after => $dt-ref); }, "Aztec: one reference date, fine");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                     on-or-before => $dt-ref); }, "Aztec: one reference date, fine");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                      after       => $dt-ref); }, "Aztec: one reference date, fine");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                     before       => $dt-ref); }, "Aztec: one reference date, fine");
+lives-ok( { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                     nearset      => $dt-ref); }, "Aztec: one reference date, fine");
+dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                             on-or-after => $dt-ref, on-or-before => $dt-ref); }, "Aztec: several reference dates, wrong");
+dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                after => $dt-ref, before => $dt-ref, nearset      => $dt-ref); }, "Aztec: several reference dates, wrong");
