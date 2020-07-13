@@ -39,6 +39,9 @@ method !check-ref-date(:$before, :$on-or-before, :$after, :$on-or-after, :$neare
       , ($nearest     , 'nearest'     ) ) -> ($var, $name) {
     if $var.defined {
       ++$count;
+      unless $var.can('daycount') {
+        die "Parameter $name should be a Date object or a Date::Calendar::whatever object";
+      }
     }
     if $count > 1 {
       die "No more than one reference date";

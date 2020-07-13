@@ -6,7 +6,7 @@ use Test;
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
 
-plan 25;
+plan 26;
 
 my  Date::Calendar::Maya  $dt-m;
 my  Date::Calendar::Aztec $dt-a;
@@ -44,3 +44,5 @@ dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical
                                              on-or-after => $dt-ref, on-or-before => $dt-ref); }, "Aztec: several reference dates, wrong");
 dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
                                 after => $dt-ref, before => $dt-ref, nearset      => $dt-ref); }, "Aztec: several reference dates, wrong");
+dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
+                                                                 on-or-after => '2001-01-01'); }, "Aztec: improper reference date");
