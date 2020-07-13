@@ -1,7 +1,7 @@
 NAME
 ====
 
-Date::Calendar::MayaAztec - conversions from/to the Maya calendar and conversions to the Aztec calendar
+Date::Calendar::MayaAztec - conversions from / to the Maya calendar and from / to the Aztec calendar
 
 SYNOPSIS
 ========

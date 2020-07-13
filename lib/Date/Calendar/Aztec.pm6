@@ -19,7 +19,7 @@ method epoch {
 
 =head1 NAME
 
-Date::Calendar::Aztec - conversions to the Aztec calendar
+Date::Calendar::Aztec - conversions from / to the Aztec calendar
 
 =head1 SYNOPSIS
 
@@ -36,6 +36,25 @@ say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
 # --> 12 Flint 20 God arrives
 
 =end code
+
+And in the other direction
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Aztec;
+my Date $reference  .= new(2020, 1, 1);
+my Date::Calendar::Aztec
+        $d-aztec .= new(month	    	=> 13
+	             ,  day  	    	=> 20
+		     ,  clerical-index  => 18
+		     ,  clerical-number => 12
+		     ,  on-or-after     => $reference);
+my Date $d-greg = $d-aztec.to-date('Date');
+say $d-greg;
+# --> 2020-06-20
+
+=end code
+
 
 =head1 DESCRIPTION
 
@@ -74,6 +93,18 @@ parameters and Nahuatl parameters.
   day              xiuhpohualli-number
   clerical-index   tonalpohualli-index
   clerical-number  tonalpohualli-number
+
+You should add  a reference date (from the core  C<Date> class or from
+any  C<Class::Calendar::>R<xxx>  class),  tagged with  a  relationship
+C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
+The  reason why  is explained  in the  B<Issues> chapter,  B<Rollover>
+subchapter below. By default, the c<new> method will use:
+
+=begin code :lang<perl6>
+
+  nearest => Date.today,
+
+=end code
 
 In  addition, you  can provide  the optional  parameter C<locale>.  By
 default, it will be C<'nah'> for Nahuatl.
@@ -364,8 +395,13 @@ to this Aztec date. The Gregorian date 52 years later (or 104, or 156)
 and the Gregorian date 52 years earlier (or 104 or...) also correspond
 to this Aztec date.
 
-For this reason, there is no method to convert from the Aztec calendar
-into another calendar.
+For this  reason, Aztec dates are  created with a reference  date from
+another calendar, so the module will  compute which is the first Aztec
+date on  or after  the reference  date and  with the  requested month,
+name,  clerical  index and  clerical  number  (or  "on or  before  the
+reference date", or "nearest to the reference date", etc). This allows
+the module to compute a  semi-hidden attribute C<daycount>, which will
+be used when converting an Aztec date to another calendar.
 
 =head2 The Name of Month 2
 
