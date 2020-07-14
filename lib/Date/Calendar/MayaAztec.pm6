@@ -1,4 +1,18 @@
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+
 use v6.c;
+
+# Warning: "vague year" and "calendar round" are known concepts that you can find in external documentation.
+# On the other hand, "sub calendar round" is only used here.
+#
+# Vague year:         period length for the (month, day) couple
+# Calendar round:     period length for the (month, day, clerical index, clerical number) tuple
+# Sub calendar round: period length for the (month, day, clerical index) triple
+#
+constant VAGUE-YEAR         = 365;
+constant SUB-CALENDAR-ROUND = 365 lcm 20;
+constant CALENDAR-ROUND     = 365 lcm 20 lcm 13;
+
 unit role Date::Calendar::MayaAztec:ver<0.0.2>:auth<cpan:JFORGET>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
@@ -30,23 +44,30 @@ method calendar-round-from-daycount($nb) {
   return $day, $month, $cle-num, $cle-idx;
 }
 
-method !check-ref-date(:$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+method !check-ref-date-and-normalize(:$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   my Int $count = 0;
-  for ( ($before      , 'before'      )
-      , ($on-or-before, 'on-or-before')
-      , ($after       , 'after'       )
-      , ($on-or-after , 'on-or-after' )
-      , ($nearest     , 'nearest'     ) ) -> ($var, $name) {
+  my Int $ref;
+  for ( ($before      , 'before'      , CALENDAR-ROUND)
+      , ($on-or-before, 'on-or-before', CALENDAR-ROUND - 1)
+      , ($after       , 'after'       , -1)
+      , ($on-or-after , 'on-or-after' , 0)
+      , ($nearest     , 'nearest'     , (CALENDAR-ROUND / 2).Int)
+      ) -> ($var, $name, $offset) {
     if $var.defined {
       ++$count;
       unless $var.can('daycount') {
         die "Parameter $name should be a Date object or a Date::Calendar::whatever object";
       }
-    }
-    if $count > 1 {
-      die "No more than one reference date";
+      $ref = $var.daycount - $offset;
     }
   }
+  if $count > 1 {
+    die "No more than one reference date";
+  }
+  if $count == 0 {
+    $ref = Date.today.daycount - (CALENDAR-ROUND / 2).Int;
+  }
+  return $ref;
 }
 
 =begin pod
