@@ -10,7 +10,7 @@ use Date::Calendar::Aztec::Cortes;
 # or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
 plan 6              # dates
-     × ( 9          # locale-independant methods
+     × ( 10         # locale-independant methods
         + 3 × 8)    # locales and locale-dependant methods
 ;
 
@@ -18,12 +18,14 @@ my Date::Calendar::Aztec $date1 .= new(month           =>  8
                                      , day             => 19
                                      , clerical-number =>  2
                                      , clerical-index  => 17
+				     , on-or-after     => Date.new(2000, 1, 1)
                                      , locale          => 'nah');
 
 my Date::Calendar::Aztec $date2 .= new(xiuhpohualli-index   =>  8
                                      , xiuhpohualli-number  => 19
                                      , tonalpohualli-number =>  2
                                      , tonalpohualli-index  => 17
+				     , on-or-before         => Date.new(2000, 1, 1)
                                      , locale               => 'nah');
 
 my Date::Calendar::Aztec         $d1 .= new-from-date(Date.new(1968, 3, 24));
@@ -39,6 +41,12 @@ for $date1, $date2, $d1, $d2, $d3, $dc -> $d {
   $d.locale = 'fr';
   testing-French($d);
 }
+is($date1.daycount, 58919);
+is($date2.daycount, 39939);
+is(   $d1.daycount, 39939);
+is(   $d2.daycount, 58919);
+is(   $d3.daycount, 77899);
+is(   $dc.daycount, 58916);
 
 done-testing;
 

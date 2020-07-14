@@ -6,6 +6,12 @@ use Date::Calendar::MayaAztec;
 
 unit role Date::Calendar::Aztec::Common:ver<0.0.2>:auth<cpan:JFORGET>;
 
+multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
+  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+  check-locale($locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+}
+
 multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah',
                     :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
@@ -69,8 +75,7 @@ sub check-locale(Str $locale) {
 }
 
 method new-from-daycount($nb) {
-  my ($day, $month, $clerical-num, $clerical-idx) = $.calendar-round-from-daycount($nb);
-  $.new( month => $month, day => $day, clerical-index => $clerical-idx, clerical-number => $clerical-num);
+  $.new(daycount => $nb);
 }
 
 method gist {
