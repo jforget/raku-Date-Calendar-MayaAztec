@@ -19,14 +19,16 @@ has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or 
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
 has Int $.clerical-number where { 1 ≤ $_ ≤ 13 }; # Tzolkin number or tonalpohualli number
 has Int $.clerical-index  where { 1 ≤ $_ ≤ 20 }; # Number equivalent of the Tzolkin name or tonalpohualli name
+has Int $.daycount;
 has Str $.locale is rw;
 
 
-method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {
+method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $daycount, Str $locale) {
   $!month           = $month;
   $!day             = $day;
   $!clerical-index  = $clerical-index;
   $!clerical-number = $clerical-number;
+  $!daycount        = $daycount;
   $!locale          = $locale;
 }
 
@@ -85,7 +87,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   # which translates as 1994-07-20, or "3-15 9-11", or "3-Quecholli 9-Ozomahtli"
   # The clerical number happens to be correct, but this is a coincidence and we do not take advantage of it.
   #
-  my ($ref-month, $ref-day, $ref-cle-num, $ref-cle-idx) = $.calendar-round-from-daycount($ref);
+  my ($ref-day, $ref-month, $ref-cle-num, $ref-cle-idx) = $.calendar-round-from-daycount($ref);
   my $q-ref = 20 × ($ref-month - 1) + $ref-day;
   my $q     = 20 × ($month     - 1) + $day;
   my $daycount = $ref + $q - $q-ref;
@@ -101,7 +103,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   my ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   while $cle-idx1 != $clerical-index {
     $daycount += VAGUE-YEAR;
-    ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
+    ($day1, $month1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   }
 
   # Fourth step: find the MJD with the proper month and day and clerical index and clerical number
@@ -115,7 +117,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   #   59043 (2020-07-13)  →  "3-15 9-1"  (3-Quecholli 9-Cipactli)
   while $cle-idx1 != $clerical-index {
     $daycount += SUB-CALENDAR-ROUND;
-    ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
+    ($day1, $month1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   }
 
 }

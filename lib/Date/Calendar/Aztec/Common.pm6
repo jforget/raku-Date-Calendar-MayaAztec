@@ -11,13 +11,19 @@ multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$c
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-build-args(    $month, $day, $clerical-index, $clerical-number, $locale);
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+  self!check-build-args($month, $day, $clerical-index, $clerical-number, $locale);
+  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
 }
 
-multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah') {
-  self!check-build-args(    $xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
-  self!build-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
+multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah',
+                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
+                                                , after   => $after,  on-or-after  => $on-or-after
+                                                , nearest => $nearest);
+  self!check-build-args($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
+  my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $ref);
+  self!build-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, 0, $locale);
 }
 
 method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {

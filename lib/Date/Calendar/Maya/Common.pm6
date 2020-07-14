@@ -9,7 +9,6 @@ has Int $.uinal  where { 0 ≤ $_ ≤ 17 };
 has Int $.tun    where { 0 ≤ $_ ≤ 19 };
 has Int $.katun  where { 0 ≤ $_ ≤ 19 };
 has Int $.baktun where { 0 ≤ $_ ≤ 19 };
-has Int $.daycount;
 
 multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
   # Checking values
@@ -21,7 +20,7 @@ multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
 
   # Building the object
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
@@ -34,7 +33,7 @@ multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   my ($baktun, $katun, $tun, $uinal, $kin)             =     $.long-count-from-daycount($daycount);
 
   # Building the object
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
@@ -50,7 +49,6 @@ method !build-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin
   $!tun      = $tun;
   $!uinal    = $uinal;
   $!kin      = $kin;
-  $!daycount = $daycount;
 }
 
 method daycount-from-long-count(Int $baktun, Int $katun, Int $tun, Int $uinal, Int $kin) {
