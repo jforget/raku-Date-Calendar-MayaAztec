@@ -75,8 +75,16 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   # -- using "on-or-after" instead of the 4 other modes
   # -- using MJD instead of a Date or Date::Calendar::xxx object.
   # Already done in check-ref-date-and-normalize
+  # For example, Finding "3-Quecholli 9-Cipactli" nearest to 2020-01-01 (MJD 58849) is the same
+  # as finding this date on or after  MJD 49359  (1994-01-07)
 
   # Second step: find the MJD with the proper month and day, without bothering with clerical index and number
+  #
+  # Example (continued): MJD 49359 is "9-5 10-17", that is, day 89 of the year, while the target
+  # is "3-15 9-1", that is, day 283 in the year. By adding 283 - 89 = 194, we obtain MJD 49553,
+  # which translates as 1994-07-20, or "3-15 9-11", or "3-Quecholli 9-Ozomahtli"
+  # The clerical number happens to be correct, but this is a coincidence and we do not take advantage of it.
+  #
   my ($ref-month, $ref-day, $ref-cle-num, $ref-cle-idx) = $.calendar-round-from-daycount($ref);
   my $q-ref = 20 × ($ref-month - 1) + $ref-day;
   my $q     = 20 × ($month     - 1) + $day;
@@ -86,8 +94,29 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   }
 
   # Third step: find the MJD with the proper month and day and clerical index without bothering with clerical number
+  #
+  # Example (continued): adding two vague years, we obtain the following:
+  #   49918 (1995-07-20)  →  "3-15 10-16" (3-Quecholli 10-Cozcacuauhtli)
+  #   50283 (1996-07-19)  →  "3-15 11-1"  (3-Quecholli 11-Cipactli)
+  my ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
+  while $cle-idx1 != $clerical-index {
+    $daycount += VAGUE-YEAR;
+    ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
+  }
 
   # Fourth step: find the MJD with the proper month and day and clerical index and clerical number
+  #
+  # Example (continued): adding 6 "sub calendar rounds", we obtain the following:
+  #   51743 (2000-07-18)  →  "3-15 2-1"  (3-Quecholli 2-Cipactli)
+  #   53203 (2004-07-17)  →  "3-15 6-1"  (3-Quecholli 6-Cipactli)
+  #   54663 (2008-07-16)  →  "3-15 10-1" (3-Quecholli 10-Cipactli)
+  #   56123 (2012-07-15)  →  "3-15 1-1"  (3-Quecholli 1-Cipactli)
+  #   57583 (2016-07-14)  →  "3-15 5-1"  (3-Quecholli 5-Cipactli)
+  #   59043 (2020-07-13)  →  "3-15 9-1"  (3-Quecholli 9-Cipactli)
+  while $cle-idx1 != $clerical-index {
+    $daycount += SUB-CALENDAR-ROUND;
+    ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
+  }
 
 }
 
