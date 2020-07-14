@@ -21,9 +21,12 @@ multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-build-args($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $locale);
-  my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, $ref);
-  self!build-calendar-round($xiuhpohualli-index, $xiuhpohualli-number, $tonalpohualli-index, $tonalpohualli-number, 0, $locale);
+  self!check-build-args($xiuhpohualli-index,  $xiuhpohualli-number
+                     , $tonalpohualli-index, $tonalpohualli-number, $locale);
+  my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
+                                                    , $tonalpohualli-index, $tonalpohualli-number, $ref);
+  self!build-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
+                         , $tonalpohualli-index, $tonalpohualli-number, $daycount, $locale);
 }
 
 method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {

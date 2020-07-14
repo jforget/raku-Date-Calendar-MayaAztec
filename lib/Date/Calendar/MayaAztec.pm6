@@ -115,10 +115,11 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   #   56123 (2012-07-15)  →  "3-15 1-1"  (3-Quecholli 1-Cipactli)
   #   57583 (2016-07-14)  →  "3-15 5-1"  (3-Quecholli 5-Cipactli)
   #   59043 (2020-07-13)  →  "3-15 9-1"  (3-Quecholli 9-Cipactli)
-  while $cle-idx1 != $clerical-index {
+  while $cle-num1 != $clerical-number {
     $daycount += SUB-CALENDAR-ROUND;
     ($day1, $month1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   }
+  return $daycount;
 
 }
 
