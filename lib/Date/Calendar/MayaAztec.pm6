@@ -70,6 +70,27 @@ method !check-ref-date-and-normalize(:$before, :$on-or-before, :$after, :$on-or-
   return $ref;
 }
 
+method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $ref) {
+  # First step: normalize the reference date
+  # -- using "on-or-after" instead of the 4 other modes
+  # -- using MJD instead of a Date or Date::Calendar::xxx object.
+  # Already done in check-ref-date-and-normalize
+
+  # Second step: find the MJD with the proper month and day, without bothering with clerical index and number
+  my ($ref-month, $ref-day, $ref-cle-num, $ref-cle-idx) = $.calendar-round-from-daycount($ref);
+  my $q-ref = 20 × ($ref-month - 1) + $ref-day;
+  my $q     = 20 × ($month     - 1) + $day;
+  my $daycount = $ref + $q - $q-ref;
+  if $q-ref > $q {
+    $daycount += VAGUE-YEAR;
+  }
+
+  # Third step: find the MJD with the proper month and day and clerical index without bothering with clerical number
+
+  # Fourth step: find the MJD with the proper month and day and clerical index and clerical number
+
+}
+
 =begin pod
 
 =head1 NAME
