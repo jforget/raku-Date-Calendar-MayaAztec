@@ -69,12 +69,6 @@ method new-from-daycount(Int $nb) {
   $.new(daycount => $nb);
 }
 
-method to-date($class = 'Date') {
-  # See "Learning Perl 6" page 177
-  my $d = ::($class).new-from-daycount($.daycount);
-  return $d;
-}
-
 method gist {
   $.long-count;
 }

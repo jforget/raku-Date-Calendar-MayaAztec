@@ -123,6 +123,12 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
 
 }
 
+method to-date($class = 'Date') {
+  # See "Learning Perl 6" page 177
+  my $d = ::($class).new-from-daycount($.daycount);
+  return $d;
+}
+
 =begin pod
 
 =head1 NAME

@@ -18,14 +18,14 @@ my Date::Calendar::Aztec $date1 .= new(month           =>  8
                                      , day             => 19
                                      , clerical-number =>  2
                                      , clerical-index  => 17
-				     , on-or-after     => Date.new(2000, 1, 1)
+                                     , on-or-after     => Date.new(2000, 1, 1)
                                      , locale          => 'nah');
 
 my Date::Calendar::Aztec $date2 .= new(xiuhpohualli-index   =>  8
                                      , xiuhpohualli-number  => 19
                                      , tonalpohualli-number =>  2
                                      , tonalpohualli-index  => 17
-				     , on-or-before         => Date.new(2000, 1, 1)
+                                     , on-or-before         => Date.new(2000, 1, 1)
                                      , locale               => 'nah');
 
 my Date::Calendar::Aztec         $d1 .= new-from-date(Date.new(1968, 3, 24));

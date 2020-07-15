@@ -44,11 +44,11 @@ And in the other direction
 use Date::Calendar::Aztec;
 my Date $reference  .= new(2020, 1, 1);
 my Date::Calendar::Aztec
-        $d-aztec .= new(month	    	=> 13
-	             ,  day  	    	=> 20
-		     ,  clerical-index  => 18
-		     ,  clerical-number => 12
-		     ,  on-or-after     => $reference);
+        $d-aztec .= new(month           => 13
+                     ,  day             => 20
+                     ,  clerical-index  => 18
+                     ,  clerical-number => 12
+                     ,  on-or-after     => $reference);
 my Date $d-greg = $d-aztec.to-date('Date');
 say $d-greg;
 # --> 2020-06-20
@@ -209,6 +209,52 @@ for English and C<'fr'> for French.
 This method gives a string containing several attributes listed above.
 It is similar  to the homonymous function in other  languages. See the
 L<strftime Specifiers> paragraph below.
+
+=head2 Other Methods
+
+=head3 to-date
+
+Clones  the   date  into   a  core  class   C<Date>  object   or  some
+C<Date::Calendar::>R<xxx> compatible calendar  class. The target class
+name is given  as a positional parameter. This  parameter is optional,
+the default value is C<"Date"> for the Gregorian calendar.
+
+To convert a date from a  calendar to another, you have two conversion
+styles,  a "push"  conversion and  a "pull"  conversion. For  example,
+while converting  "11 Calli 5  Quecholli" to the  French Revolutionary
+calendar, you can code:
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Aztec;
+use Date::Calendar::FrenchRevolutionary;
+
+my  Date::Calendar::Aztec               $d-orig;
+my  Date::Calendar::FrenchRevolutionary $d-dest-push;
+my  Date::Calendar::FrenchRevolutionary $d-dest-pull;
+
+$d-orig .= new(month => 15, day => 5, clerical-number => 11, clerical-index => 3);
+$d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary");
+$d-dest-pull .= new-from-date($d-orig);
+
+=end code
+
+When converting  I<from> the core  class C<Date>, use the  pull style.
+When converting I<to> the core class C<Date>, use the push style. When
+converting from any class other than  C<Date> to any other class other
+than   C<Date>,   use   the    style   you   prefer.   This   includes
+C<Date::Calendar::Gregorian>, a child class to the core class C<Date>.
+
+Even  if both  calendars use  a C<locale>  attribute, when  a date  is
+created by  the conversion  of another  date, it  is created  with the
+default  locale. If  you  want the  locale to  be  transmitted in  the
+conversion, you should add this line:
+
+=begin code :lang<perl6>
+
+$d-dest-pull.locale = $d-orig.locale;
+
+=end code
 
 =head2 strftime Specifiers
 
