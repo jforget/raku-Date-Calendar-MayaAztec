@@ -8,8 +8,10 @@ my @tests-ooa     = load-ooa();
 my @tests-after   = load-after();
 my @tests-oob     = load-oob();
 my @tests-before  = load-before();
+my @tests-Cortes  = load-Cortes();
 
-plan @tests-nearest.elems + @tests-ooa.elems + @tests-after.elems + @tests-oob.elems + @tests-before.elems;
+plan @tests-nearest.elems + @tests-ooa.elems + @tests-after.elems
+                          + @tests-oob.elems + @tests-before.elems + @tests-Cortes.elems;
 
 for @tests-nearest -> $data {
   my ($ref, $month, $day, $cle-num, $cle-idx, $result) = $data;
@@ -61,6 +63,16 @@ for @tests-before -> $data {
   is($dg, $result, $da.strftime("%e %B %V %A before $ref should be $result"));
 }
 
+for @tests-Cortes -> $data {
+  my ($ref, $month, $day, $cle-num, $cle-idx, $result) = $data;
+  my Date::Calendar::Aztec::Cortes $da .= new(month => $month, day => $day
+                                            , clerical-number => $cle-num
+                                            , clerical-index  => $cle-idx
+                                            , nearest         => Date.new($ref));
+  my Date $dg = $da.to-date;
+  is($dg, $result, $da.strftime("%e %B %V %A (Cortes correlation) nearest to $ref should be $result"));
+}
+
 sub load-nearest {
   return (
       ('2001-01-01', 15,  5, 11,  3, '2020-07-15')
@@ -69,6 +81,9 @@ sub load-nearest {
     , ('1994-07-23', 15,  5, 11,  3, '2020-07-15')
     , ('2046-07-09', 15,  5, 11,  3, '2020-07-15')
     , ('2046-07-10', 15,  5, 11,  3, '2072-07-02')
+    , ('2001-01-01', 19,  1,  9, 19, '2020-09-29')
+    , ('2001-01-01', 19,  5, 13,  3, '2020-10-03')
+    , ('2001-01-01',  1,  1,  1,  4, '2020-10-04')
   );
 }
 
@@ -107,5 +122,15 @@ sub load-before {
     , ('2001-01-01',  5,  5, 13,  8, '1949-01-14')
     , ('2000-12-31',  5,  4, 12,  7, '1949-01-13')
     , ('2000-12-31',  5,  5, 13,  8, '1949-01-14')
+  );
+}
+
+sub load-Cortes {
+  return (
+      ('2001-01-01', 15,  8,  1,  6, '2020-07-15')
+    , ('2001-01-01', 15,  9,  2,  7, '2020-07-16')
+    , ('2001-01-01', 19,  1,  9, 19, '2020-09-26')
+    , ('2001-01-01', 19,  5, 13,  3, '2020-09-30')
+    , ('2001-01-01',  1,  1,  1,  4, '2020-10-01')
   );
 }
