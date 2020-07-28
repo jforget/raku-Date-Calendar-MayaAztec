@@ -37,6 +37,42 @@ multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
+multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'yua',
+                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  # Checking values
+  check-locale($locale);
+  my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
+                                                , after   => $after,  on-or-after  => $on-or-after
+                                                , nearest => $nearest);
+  self!check-calendar-round($month, $day, $clerical-index, $clerical-number);
+
+  # Computing derived attributes
+  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref);
+  my ($baktun, $katun, $tun, $uinal, $kin) = $.long-count-from-daycount($daycount);
+
+  # Building the object
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
+}
+
+multi method BUILD(Int:D :$haab-index, Int:D :$haab-number, Int:D :$tzolkin-index, Int:D :$tzolkin-number, Str :$locale = 'yua',
+                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  # Checking values
+  check-locale($locale);
+  my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
+                                                , after   => $after,  on-or-after  => $on-or-after
+                                                , nearest => $nearest);
+  self!check-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number);
+
+  # Computing derived attributes
+  my Int $daycount = self!daycount-from-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $ref);
+  my ($baktun, $katun, $tun, $uinal, $kin) = $.long-count-from-daycount($daycount);
+
+  # Building the object
+  self!build-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $daycount, $locale);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
+}
+
 sub check-locale(Str $locale) {
   unless Date::Calendar::Maya::Names::allowed-locale($locale) {
     X::Invalid::Value.new(:method<BUILD>, :name<locale>, :value($locale)).throw;
@@ -136,6 +172,10 @@ method year-bearer {
 # Maya days are numbered 0 to 19 in the civil calendar, while Aztec days are numbered 1 to 20
 method day-nb-begin-with {
   0;
+}
+
+method compat-day-clerical-idx {
+  3;
 }
 
 # For any correlation, the Maya Epoch is 4 Ahau 8 Cumku and the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl.

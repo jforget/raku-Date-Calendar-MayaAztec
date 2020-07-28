@@ -72,6 +72,44 @@ method !check-ref-date-and-normalize(:$before, :$on-or-before, :$after, :$on-or-
   return $ref;
 }
 
+method !check-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number) {
+
+  unless 1 ≤ $month ≤ 19 {
+    X::OutOfRange.new(:what<Month>, :got($month), :range<1..19>).throw;
+  }
+
+  my Int $min = $.day-nb-begin-with;
+  my Int $max;
+  my Str $range;
+  if $month ≤ 18 {
+    $max = $min + 19;
+    $range = "$min..$max";
+    unless $min ≤ $day ≤ $max {
+      X::OutOfRange.new(:what<Day>, :got($day), :range($range)).throw;
+    }
+  }
+  else {
+    $max = $min + 4;
+    $range = "$min..$max";
+    unless $min ≤ $day ≤ $max {
+      X::OutOfRange.new(:what<Day>, :got($day), :range($range)).throw;
+    }
+  }
+
+  # check clerical values
+  unless 1 ≤ $clerical-index ≤ 20 {
+    X::OutOfRange.new(:what<Clerical-Index>, :got($clerical-index), :range<1..20>).throw;
+  }
+  unless 1 ≤ $clerical-number ≤ 13 {
+    X::OutOfRange.new(:what<Clerical-Number>, :got($clerical-number), :range<1..13>).throw;
+  }
+
+  # check compatibility between civil values and clerical values
+  unless ($day - $clerical-index) % 5 == $.compat-day-clerical-idx {
+    die "Clerical index $clerical-index is incompatible with the day number $day";
+  }
+}
+
 method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $ref) {
   # First step: normalize the reference date
   # -- using "on-or-after" instead of the 4 other modes

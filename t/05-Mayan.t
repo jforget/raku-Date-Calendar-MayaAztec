@@ -8,7 +8,7 @@ use Date::Calendar::Maya::Astronomical;
 # see http://research.famsi.org/date_mayaLC.php
 # or checking 2020-03-12 with the Spinden correlation
 
-plan 4              # dates
+plan 6              # dates
      × ( 10         # locale-independant methods
         + 3 × 10)   # locales and locale-dependant methods
 ;
@@ -17,8 +17,18 @@ my Date::Calendar::Maya               $d1 .= new-from-date(Date.new(2020, 3, 11)
 my Date::Calendar::Maya               $d2 .= new(long-count => '13.0.7.5.17');
 my Date::Calendar::Maya::Spinden      $d3 .= new-from-date(Date.new(1760, 5, 14));
 my Date::Calendar::Maya::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
+my Date::Calendar::Maya               $d5 .= new(month           => 18
+                                               , day             =>  5
+                                               , clerical-number =>  2
+                                               , clerical-index  => 17
+                                               , on-or-after     => Date.new('2001-01-01'));
+my Date::Calendar::Maya               $d6 .= new(haab-index     => 18
+                                               , haab-number    =>  5
+                                               , tzolkin-number =>  2
+                                               , tzolkin-index  => 17
+                                               , on-or-after    => Date.new('2001-01-01'));
 
-for $d1, $d2, $d3, $d4 -> $d {
+for $d1, $d2, $d3, $d4, $d5, $d6 -> $d {
   testing-calendar-round($d);
   testing-Yucatec($d);
   $d.locale = 'en';
