@@ -14,58 +14,27 @@ multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
 
 multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah',
                     :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-build-args($month, $day, $clerical-index, $clerical-number, $locale);
+  self!check-calendar-round($month, $day, $clerical-index, $clerical-number);
   my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref);
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
 }
 
 multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah',
                     :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-build-args($xiuhpohualli-index,  $xiuhpohualli-number
-                     , $tonalpohualli-index, $tonalpohualli-number, $locale);
+  self!check-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
+                         , $tonalpohualli-index, $tonalpohualli-number);
   my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
                                                     , $tonalpohualli-index, $tonalpohualli-number, $ref);
   self!build-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
                          , $tonalpohualli-index, $tonalpohualli-number, $daycount, $locale);
-}
-
-method !check-build-args(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Str $locale) {
-
-  unless 1 ≤ $month ≤ 19 {
-    X::OutOfRange.new(:what<Month>, :got($month), :range<1..19>).throw;
-  }
-
-  if $month ≤ 18 {
-    unless 1 ≤ $day ≤ 20 {
-      X::OutOfRange.new(:what<Day>, :got($day), :range<1..20>).throw;
-    }
-  }
-  else {
-    unless 1 ≤ $day ≤ 5 {
-      X::OutOfRange.new(:what<Day>, :got($day), :range<1..5>).throw;
-    }
-  }
-
-  # check clerical values
-  unless 1 ≤ $clerical-index ≤ 20 {
-    X::OutOfRange.new(:what<Clerical-Index>, :got($clerical-index), :range<1..20>).throw;
-  }
-  unless 1 ≤ $clerical-number ≤ 13 {
-    X::OutOfRange.new(:what<Clerical-Number>, :got($clerical-number), :range<1..13>).throw;
-  }
-
-  # check compatibility between civil values and clerical values: TODO
-  unless ($day - $clerical-index) % 5 == 2 {
-    die "Clerical index $clerical-index is incompatible with the day number $day";
-  }
-
-  check-locale($locale);
 }
 
 sub check-locale(Str $locale) {
@@ -142,6 +111,10 @@ method year-bearer {
 # Aztec days are numbered 1 to 20 in the civil calendar, while Maya days are numbered 0 to 19
 method day-nb-begin-with {
   1;
+}
+
+method compat-day-clerical-idx {
+  2;
 }
 
 # For any correlation, the Aztec Epoch is 4 Xochitl 2 Huei Tecuilhuitl and the Maya Epoch is 4 Ahau 8 Cumku.
