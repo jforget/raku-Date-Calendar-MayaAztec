@@ -6,7 +6,7 @@ use Test;
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
 
-plan 26;
+plan 36;
 
 my  Date::Calendar::Maya  $dt-m;
 my  Date::Calendar::Aztec $dt-a;
@@ -20,6 +20,17 @@ dies-ok(  { $dt-m .= new(long-count => '13.0.0.1.20', locale => 'en'); }, "Wrong
 dies-ok(  { $dt-m .= new(long-count => '13.0.0.1.1a', locale => 'en'); }, "Wrong tun");
 dies-ok(  { $dt-m .= new(long-count => '13.0.0.0.0',  locale => 'xx'); }, "Bad locale");
 lives-ok( { $dt-m .= new(long-count => '13.0.0.0.0',  locale => 'en'); }, "Good locale");
+dies-ok(  { $dt-m .= new(month => 20, day => 18, clerical-number =>  7, clerical-index => 15); }, "Maya calendar round: Wrong month");
+dies-ok(  { $dt-m .= new(month =>  0, day => 18, clerical-number =>  7, clerical-index => 15); }, "Maya calendar round: Wrong month");
+dies-ok(  { $dt-m .= new(month =>  9, day => -1, clerical-number =>  7, clerical-index => 15); }, "Maya calendar round: Wrong day");
+dies-ok(  { $dt-m .= new(month =>  9, day => 20, clerical-number =>  7, clerical-index => 15); }, "Maya calendar round: Wrong day");
+dies-ok(  { $dt-m .= new(month =>  9, day => 18, clerical-number =>  0, clerical-index => 15); }, "Maya calendar round: Wrong clerical number");
+dies-ok(  { $dt-m .= new(month =>  9, day => 18, clerical-number => 14, clerical-index => 15); }, "Maya calendar round: Wrong clerical number");
+dies-ok(  { $dt-m .= new(month =>  9, day => 18, clerical-number =>  7, clerical-index =>  0); }, "Maya calendar round: Wrong clerical index");
+dies-ok(  { $dt-m .= new(month =>  9, day => 18, clerical-number =>  7, clerical-index => 21); }, "Maya calendar round: Wrong clerical index");
+dies-ok(  { $dt-m .= new(month =>  9, day => 18, clerical-number =>  7, clerical-index => 16); }, "Maya calendar round: clerical index incompatible with day number");
+lives-ok( { $dt-m .= new(month =>  9, day => 18, clerical-number =>  7, clerical-index => 15); }, "Maya calendar round: fine");
+
 dies-ok(  { $dt-a .= new(month => 20, day => 17, clerical-number =>  7, clerical-index => 15); }, "Aztec: Wrong month");
 dies-ok(  { $dt-a .= new(month =>  0, day => 17, clerical-number =>  7, clerical-index => 15); }, "Aztec: Wrong month");
 dies-ok(  { $dt-a .= new(month =>  9, day =>  0, clerical-number =>  7, clerical-index => 15); }, "Aztec: Wrong day");
