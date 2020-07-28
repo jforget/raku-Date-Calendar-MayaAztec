@@ -79,7 +79,7 @@ instead of 365.24.
 
 =head2 Object Creation
 
-=head3 new
+=head3 new (long count)
 
 Build a  Maya date by giving  a string containing the  long count. The
 method accepts two keyword parameters:
@@ -93,6 +93,60 @@ component which is in the 0..17 range.
 displayed.  For the  moment,  you  can use  C<'yua'>  for the  Yucatec
 language,  C<'en'> for  the  English language  and  C<'fr'> a  partial
 support of the French language.
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Maya;
+my Date::Calendar::Maya $d-maya .= new(long-count => '13.0.7.12.15'
+                                     , locale     => 'yua');
+
+=end code
+
+=head3 new (calendar round)
+
+Maya dates can be created by  providing the Haab and Tzolikn numerical
+values. You can use English keywords  or Yucatec keywords. Here is the
+equivalence between them.
+
+  month            haab-index
+  day              haab-number
+  clerical-index   tzolkin-index
+  clerical-number  tzolkin-number
+
+Since the  calendar round values  cannot determine a unique  date, you
+should add a  reference date (from the core C<Date>  class or from any
+C<Class::Calendar::>R<xxx>   class),   tagged  with   a   relationship
+C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
+The  reason why  is explained  in the  B<Issues> chapter,  B<Rollover>
+subchapter below. By default, the c<new> method will use:
+
+=begin code :lang<perl6>
+
+  nearest => Date.today,
+
+=end code
+
+In  addition, you  can provide  the optional  parameter C<locale>.  By
+default, it will be C<'yua'> for Yucatec.
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Maya;
+my Date::Calendar::Maya $d-maya1 .= new(month           => 15
+                                      , day             => 18
+                                      , clerical-number => 11
+                                      , clerical-index  => 16
+                                      , locale          => 'yua'
+                                      , on-or-after     => Date.new('2001-01-01'));
+
+my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 15         # for Quecholli
+                                      , haab-number    => 18
+                                      , tzolkin-number => 11
+                                      , tzolkin-index  => 16         # For Cozcacuauhtli
+                                      , locale         => 'yua'
+                                      , nearest        => Date.new('2020-08-01'));
+
+=end code
 
 =head3 new-from-date
 
@@ -229,15 +283,17 @@ $d-dest-pull .= new-from-date($d-orig);
 
 =end code
 
-When converting I<from> Gregorian, use the pull style. When converting
-I<to> Gregorian, use the push style. When converting from any calendar
-other than Gregorian  to any other calendar other  than Gregorian, use
-the style you prefer.
+When converting  I<from> the core  class C<Date>, use the  pull style.
+When converting I<to> the core class C<Date>, use the push style. When
+converting from  any class other  than the  core class C<Date>  to any
+other  class other  than the  core class  C<Date>, use  the style  you
+prefer. This includes the  class C<Date::Calendar::Gregorian>, a child
+class to the core class C<Date>.
 
-Even  if both  calendars use  a C<locale>  attribute, when  a date  is
-created by  the conversion  of another  date, it  is created  with the
-default  locale. If  you  want the  locale to  be  transmitted in  the
-conversion, you should add this line:
+Even if both classes use a C<locale> attribute, when a date is created
+by the  conversion of  another date,  it is  created with  the default
+locale. If  you want the locale  to be transmitted in  the conversion,
+you should add this line:
 
 =begin code :lang<perl6>
 
@@ -460,6 +516,9 @@ computing the year bearer for additional days as for the normal days.
 
 L<Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
+
+L<Date::Calendar::Gregorian>
+or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
 L<Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>

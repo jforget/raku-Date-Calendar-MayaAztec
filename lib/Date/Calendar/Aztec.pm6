@@ -475,6 +475,9 @@ real definition? I have decided to stick with it.
 L<Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
+L<Date::Calendar::Gregorian>
+or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
+
 L<Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
