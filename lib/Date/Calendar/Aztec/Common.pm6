@@ -23,8 +23,9 @@ multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$c
   self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
 }
 
-multi method BUILD(Int:D :$xiuhpohualli-index, Int:D :$xiuhpohualli-number, Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah',
-                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+multi method BUILD(Int:D  :$xiuhpohualli-index, Int:D  :$xiuhpohualli-number
+                 , Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah'
+                 , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
@@ -124,12 +125,12 @@ method epoch-doy {
   161;
 }
 
-method specific-format { %(  A => { $.tonalpohualli-name },
+method specific-format { %(  A => { $.tonalpohualli-name   },
                              F => Nil,
-                             G => { $.year-bearer },
-                             u => { $.tonalpohualli-index },
+                             G => { $.year-bearer          },
+                             u => { $.tonalpohualli-index  },
                              V => { $.tonalpohualli-number },
-                             Y => { $.year-bearer },
+                             Y => { $.year-bearer          },
                             ) }
 
 =begin pod

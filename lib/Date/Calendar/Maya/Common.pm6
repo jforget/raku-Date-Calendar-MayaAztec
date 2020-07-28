@@ -55,8 +55,9 @@ multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$c
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
-multi method BUILD(Int:D :$haab-index, Int:D :$haab-number, Int:D :$tzolkin-index, Int:D :$tzolkin-number, Str :$locale = 'yua',
-                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+multi method BUILD(Int:D    :$haab-index, Int:D    :$haab-number
+                 , Int:D :$tzolkin-index, Int:D :$tzolkin-number, Str :$locale = 'yua'
+                 , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   # Checking values
   check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
@@ -197,12 +198,12 @@ sub parse-long-count(Str $long-count) {
   return $0.map( { + $_ } );
 }
 
-method specific-format { %(  A => { $.tzolkin-name },
-                             F => { $.long-count },
-                             G => { $.year-bearer },
-                             u => { $.tzolkin-index },
+method specific-format { %(  A => { $.tzolkin-name   },
+                             F => { $.long-count     },
+                             G => { $.year-bearer    },
+                             u => { $.tzolkin-index  },
                              V => { $.tzolkin-number },
-                             Y => { $.year-bearer },
+                             Y => { $.year-bearer    },
                             ) }
 
 =begin pod
