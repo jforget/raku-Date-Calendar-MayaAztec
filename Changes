@@ -2,6 +2,7 @@ Revision history for Date-Calendar-MayaAztec
 
 0.0.2 released on...
     - Add a C<daycount> attribute to the Aztec dates, to allow programs to convert I<from> Aztec calendar to other calendars.
+    - Add a method to build Aztec and Maya dates from the calendar round values.
 
 0.0.1 released on 0 Pop 9 Caban, the first day of the new Haab year, or 13.0.7.6.17,
       or 9 Ollin 19 Huei Tecuilhuitl, or Tuesday 31 March 2020

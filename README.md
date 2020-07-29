@@ -17,9 +17,9 @@ say $d-greg;
 # --> 2012-12-21 (for 21st December 2012)
 ```
 
-The  Perl and  Raku conference  in North  America will  take place  in
-Houston,  starting on  2020-06-20. What  does the  southern neighbours
-call this date?
+The Perl  and Raku conference in  North America was scheduled  to take
+place  in Houston,  starting  on 2020-06-20.  What  does the  southern
+neighbours call this date?
 
 ```perl6
 use Date::Calendar::Maya;

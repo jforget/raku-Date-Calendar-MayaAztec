@@ -132,17 +132,17 @@ default, it will be C<'yua'> for Yucatec.
 =begin code :lang<perl6>
 
 use Date::Calendar::Maya;
-my Date::Calendar::Maya $d-maya1 .= new(month           => 15
-                                      , day             => 18
+my Date::Calendar::Maya $d-maya1 .= new(month           =>  6         # for Xul
+                                      , day             => 19
                                       , clerical-number => 11
-                                      , clerical-index  => 16
+                                      , clerical-index  => 16         # For Cib
                                       , locale          => 'yua'
                                       , on-or-after     => Date.new('2001-01-01'));
 
-my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 15         # for Quecholli
-                                      , haab-number    => 18
+my Date::Calendar::Maya $d-maya2 .= new(haab-index     =>  6         # for Xul
+                                      , haab-number    => 19
                                       , tzolkin-number => 11
-                                      , tzolkin-index  => 16         # For Cozcacuauhtli
+                                      , tzolkin-index  => 16         # For Cib
                                       , locale         => 'yua'
                                       , nearest        => Date.new('2020-08-01'));
 
