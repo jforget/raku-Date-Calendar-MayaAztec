@@ -4,7 +4,7 @@ use v6.c;
 use Date::Calendar::Aztec::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Aztec::Common:ver<0.0.2>:auth<cpan:JFORGET>;
+unit role Date::Calendar::Aztec::Common:ver<0.0.3>:auth<cpan:JFORGET>;
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);

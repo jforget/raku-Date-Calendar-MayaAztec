@@ -4,7 +4,7 @@ use Date::Calendar::Strftime;
 use Date::Calendar::MayaAztec;
 use Date::Calendar::Maya::Common;
 
-unit class Date::Calendar::Maya:ver<0.0.2>:auth<cpan:JFORGET>
+unit class Date::Calendar::Maya:ver<0.0.3>:auth<cpan:JFORGET>
       does Date::Calendar::MayaAztec
       does Date::Calendar::Maya::Common
       does Date::Calendar::Strftime;
