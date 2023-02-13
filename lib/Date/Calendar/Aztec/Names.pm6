@@ -5,8 +5,8 @@ unit module Date::Calendar::Aztec::Names:ver<0.0.3>:auth<cpan:JFORGET>;
 
 my %day-names = 'nah' => qw/
                            Cipactli      Ehecatl   Calli   Cuetzpalin Coatl
-                           Miquizti      Mazatl    Tochtli Atl        Itzcuintli
-                           Ozomahtli     Malinalli Acatl   Ocelot     Cuauhtli
+                           Miquiztli     Mazatl    Tochtli Atl        Itzcuintli
+                           Ozomahtli     Malinalli Acatl   Ocelotl    Cuauhtli
                            Cozcacuauhtli Ollin     Tecpatl Quiahuitl  Xochitl
                            /
               , 'en'  => qw/
@@ -125,7 +125,7 @@ Jean Forget <JFORGET@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020 Jean Forget
+Copyright © 2020, 2023 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

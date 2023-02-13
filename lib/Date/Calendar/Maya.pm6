@@ -104,7 +104,7 @@ my Date::Calendar::Maya $d-maya .= new(long-count => '13.0.7.12.15'
 
 =head3 new (calendar round)
 
-Maya dates can be created by  providing the Haab and Tzolikn numerical
+Maya dates can be created by  providing the Haab and Tzolkin numerical
 values. You can use English keywords  or Yucatec keywords. Here is the
 equivalence between them.
 
@@ -526,8 +526,17 @@ or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 L<Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
+L<Date::Calendar::Hijri>
+or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
+
+L<Date::Calendar::Persian>
+or L<https://github.com/jforget/raku-Date-Calendar-Persian>
+
 L<Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
+
+L<Date::Calendar::Bahai>
+or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
 L<Date::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
@@ -574,7 +583,7 @@ Jean Forget <JFORGET@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020 Jean Forget
+Copyright © 2020, 2023 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.
