@@ -13,7 +13,7 @@ constant VAGUE-YEAR         = 365;
 constant SUB-CALENDAR-ROUND = 365 lcm 20;
 constant CALENDAR-ROUND     = 365 lcm 20 lcm 13;
 
-unit role Date::Calendar::MayaAztec:ver<0.0.3>:auth<cpan:JFORGET>;
+unit role Date::Calendar::MayaAztec:ver<0.0.3>:auth<zef:jforget>:api<0>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
@@ -214,6 +214,9 @@ L<Date::Calendar::Aztec>.
 L<Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
+L<Date::Calendar::Gregorian>
+or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
+
 L<Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
@@ -225,6 +228,15 @@ or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
 L<Date::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
+
+L<Date::Calendar::Hijri>
+or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
+
+L<Date::Calendar::Persian>
+or L<https://github.com/jforget/raku-Date-Calendar-Persian>
+
+L<Date::Calendar::Bahai>
+or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
 =head2 Perl 5 Software
 
@@ -270,11 +282,11 @@ L<http://research.famsi.org/date_mayaLC.php>
 
 =head1 AUTHOR
 
-Jean Forget <JFORGET@cpan.org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020, 2023 Jean Forget
+Copyright (c) 2020, 2023, 2024 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

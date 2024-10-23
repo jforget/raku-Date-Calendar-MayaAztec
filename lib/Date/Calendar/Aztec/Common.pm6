@@ -4,7 +4,7 @@ use v6.c;
 use Date::Calendar::Aztec::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Aztec::Common:ver<0.0.3>:auth<cpan:JFORGET>;
+unit role Date::Calendar::Aztec::Common:ver<0.0.3>:auth<zef:jforget>:api<0>;
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
@@ -149,11 +149,11 @@ C<Date::Calendar::Aztec>.
 
 =head1 AUTHOR
 
-Jean Forget <JFORGET at cpan dot org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020, 2023 Jean Forget, all rights reserved
+Copyright (c) 2020, 2023, 2024 Jean Forget
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

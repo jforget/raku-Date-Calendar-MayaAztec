@@ -2,7 +2,7 @@ use v6.c;
 use Date::Calendar::Maya::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Maya::Common:ver<0.0.3>:auth<cpan:JFORGET>;
+unit role Date::Calendar::Maya::Common:ver<0.0.3>:auth<zef:jforget>:api<0>;
 
 has Int $.kin    where { 0 ≤ $_ ≤ 19 };
 has Int $.uinal  where { 0 ≤ $_ ≤ 17 };
@@ -221,11 +221,11 @@ See the full documentation in the main class, C<Date::Calendar::Maya>.
 
 =head1 AUTHOR
 
-Jean Forget <JFORGET at cpan dot org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020, 2023 Jean Forget, all rights reserved
+Copyright (c) 2020, 2023, 2024 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

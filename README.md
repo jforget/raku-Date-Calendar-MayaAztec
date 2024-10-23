@@ -67,12 +67,12 @@ zef install .
 AUTHOR
 ======
 
-Jean Forget <JFORGET@cpan.org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright © 2020, 2023 Jean Forget
+Copyright (c) 2020, 2023, 2024 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

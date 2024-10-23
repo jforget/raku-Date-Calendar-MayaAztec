@@ -1,6 +1,9 @@
 Revision history for Date-Calendar-MayaAztec
 
 0.0.3 released on ...
+    - add an "api" property to the classes
+    - migration from CPAN6 to zef
+    - fewer t/*.t tests and adding xt/*.t tests
 
 0.0.2 released on 1 Yaskin 13 Etznab 13.0.7.12.18, or 20 Quecholli 13 Tecpatl, or Thursday 30 July 2020
     - Add a C<daycount> attribute to the Aztec dates, to allow programs to convert I<from> Aztec calendar to other calendars.

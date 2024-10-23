@@ -1,7 +1,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 use v6.c;
 
-unit module Date::Calendar::Maya::Names:ver<0.0.3>:auth<cpan:JFORGET>;
+unit module Date::Calendar::Maya::Names:ver<0.0.3>:auth<zef:jforget>:api<0>;
 
 my %day-names = 'yua' => qw/ Imix      Ik    Akbal  Kan    Chicchan
                              Cimi      Manik Lamat  Muluc  Oc
@@ -112,11 +112,11 @@ The French names come from L<https://icalendrier.fr/calendriers-saga/calendriers
 
 =head1 AUTHOR
 
-Jean Forget <JFORGET@cpan.org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2020, 2023 Jean Forget
+Copyright (c) 2020, 2023, 2024 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

@@ -1,5 +1,6 @@
 {
-  "auth" : "cpan:JFORGET",
+  "api"     : "0",
+  "auth"    : "zef:jforget",
   "authors" : [
     "Jean Forget"
   ],
@@ -26,7 +27,7 @@
   "resources" : [ ],
   "source-url" : "https://github.com/jforget/raku-Date-Calendar-MayaAztec.git",
   "support" : {
-    "email" : "JFORGET@cpan.org"
+    "email" : "J2N-FORGET@orange.fr"
   },
   "tags" : [
       "date"
