@@ -465,7 +465,9 @@ calendar>.
 This class  assumes that days  are midnight to midnight.  According to
 Reingold and  Dershowitz, we suppose  that actually the Haab  days are
 sunrise to sunrise and that the Tzolkin days are sunset to sunset. But
-this is only a supposition.
+this is only a supposition. On the other hand, Reingold and Dershowitz
+do not give any supposition, much less any definite information, about
+the beginning of loung count days.
 
 =head2 Baktun Numbering
 

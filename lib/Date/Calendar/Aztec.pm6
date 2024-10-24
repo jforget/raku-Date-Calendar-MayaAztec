@@ -291,7 +291,7 @@ January to 31st  December". In the Aztec calendar,  which notion keeps
 the  same value  from 1  Izcalli until  5 Nemontemi?  The year  bearer
 which, therefore,  can uniquely identify  a year, within  some limits.
 More precisely, within a calendar round (52 years), the year bearer is
-a unique  identifier for the  Haab year.  So the C<%Y>  specifier will
+a unique identifier for the xiuhpohualli year. So the C<%Y> specifier will
 print the  year bearer. On the  other hand, identifying the  year with
 its year bearer  is flawed with a rollover problem  similar to the Y2K
 bug, except that it occurs every  52 years instead of every 100 years.
