@@ -1,6 +1,6 @@
 Revision history for Date-Calendar-MayaAztec
 
-0.0.3 released on ...
+0.0.3 released on 13 Chiccan 8 Zac 13.0.12.0.5, or 13 Coatl 2 Atlcahualo, or Thursday 24 October 2024
     - add an "api" property to the classes
     - migration from CPAN6 to zef
     - fewer t/*.t tests and adding xt/*.t tests
