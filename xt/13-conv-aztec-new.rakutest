@@ -1,0 +1,132 @@
+#
+# Checking the conversions with newer 0.1.x modules
+#
+
+use v6.d;
+use Test;
+use lib '../version-new/lib';
+use lib 'lib';
+use Date::Calendar::Strftime:ver<0.1.0>;
+use Date::Calendar::Aztec;
+use Date::Calendar::Aztec::Cortes;
+use Date::Calendar::Bahai;
+use Date::Calendar::Bahai::Astronomical;
+use Date::Calendar::Coptic;
+use Date::Calendar::Ethiopic;
+use Date::Calendar::Hebrew;
+use Date::Calendar::Hijri;
+use Date::Calendar::Gregorian;
+use Date::Calendar::FrenchRevolutionary;
+use Date::Calendar::FrenchRevolutionary::Arithmetic;
+use Date::Calendar::FrenchRevolutionary::Astronomical;
+use Date::Calendar::Julian;
+use Date::Calendar::Julian::AUC;
+use Date::Calendar::Maya;
+use Date::Calendar::Maya::Astronomical;
+use Date::Calendar::Maya::Spinden;
+use Date::Calendar::Persian;
+use Date::Calendar::Persian::Astronomical;
+
+my $ver-az = '0.1.0';
+my @data  = (
+       (14, 13, 17,  1, before-sunrise, 'ba', "Jamál 11 Rah 0178 ☾"       , "13 Tepeilhuitl 1 Ollin ☾"           , "Gregorian: 2021-07-04")
+     , (14, 14, 17,  1, daylight,       'ba', "Jamál 11 Rah 0178 ☼"       , "14 Tepeilhuitl 1 Ollin ☼"           , "Gregorian: 2021-07-04")
+     , (14, 14, 18,  2, after-sunset,   'ba', "Kamál 12 Rah 0178 ☽"       , "14 Tepeilhuitl 2 Tecpatl ☽"         , "Gregorian: 2021-07-04")
+     , ( 1, 13, 17,  5, before-sunrise, 'be', "ʻIdál 02 Ilm 0181 ☾"       , "13 Izcalli 5 Ollin ☾"               , "Gregorian: 2024-10-16")
+     , ( 1, 14, 17,  5, daylight,       'be', "ʻIdál 02 Ilm 0181 ☼"       , "14 Izcalli 5 Ollin ☼"               , "Gregorian: 2024-10-16")
+     , ( 1, 14, 18,  6, after-sunset,   'be', "Istijlál 03 Ilm 0181 ☽"    , "14 Izcalli 6 Tecpatl ☽"             , "Gregorian: 2024-10-16")
+     , ( 8,  6, 20,  6, before-sunrise, 'co', "Pesnau 20 Mes 1739 ☾"      , " 6 Tecuilhuitontli 6 Xochitl ☾"     , "Gregorian: 2023-02-27")
+     , ( 8,  7, 20,  6, daylight,       'co', "Pesnau 20 Mes 1739 ☼"      , " 7 Tecuilhuitontli 6 Xochitl ☼"     , "Gregorian: 2023-02-27")
+     , ( 8,  7,  1,  7, after-sunset,   'co', "Pshoment 21 Mes 1739 ☽"    , " 7 Tecuilhuitontli 7 Cipactli ☽"    , "Gregorian: 2023-02-27")
+     , (10,  4, 13,  4, before-sunrise, 'et', "Hamus 28 Mag 2014 ☾"       , " 4 Tlaxochimaco 4 Acatl ☾"          , "Gregorian: 2022-04-06")
+     , (10,  5, 13,  4, daylight,       'et', "Hamus 28 Mag 2014 ☼"       , " 5 Tlaxochimaco 4 Acatl ☼"          , "Gregorian: 2022-04-06")
+     , (10,  5, 14,  5, after-sunset,   'et', "Arb 29 Mag 2014 ☽"         , " 5 Tlaxochimaco 5 Ocelotl ☽"        , "Gregorian: 2022-04-06")
+     , (18,  4,  3, 10, before-sunrise, 'fr', "Septidi 27 Fru 0232 ☾"     , " 4 Tititl 10 Calli ☾"               , "Gregorian: 2024-09-12")
+     , (18,  5,  3, 10, daylight,       'fr', "Septidi 27 Fru 0232 ☼"     , " 5 Tititl 10 Calli ☼"               , "Gregorian: 2024-09-12")
+     , (18,  5,  4, 11, after-sunset,   'fr', "Septidi 27 Fru 0232 ☽"     , " 5 Tititl 11 Cuetzpalin ☽"          , "Gregorian: 2024-09-12")
+     , (16, 10, 19, 13, before-sunrise, 'fa', "Tridi 23 The 0230 ☾"       , "10 Panquetzaliztli 13 Quiahuitl ☾"  , "Gregorian: 2022-08-10")
+     , (16, 11, 19, 13, daylight,       'fa', "Tridi 23 The 0230 ☼"       , "11 Panquetzaliztli 13 Quiahuitl ☼"  , "Gregorian: 2022-08-10")
+     , (16, 11, 20,  1, after-sunset,   'fa', "Tridi 23 The 0230 ☽"       , "11 Panquetzaliztli 1 Xochitl ☽"     , "Gregorian: 2022-08-10")
+     , (13, 20, 14,  3, before-sunrise, 'fe', "Duodi 02 Mes 0231 ☾"       , "20 Teotleco 3 Ocelotl ☾"            , "Gregorian: 2023-06-21")
+     , (14,  1, 14,  3, daylight,       'fe', "Duodi 02 Mes 0231 ☼"       , " 1 Tepeilhuitl 3 Ocelotl ☼"         , "Gregorian: 2023-06-21")
+     , (14,  1, 15,  4, after-sunset,   'fe', "Duodi 02 Mes 0231 ☽"       , " 1 Tepeilhuitl 4 Cuauhtli ☽"        , "Gregorian: 2023-06-21")
+     , ( 3,  1,  5,  7, before-sunrise, 'gr', "Wednesday 13 Nov 2024 ☾"   , " 1 Tlacaxipehualiztli 7 Coatl ☾"    , "Gregorian: 2024-11-13")
+     , ( 3,  2,  5,  7, daylight,       'gr', "Wednesday 13 Nov 2024 ☼"   , " 2 Tlacaxipehualiztli 7 Coatl ☼"    , "Gregorian: 2024-11-13")
+     , ( 3,  2,  6,  8, after-sunset,   'gr', "Wednesday 13 Nov 2024 ☽"   , " 2 Tlacaxipehualiztli 8 Miquiztli ☽", "Gregorian: 2024-11-13")
+     , ( 2, 13, 12, 11, before-sunrise, 'he', "Yom Sheni 22 Hes 5784 ☾"   , "13 Atlcahualo 11 Malinalli ☾"       , "Gregorian: 2023-11-06")
+     , ( 2, 14, 12, 11, daylight,       'he', "Yom Sheni 22 Hes 5784 ☼"   , "14 Atlcahualo 11 Malinalli ☼"       , "Gregorian: 2023-11-06")
+     , ( 2, 14, 13, 12, after-sunset,   'he', "Yom Shlishi 23 Hes 5784 ☽" , "14 Atlcahualo 12 Acatl ☽"           , "Gregorian: 2023-11-06")
+     , ( 8, 20,  4,  5, before-sunrise, 'hi', "Yaum al-Sabt 29 Raj 1442 ☾", "20 Tecuilhuitontli 5 Cuetzpalin ☾"  , "Gregorian: 2021-03-13")
+     , ( 9,  1,  4,  5, daylight,       'hi', "Yaum al-Sabt 29 Raj 1442 ☼", " 1 Huei Tecuilhuitl 5 Cuetzpalin ☼" , "Gregorian: 2021-03-13")
+     , ( 9,  1,  5,  6, after-sunset,   'hi', "Yaum al-Ahad 30 Raj 1442 ☽", " 1 Huei Tecuilhuitl 6 Coatl ☽"      , "Gregorian: 2021-03-13")
+     , (19,  1, 20,  1, before-sunrise, 'jl', "Sunday 16 Sep 2024 ☾"      , " 1 Nemontemi 1 Xochitl ☾"           , "Gregorian: 2024-09-29")
+     , (19,  2, 20,  1, daylight,       'jl', "Sunday 16 Sep 2024 ☼"      , " 2 Nemontemi 1 Xochitl ☼"           , "Gregorian: 2024-09-29")
+     , (19,  2,  1,  2, after-sunset,   'jl', "Sunday 16 Sep 2024 ☽"      , " 2 Nemontemi 2 Cipactli ☽"          , "Gregorian: 2024-09-29")
+     , (16,  3,  2,  8, before-sunrise, 'jc', "Friday 20 Jul 2777 ☾"      , " 3 Panquetzaliztli 8 Ehecatl ☾"     , "Gregorian: 2024-08-02")
+     , (16,  4,  2,  8, daylight,       'jc', "Friday 20 Jul 2777 ☼"      , " 4 Panquetzaliztli 8 Ehecatl ☼"     , "Gregorian: 2024-08-02")
+     , (16,  4,  3,  9, after-sunset,   'jc', "Friday 20 Jul 2777 ☽"      , " 4 Panquetzaliztli 9 Calli ☽"       , "Gregorian: 2024-08-02")
+     , ( 3, 14,  8,  5, before-sunrise, 'pe', "Yek-shanbe 06 Aza 1401 ☾"  , "14 Tlacaxipehualiztli 5 Tochtli ☾"  , "Gregorian: 2022-11-27")
+     , ( 3, 15,  8,  5, daylight,       'pe', "Yek-shanbe 06 Aza 1401 ☼"  , "15 Tlacaxipehualiztli 5 Tochtli ☼"  , "Gregorian: 2022-11-27")
+     , ( 3, 15,  9,  6, after-sunset,   'pe', "Yek-shanbe 06 Aza 1401 ☽"  , "15 Tlacaxipehualiztli 6 Atl ☽"      , "Gregorian: 2022-11-27")
+     , (19,  3,  7, 13, before-sunrise, 'pa', "Shanbe 10 Meh 1400 ☾"      , " 3 Nemontemi 13 Mazatl ☾"           , "Gregorian: 2021-10-02")
+     , (19,  4,  7, 13, daylight,       'pa', "Shanbe 10 Meh 1400 ☼"      , " 4 Nemontemi 13 Mazatl ☼"           , "Gregorian: 2021-10-02")
+     , (19,  4,  8,  1, after-sunset,   'pa', "Shanbe 10 Meh 1400 ☽"      , " 4 Nemontemi 1 Tochtli ☽"           , "Gregorian: 2021-10-02")
+
+            );
+
+my %class =   a0 => 'Date::Calendar::Aztec'
+            , a1 => 'Date::Calendar::Aztec::Cortes'
+            , ba => 'Date::Calendar::Bahai'
+            , be => 'Date::Calendar::Bahai::Astronomical'
+            , gr => 'Date::Calendar::Gregorian'
+            , co => 'Date::Calendar::Coptic'
+            , et => 'Date::Calendar::Ethiopic'
+            , fr => 'Date::Calendar::FrenchRevolutionary'
+            , fa => 'Date::Calendar::FrenchRevolutionary::Arithmetic'
+            , fe => 'Date::Calendar::FrenchRevolutionary::Astronomical'
+            , he => 'Date::Calendar::Hebrew'
+            , hi => 'Date::Calendar::Hijri'
+            , jl => 'Date::Calendar::Julian'
+            , jc => 'Date::Calendar::Julian::AUC'
+            , m0 => 'Date::Calendar::Maya'
+            , m1 => 'Date::Calendar::Maya::Astronomical'
+            , m2 => 'Date::Calendar::Maya::Spinden'
+            , pe => 'Date::Calendar::Persian'
+            , pa => 'Date::Calendar::Persian::Astronomical'
+            ;
+
+plan 12 × @data.elems;
+
+my Date $d-ref .= new('2019-01-01');
+for (@data) -> $datum {
+  my ($month, $day, $idx, $nbr, $daypart, $cal, $str2, $str3, $result) = $datum;
+  my Date::Calendar::Aztec $d1 .= new(month => $month, day => $day, clerical-index => $idx, clerical-number => $nbr, daypart => $daypart, after => $d-ref);
+
+  # push-push
+  my $d2 = $d1.to-date(%class{$cal});
+  is($d2.strftime("%A %d %b %Y %Ep"), $str2, "testing push with $str2");
+  is($d2.^ver.Str.substr(0, 4), '0.1.');
+  my $d3 = $d2.to-date(%class<a0>);
+  is($d3.strftime("%e %B %V %A %Ep"), $str3, "testing push-push to $str2 and $str3, $result");
+  is($d3.^ver, $ver-az);
+
+  # push-pull
+  my Date::Calendar::Aztec $d4 .= new-from-date($d2);
+  is($d4.strftime("%e %B %V %A %Ep"), $str3, "testing push-pull to $str2 and $str3, $result");
+  is($d4.^ver, $ver-az);
+
+  # pull-push
+  my $d5 = ::(%class{$cal}).new-from-date($d1);
+  is($d5.strftime("%A %d %b %Y %Ep"), $str2, "testing pull with $str2");
+  is($d5.^ver.Str.substr(0, 4), '0.1.');
+  my $d6 = $d5.to-date(%class<a0>);
+  is($d6.strftime("%e %B %V %A %Ep"), $str3, "testing pull-push to $str2 and $str3, $result");
+  is($d6.^ver, $ver-az);
+
+  # pull-pull
+  my Date::Calendar::Aztec $d7 .= new-from-date($d5);
+  is($d7.strftime("%e %B %V %A %Ep"), $str3, "testing pull-pull to $str2 and $str3, $result");
+  is($d7.^ver, $ver-az);
+}
+
+done-testing;

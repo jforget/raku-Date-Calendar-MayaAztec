@@ -1,5 +1,6 @@
 use v6.d;
 use Test;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Aztec;
 use Date::Calendar::Aztec::Cortes;
 
@@ -10,7 +11,7 @@ use Date::Calendar::Aztec::Cortes;
 # or checking 1968-03-24 with the Caso correlation (1 calendar round earlier)
 
 plan 6              # dates
-     × ( 10         # locale-independant methods
+     × ( 11         # locale-independant methods
         + 3 × 8)    # locales and locale-dependant methods
 ;
 
@@ -60,6 +61,7 @@ sub testing-calendar-round($date) {
   is($date.tonalpohualli-index , 17);
   is($date.xiuhpohualli-number , 19);
   is($date.strftime("%a %b %c %d %e %f %F %j %m %u %V"), "%a %b %c 19 19  8 %F 159 08 17 2");
+  is($date.daypart             , daylight);
 }
 
 sub testing-Nahuatl($date) {

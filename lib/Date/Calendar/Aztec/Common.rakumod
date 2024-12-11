@@ -1,41 +1,49 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
 use v6.d;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Aztec::Names;
 use Date::Calendar::MayaAztec;
 
 unit role Date::Calendar::Aztec::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
-multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
-  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+multi method BUILD(Int:D :$daycount, Str :$locale = 'nah', Int :$daypart = daylight()) {
+  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount, $daypart);
   check-locale($locale);
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale, $daypart);
 }
 
-multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'nah',
-                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number
+                 , Str   :$locale  = 'nah'
+                 , Int   :$daypart = daylight()
+                 , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-calendar-round($month, $day, $clerical-index, $clerical-number);
-  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref);
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+  self!check-calendar-round($month, $day, $clerical-index, $clerical-number, $daypart);
+  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref, $daypart);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale, $daypart);
 }
 
 multi method BUILD(Int:D  :$xiuhpohualli-index, Int:D  :$xiuhpohualli-number
-                 , Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number, Str :$locale = 'nah'
+                 , Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number
+		 , Str   :$locale = 'nah'
+                 , Int   :$daypart = daylight()
                  , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
   self!check-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
-                         , $tonalpohualli-index, $tonalpohualli-number);
+                         , $tonalpohualli-index, $tonalpohualli-number
+			 , $daypart);
   my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
-                                                    , $tonalpohualli-index, $tonalpohualli-number, $ref);
+                                                    , $tonalpohualli-index, $tonalpohualli-number
+						    , $ref, $daypart);
   self!build-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
-                         , $tonalpohualli-index, $tonalpohualli-number, $daycount, $locale);
+                         , $tonalpohualli-index, $tonalpohualli-number, $daycount
+			 , $locale, $daypart);
 }
 
 sub check-locale(Str $locale) {
@@ -44,8 +52,8 @@ sub check-locale(Str $locale) {
   }
 }
 
-method new-from-daycount($nb) {
-  $.new(daycount => $nb);
+method new-from-daycount(Int $nb, Int :$daypart = daylight) {
+  $.new(daycount => $nb, daypart => $daypart);
 }
 
 method gist {

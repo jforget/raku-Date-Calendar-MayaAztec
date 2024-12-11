@@ -1,0 +1,167 @@
+#
+# Checking the conversions with older 0.0.x modules
+#
+
+use v6.d;
+use Test;
+use lib '../version-old/lib';
+use lib 'lib';
+use Date::Calendar::Strftime:ver<0.1.0>;
+use Date::Calendar::Aztec;
+use Date::Calendar::Aztec::Cortes;
+use Date::Calendar::Bahai;
+use Date::Calendar::Bahai::Astronomical;
+use Date::Calendar::Coptic;
+use Date::Calendar::Ethiopic;
+use Date::Calendar::Hebrew;
+use Date::Calendar::Hijri;
+use Date::Calendar::Gregorian;
+use Date::Calendar::FrenchRevolutionary;
+use Date::Calendar::FrenchRevolutionary::Arithmetic;
+use Date::Calendar::FrenchRevolutionary::Astronomical;
+use Date::Calendar::Julian;
+use Date::Calendar::Julian::AUC;
+use Date::Calendar::Maya;
+use Date::Calendar::Maya::Astronomical;
+use Date::Calendar::Maya::Spinden;
+use Date::Calendar::Persian;
+use Date::Calendar::Persian::Astronomical;
+
+my @data-greg = (
+       (12,  7,  5,  7, before-sunrise, 'gr', "Wednesday 13 Nov 2024"   , " 8 Ceh 7 Chicchan ☼"  , "2024-11-13 shift civil date"   , '2024-11-13')
+     , (12,  8,  5,  7, daylight,       'gr', "Wednesday 13 Nov 2024"   , " 8 Ceh 7 Chicchan ☼"  , "2024-11-13 no problem"         , '2024-11-13')
+     , (12,  8,  6,  8, after-sunset,   'gr', "Wednesday 13 Nov 2024"   , " 8 Ceh 7 Chicchan ☼"  , "2024-11-13 shift clerical date", '2024-11-13')
+            );
+
+my @data-others = (
+       ( 5, 14, 17,  1, before-sunrise, 'ba', "Jamál 11 Rah 0178"       , "15 Tzec 1 Caban ☼"    , "2021-07-04 shift civil date")
+     , ( 5, 15, 17,  1, daylight,       'ba', "Jamál 11 Rah 0178"       , "15 Tzec 1 Caban ☼"    , "2021-07-04 no problem")
+     , ( 5, 15, 18,  2, after-sunset,   'ba', "Jamál 11 Rah 0178"       , "15 Tzec 1 Caban ☼"    , "2021-07-04 shift clerical date")
+     , (10, 19, 17,  5, before-sunrise, 'be', "ʻIdál 02 Ilm 0181"       , " 0 Zac 5 Caban ☼"     , "2024-10-16 shift civil date")
+     , (11,  0, 17,  5, daylight,       'be', "ʻIdál 02 Ilm 0181"       , " 0 Zac 5 Caban ☼"     , "2024-10-16 no problem")
+     , (11,  0, 18,  6, after-sunset,   'be', "ʻIdál 02 Ilm 0181"       , " 0 Zac 5 Caban ☼"     , "2024-10-16 shift clerical date")
+     , (17, 12, 20,  6, before-sunrise, 'co', "Pesnau 20 Mes 1739"      , "13 Kayab 6 Ahau ☼"    , "2023-02-27 shift civil date")
+     , (17, 13, 20,  6, daylight,       'co', "Pesnau 20 Mes 1739"      , "13 Kayab 6 Ahau ☼"    , "2023-02-27 no problem")
+     , (17, 13,  1,  7, after-sunset,   'co', "Pesnau 20 Mes 1739"      , "13 Kayab 6 Ahau ☼"    , "2023-02-27 shift clerical date")
+     , ( 1,  5, 13,  4, before-sunrise, 'et', "Hamus 28 Mag 2014"       , " 6 Pop 4 Ben ☼"       , "2022-04-06 shift civil date")
+     , ( 1,  6, 13,  4, daylight,       'et', "Hamus 28 Mag 2014"       , " 6 Pop 4 Ben ☼"       , "2022-04-06 no problem")
+     , ( 1,  6, 14,  5, after-sunset,   'et', "Hamus 28 Mag 2014"       , " 6 Pop 4 Ben ☼"       , "2022-04-06 shift clerical date")
+     , ( 9,  5,  3, 10, before-sunrise, 'fr', "Septidi 27 Fru 0232"     , " 6 Chen 10 Akbal ☼"   , "2024-09-12 shift civil date")
+     , ( 9,  6,  3, 10, daylight,       'fr', "Septidi 27 Fru 0232"     , " 6 Chen 10 Akbal ☼"   , "2024-09-12 no problem")
+     , ( 9,  6,  4, 11, after-sunset,   'fr', "Septidi 27 Fru 0232"     , " 6 Chen 10 Akbal ☼"   , "2024-09-12 shift clerical date")
+     , ( 7, 11, 19, 13, before-sunrise, 'fa', "Tridi 23 The 0230"       , "12 Yaskin 13 Cauac ☼" , "2022-08-10 shift civil date")
+     , ( 7, 12, 19, 13, daylight,       'fa', "Tridi 23 The 0230"       , "12 Yaskin 13 Cauac ☼" , "2022-08-10 no problem")
+     , ( 7, 12, 20,  1, after-sunset,   'fa', "Tridi 23 The 0230"       , "12 Yaskin 13 Cauac ☼" , "2022-08-10 shift clerical date")
+     , ( 5,  1, 14,  3, before-sunrise, 'fe', "Duodi 02 Mes 0231"       , " 2 Tzec 3 Ix ☼"       , "2023-06-21 shift civil date")
+     , ( 5,  2, 14,  3, daylight,       'fe', "Duodi 02 Mes 0231"       , " 2 Tzec 3 Ix ☼"       , "2023-06-21 no problem")
+     , ( 5,  2, 15,  4, after-sunset,   'fe', "Duodi 02 Mes 0231"       , " 2 Tzec 3 Ix ☼"       , "2023-06-21 shift clerical date")
+     , (11, 19, 12, 11, before-sunrise, 'he', "Yom Sheni 22 Hes 5784"   , " 0 Ceh 11 Eb ☼"       , "2023-11-06 shift civil date")
+     , (12,  0, 12, 11, daylight,       'he', "Yom Sheni 22 Hes 5784"   , " 0 Ceh 11 Eb ☼"       , "2023-11-06 no problem")
+     , (12,  0, 13, 12, after-sunset,   'he', "Yom Sheni 22 Hes 5784"   , " 0 Ceh 11 Eb ☼"       , "2023-11-06 shift clerical date")
+     , (18,  6,  4,  5, before-sunrise, 'hi', "Yaum al-Sabt 29 Raj 1442", " 7 Cumku 5 Kan ☼"     , "2021-03-13 shift civil date")
+     , (18,  7,  4,  5, daylight,       'hi', "Yaum al-Sabt 29 Raj 1442", " 7 Cumku 5 Kan ☼"     , "2021-03-13 no problem")
+     , (18,  7,  5,  6, after-sunset,   'hi', "Yaum al-Sabt 29 Raj 1442", " 7 Cumku 5 Kan ☼"     , "2021-03-13 shift clerical date")
+     , (10,  2, 20,  1, before-sunrise, 'jl', "Sunday 16 Sep 2024"      , " 3 Yax 1 Ahau ☼"      , "2024-09-29 shift civil date")
+     , (10,  3, 20,  1, daylight,       'jl', "Sunday 16 Sep 2024"      , " 3 Yax 1 Ahau ☼"      , "2024-09-29 no problem")
+     , (10,  3,  1,  2, after-sunset,   'jl', "Sunday 16 Sep 2024"      , " 3 Yax 1 Ahau ☼"      , "2024-09-29 shift clerical date")
+     , ( 7,  4,  2,  8, before-sunrise, 'jc', "Friday 20 Jul 2777"      , " 5 Yaskin 8 Ik ☼"     , "2024-08-02 shift civil date")
+     , ( 7,  5,  2,  8, daylight,       'jc', "Friday 20 Jul 2777"      , " 5 Yaskin 8 Ik ☼"     , "2024-08-02 no problem")
+     , ( 7,  5,  3,  9, after-sunset,   'jc', "Friday 20 Jul 2777"      , " 5 Yaskin 8 Ik ☼"     , "2024-08-02 shift clerical date")
+     , (13,  0,  8,  5, before-sunrise, 'pe', "Yek-shanbe 06 Aza 1401"  , " 1 Mac 5 Lamat ☼"     , "2022-11-27 shift civil date")
+     , (13,  1,  8,  5, daylight,       'pe', "Yek-shanbe 06 Aza 1401"  , " 1 Mac 5 Lamat ☼"     , "2022-11-27 no problem")
+     , (13,  1,  9,  6, after-sunset,   'pe', "Yek-shanbe 06 Aza 1401"  , " 1 Mac 5 Lamat ☼"     , "2022-11-27 shift clerical date")
+     , (10,  4,  7, 13, before-sunrise, 'pa', "Shanbe 10 Meh 1400"      , " 5 Yax 13 Manik ☼"    , "2021-10-02 shift civil date")
+     , (10,  5,  7, 13, daylight,       'pa', "Shanbe 10 Meh 1400"      , " 5 Yax 13 Manik ☼"    , "2021-10-02 no problem")
+     , (10,  5,  8,  1, after-sunset,   'pa', "Shanbe 10 Meh 1400"      , " 5 Yax 13 Manik ☼"    , "2021-10-02 shift clerical date")
+            );
+
+my %class =   a0 => 'Date::Calendar::Aztec'
+            , a1 => 'Date::Calendar::Aztec::Cortes'
+            , ba => 'Date::Calendar::Bahai'
+            , be => 'Date::Calendar::Bahai::Astronomical'
+            , gr => 'Date::Calendar::Gregorian'
+            , co => 'Date::Calendar::Coptic'
+            , et => 'Date::Calendar::Ethiopic'
+            , fr => 'Date::Calendar::FrenchRevolutionary'
+            , fa => 'Date::Calendar::FrenchRevolutionary::Arithmetic'
+            , fe => 'Date::Calendar::FrenchRevolutionary::Astronomical'
+            , he => 'Date::Calendar::Hebrew'
+            , hi => 'Date::Calendar::Hijri'
+            , jl => 'Date::Calendar::Julian'
+            , jc => 'Date::Calendar::Julian::AUC'
+            , m0 => 'Date::Calendar::Maya'
+            , m1 => 'Date::Calendar::Maya::Astronomical'
+            , m2 => 'Date::Calendar::Maya::Spinden'
+            , pe => 'Date::Calendar::Persian'
+            , pa => 'Date::Calendar::Persian::Astronomical'
+            ;
+
+my %ver   =   a0 => '0.0.3'
+            , a1 => '0.0.3'
+            , ba => '0.0.2'
+            , pe => '0.0.2'
+            , be => '0.0.2'
+            , co => '0.0.3'
+            , et => '0.0.3'
+            , fr => '0.0.6'
+            , fa => '0.0.6'
+            , fe => '0.0.6'
+            , gr => '0.0.2'
+            , he => '0.0.4'
+            , hi => '0.0.2'
+            , jl => '0.0.4'
+            , jc => '0.0.4'
+            , m0 => '0.0.3'
+            , m1 => '0.0.3'
+            , m2 => '0.0.3'
+            , pe => '0.0.2'
+            , pa => '0.0.2'
+            ;
+
+plan 15 × @data-greg.elems + 12 × @data-others.elems;
+
+my Date $d-ref .= new('2019-01-01');
+for (|@data-greg, |@data-others) -> $datum {
+  my ($month, $day, $idx, $nbr, $daypart, $cal, $str2, $str3, $result) = $datum;
+  my Date::Calendar::Maya $d1 .= new(month => $month, day => $day, clerical-index => $idx, clerical-number => $nbr, daypart => $daypart, after => $d-ref);
+
+  # push-push
+  my $d2 = $d1.to-date(%class{$cal});
+  is($d2.strftime("%A %d %b %Y"), $str2, "testing push to $str2");
+  is($d2.^ver, %ver{$cal});
+  my $d3 = $d2.to-date(%class<m0>);
+  is($d3.strftime("%e %B %V %A %Ep"), $str3, "testing push-push to $str2 and $str3, $result");
+  is($d3.^ver.Str.substr(0, 4), '0.1.');
+
+  # push-pull
+  my Date::Calendar::Maya $d4 .= new-from-date($d2);
+  is($d4.strftime("%e %B %V %A %Ep"), $str3, "testing push-pull to $str2 and $str3, $result");
+  is($d4.^ver.Str.substr(0, 4), '0.1.');
+
+  # pull-push
+  my $d5 = ::(%class{$cal}).new-from-date($d1);
+  is($d5.strftime("%A %d %b %Y"), $str2, "testing pull to $str2");
+  is($d5.^ver, %ver{$cal});
+  my $d6 = $d5.to-date(%class<m0>);
+  is($d6.strftime("%e %B %V %A %Ep"), $str3, "testing pull-push to $str2 and $str3, $result");
+  is($d6.^ver.Str.substr(0, 4), '0.1.');
+
+  # pull-pull
+  my Date::Calendar::Maya $d7 .= new-from-date($d5);
+  is($d7.strftime("%e %B %V %A %Ep"), $str3, "testing pull-pull to $str2 and $str3, $result");
+  is($d7.^ver.Str.substr(0, 4), '0.1.');
+}
+
+# Conversion with core class Date: only push-pull tests
+for (@data-greg) -> $datum {
+  my ($month, $day, $idx, $nbr, $daypart, $cal, $str2, $str3, $result, $str4) = $datum;
+  my Date::Calendar::Maya $d1 .= new(month => $month, day => $day, clerical-index => $idx, clerical-number => $nbr, daypart => $daypart, after => $d-ref);
+
+  my $d2 = $d1.to-date('Date');
+  is($d2.gist, $str4, "testing push from $day-$month $nbr-$idx to $str4");
+  my Date::Calendar::Maya $d3 .= new-from-date($d2);
+  is($d3.strftime("%e %B %V %A %Ep"), $str3, "testing push-pull from $day-$month $nbr-$idx to Gregorian $str4 and then $str3, $result");
+  is($d3.^ver.Str.substr(0, 4), '0.1.');
+}
+
+done-testing;

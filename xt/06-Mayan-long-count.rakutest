@@ -3,13 +3,14 @@ use Test;
 use Date::Calendar::Maya;
 use Date::Calendar::Maya::Spinden;
 use Date::Calendar::Maya::Astronomical;
+use Date::Calendar::Strftime:api<1>;
 
 # Checking 2020-03-11 with the Goodman Martinez Thompson correlation
 # see http://research.famsi.org/date_mayaLC.php
 # or checking 1760-05-14 with the Spinden correlation
 # or checking 2020-03-13 with the Astronomical correlation
 
-plan 5     # dates
+plan 7     # dates
      × 7   # locale-independant methods
 ;
 
@@ -17,9 +18,11 @@ my Date::Calendar::Maya               $d1 .= new-from-date(Date.new(2020, 3, 11)
 my Date::Calendar::Maya               $d2 .= new(long-count => '13.0.7.5.17');
 my Date::Calendar::Maya::Spinden      $d3 .= new-from-date(Date.new(1760, 5, 14));
 my Date::Calendar::Maya::Astronomical $d4 .= new-from-date(Date.new(2020, 3, 13));
-my Date::Calendar::Maya               $d5 .= new(month => 18, day => 5, clerical-index => 17, clerical-number => 2);
+my Date::Calendar::Maya               $d5 .= new(month => 18, day => 4, clerical-index => 17, clerical-number => 2, daypart => before-sunrise);
+my Date::Calendar::Maya               $d6 .= new(month => 18, day => 5, clerical-index => 17, clerical-number => 2);
+my Date::Calendar::Maya               $d7 .= new(month => 18, day => 5, clerical-index => 18, clerical-number => 3, daypart => after-sunset);
 
-for $d1, $d2, $d3, $d4, $d5 -> $date {
+for $d1, $d2, $d3, $d4, $d5, $d6, $d7 -> $date {
   is($date.baktun    , 13);
   is($date.katun     ,  0);
   is($date.tun       ,  7);

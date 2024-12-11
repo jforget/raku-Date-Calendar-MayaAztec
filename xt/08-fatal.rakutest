@@ -5,8 +5,9 @@ use v6.d;
 use Test;
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
+use Date::Calendar::Strftime:api<1>;
 
-plan 36;
+plan 54;
 
 my  Date::Calendar::Maya  $dt-m;
 my  Date::Calendar::Aztec $dt-a;
@@ -57,3 +58,45 @@ dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical
                                 after => $dt-ref, before => $dt-ref, nearset      => $dt-ref); }, "Aztec: several reference dates, wrong");
 dies-ok(  { $dt-a .= new(month =>  9, day => 17, clerical-number =>  7, clerical-index => 15,
                                                                  on-or-after => '2001-01-01'); }, "Aztec: improper reference date");
+
+#                           nbr idx             day month
+# 2023-11-13 before sunrise   7 Chicchan          7 Ceh
+#            daylight         7 Chicchan          8 Ceh
+#            after sunset     8 Cimi              8 Ceh
+
+my Int $day-prior = 7;
+my Int $day       = 8;
+my Int $nbr       = 7;
+my Int $nbr-next  = 8;
+my Int $idx       = 5;
+my Int $idx-next  = 6;
+lives-ok( { $dt-m .= new(month => 12, day =>  $day-prior, clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => before-sunrise); }, "Maya calendar round before sunrise: fine");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => before-sunrise); }, "Maya calendar round before sunrise: wrong day number");
+lives-ok( { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => daylight)      ; }, "Maya calendar round in daylight: fine");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day-prior, clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => daylight)      ; }, "Maya calendar round in daylight: wrong day number");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx-next, daypart => daylight)      ; }, "Maya calendar round in daylight: wrong clerical values");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx-next, daypart => daylight)      ; }, "Maya calendar round in daylight: wrong clerical index");
+lives-ok( { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx-next, daypart => after-sunset)  ; }, "Maya calendar round after sunset: fine");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => after-sunset)  ; }, "Maya calendar round after sunset: wrong clerical values");
+dies-ok(  { $dt-m .= new(month => 12, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx     , daypart => after-sunset)  ; }, "Maya calendar round after sunset: wrong clerical index");
+
+#                           nbr idx             day month
+# 2023-11-13 before sunrise   7 Coatl             1 Tlacaxipehualiztli
+#            daylight         7 Coatl             2 Tlacaxipehualiztli
+#            after sunset     8 Miquiztli         2 Tlacaxipehualiztli
+
+$day-prior = 1;
+$day       = 2;
+$nbr       = 7;
+$nbr-next  = 8;
+$idx       = 5;
+$idx-next  = 6;
+lives-ok( { $dt-a .= new(month => 3, day =>  $day-prior, clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => before-sunrise); }, "Aztec calendar round before sunrise: fine");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => before-sunrise); }, "Aztec calendar round before sunrise: wrong day number");
+lives-ok( { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => daylight)      ; }, "Aztec calendar round in daylight: fine");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day-prior, clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => daylight)      ; }, "Aztec calendar round in daylight: wrong day number");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx-next, daypart => daylight)      ; }, "Aztec calendar round in daylight: wrong clerical values");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx-next, daypart => daylight)      ; }, "Aztec calendar round in daylight: wrong clerical index");
+lives-ok( { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx-next, daypart => after-sunset)  ; }, "Aztec calendar round after sunset: fine");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr     , clerical-index =>  $idx     , daypart => after-sunset)  ; }, "Aztec calendar round after sunset: wrong clerical values");
+dies-ok(  { $dt-a .= new(month => 3, day =>  $day      , clerical-number =>  $nbr-next, clerical-index =>  $idx     , daypart => after-sunset)  ; }, "Aztec calendar round after sunset: wrong clerical index");

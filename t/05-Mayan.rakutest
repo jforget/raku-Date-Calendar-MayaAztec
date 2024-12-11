@@ -1,5 +1,6 @@
 use v6.d;
 use Test;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Maya;
 use Date::Calendar::Maya::Spinden;
 use Date::Calendar::Maya::Astronomical;
@@ -9,7 +10,7 @@ use Date::Calendar::Maya::Astronomical;
 # or checking 2020-03-12 with the Spinden correlation
 
 plan 6              # dates
-     × ( 10         # locale-independant methods
+     × ( 11         # locale-independant methods
         + 3 × 10)   # locales and locale-dependant methods
 ;
 
@@ -50,6 +51,7 @@ sub testing-calendar-round($date) {
   is($date.year-bearer-number  ,  8);
   is($date.year-bearer-index   , 12);
   is($date.strftime("%a %b %c %d %e %f %F %j %m %u %V"), "%a %b %c 05  5 18 13.0.7.5.17 345 18 17 2");
+  is($date.daypart             , daylight);
 }
 
 sub testing-Yucatec($date) {

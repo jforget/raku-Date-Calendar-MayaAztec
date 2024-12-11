@@ -1,4 +1,5 @@
 use v6.d;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Maya::Names;
 use Date::Calendar::MayaAztec;
 
@@ -10,67 +11,71 @@ has Int $.tun    where { 0 ≤ $_ ≤ 19 };
 has Int $.katun  where { 0 ≤ $_ ≤ 19 };
 has Int $.baktun where { 0 ≤ $_ ≤ 19 };
 
-multi method BUILD(Str:D :$long-count, Str :$locale = 'yua') {
+multi method BUILD(Str:D :$long-count, Str :$locale = 'yua', Int :$daypart = daylight()) {
   # Checking values
   my ($baktun, $katun, $tun, $uinal, $kin) =  parse-long-count($long-count);
   check-locale($locale);
 
   # Computing derived attributes
   my $daycount = $.daycount-from-long-count($baktun, $katun, $tun, $uinal, $kin);
-  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount, $daypart);
 
   # Building the object
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale, $daypart);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
-multi method BUILD(Int:D :$daycount, Str :$locale = 'yua') {
+multi method BUILD(Int:D :$daycount, Str :$locale = 'yua', Int :$daypart = daylight()) {
   # Checking values
   check-locale($locale);
 
   # Computing derived attributes
-  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);
+  my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount, $daypart);
   my ($baktun, $katun, $tun, $uinal, $kin)             =     $.long-count-from-daycount($daycount);
 
   # Building the object
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale, $daypart);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
-multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number, Str :$locale = 'yua',
-                    :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
-  # Checking values
-  check-locale($locale);
-  my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
-                                                , after   => $after,  on-or-after  => $on-or-after
-                                                , nearest => $nearest);
-  self!check-calendar-round($month, $day, $clerical-index, $clerical-number);
-
-  # Computing derived attributes
-  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref);
-  my ($baktun, $katun, $tun, $uinal, $kin) = $.long-count-from-daycount($daycount);
-
-  # Building the object
-  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale);
-  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
-}
-
-multi method BUILD(Int:D    :$haab-index, Int:D    :$haab-number
-                 , Int:D :$tzolkin-index, Int:D :$tzolkin-number, Str :$locale = 'yua'
+multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$clerical-number
+                 , Str   :$locale = 'yua'
+                 , Int   :$daypart = daylight()
                  , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   # Checking values
   check-locale($locale);
   my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
                                                 , after   => $after,  on-or-after  => $on-or-after
                                                 , nearest => $nearest);
-  self!check-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number);
+  self!check-calendar-round($month, $day, $clerical-index, $clerical-number, $daypart);
 
   # Computing derived attributes
-  my Int $daycount = self!daycount-from-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $ref);
+  my Int $daycount = self!daycount-from-calendar-round($month, $day, $clerical-index, $clerical-number, $ref, $daypart);
   my ($baktun, $katun, $tun, $uinal, $kin) = $.long-count-from-daycount($daycount);
 
   # Building the object
-  self!build-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $daycount, $locale);
+  self!build-calendar-round($month, $day, $clerical-index, $clerical-number, $daycount, $locale, $daypart);
+  self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
+}
+
+multi method BUILD(Int:D    :$haab-index, Int:D    :$haab-number
+                 , Int:D :$tzolkin-index, Int:D :$tzolkin-number
+		 , Str   :$locale = 'yua'
+                 , Int   :$daypart = daylight()
+                 , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
+  # Checking values
+  check-locale($locale);
+  my Int $ref = self!check-ref-date-and-normalize(before  => $before, on-or-before => $on-or-before
+                                                , after   => $after,  on-or-after  => $on-or-after
+                                                , nearest => $nearest);
+  self!check-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $daypart);
+
+  # Computing derived attributes
+  my Int $daycount = self!daycount-from-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $ref, $daypart);
+  my ($baktun, $katun, $tun, $uinal, $kin) = $.long-count-from-daycount($daycount);
+
+  # Building the object
+  self!build-calendar-round($haab-index, $haab-number, $tzolkin-index, $tzolkin-number, $daycount, $locale, $daypart);
   self!build-long-count($baktun, $katun, $tun, $uinal, $kin, $daycount);
 }
 
@@ -102,8 +107,8 @@ method long-count-from-daycount(Int $daycount) {
   return ($baktun, $katun, $tun, $uinal, $kin) ;
 }
 
-method new-from-daycount(Int $nb) {
-  $.new(daycount => $nb);
+method new-from-daycount(Int $nb, Int :$daypart = daylight) {
+  $.new(daycount => $nb, daypart => $daypart);
 }
 
 method gist {

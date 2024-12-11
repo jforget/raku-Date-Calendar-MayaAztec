@@ -1,6 +1,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
 use v6.d;
+use Date::Calendar::Strftime:api<1>;
 
 # Warning: "vague year" and "calendar round" are known concepts that you can find in external documentation.
 # On the other hand, "sub calendar round" is only used here.
@@ -20,25 +21,36 @@ has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab
 has Int $.clerical-number where { 1 ≤ $_ ≤ 13 }; # Tzolkin number or tonalpohualli number
 has Int $.clerical-index  where { 1 ≤ $_ ≤ 20 }; # Number equivalent of the Tzolkin name or tonalpohualli name
 has Int $.daycount;
+has Int $.daypart where { before-sunrise() ≤ $_ ≤ after-sunset() };
 has Str $.locale is rw;
 
 
-method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $daycount, Str $locale) {
+method !build-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $daycount, Str $locale, Int $daypart) {
   $!month           = $month;
   $!day             = $day;
   $!clerical-index  = $clerical-index;
   $!clerical-number = $clerical-number;
   $!daycount        = $daycount;
+  $!daypart         = $daypart;
   $!locale          = $locale;
 }
 
 method new-from-date($date) {
-  $.new-from-daycount($date.daycount);
+  $.new-from-daycount($date.daycount, daypart => $date.?daypart // daylight);
 }
 
-method calendar-round-from-daycount($nb) {
+method calendar-round-from-daycount($nb, Int $daypart = daylight) {
   my $delta   = $nb + 2400001 - $.epoch;
   my $doy     = ($delta + $.epoch-doy) % 365;       # day of year, range 0..364
+  if $daypart == before-sunrise() {
+    -- $doy;
+    if $doy == -1 {
+      $doy = 364;
+    }
+  }
+  if $daypart == after-sunset() {
+    ++ $delta
+  }
   my $day     = $doy % 20 + $.day-nb-begin-with;
   my $month   = floor($doy / 20) + 1;
   my $cle-num = 1 + ($delta +  3) % 13;
@@ -72,8 +84,7 @@ method !check-ref-date-and-normalize(:$before, :$on-or-before, :$after, :$on-or-
   return $ref;
 }
 
-method !check-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number) {
-
+method !check-calendar-round(Int $month, Int $day is copy, Int $clerical-index is copy, Int $clerical-number, Int $daypart) {
   unless 1 ≤ $month ≤ 19 {
     X::OutOfRange.new(:what<Month>, :got($month), :range<1..19>).throw;
   }
@@ -105,12 +116,25 @@ method !check-calendar-round(Int $month, Int $day, Int $clerical-index, Int $cle
   }
 
   # check compatibility between civil values and clerical values
+  if $daypart == before-sunrise() {
+    ++ $day;
+  }
+  if $daypart == after-sunset() {
+    -- $clerical-index
+  }
   unless ($day - $clerical-index) % 5 == $.compat-day-clerical-idx {
     die "Clerical index $clerical-index is incompatible with the day number $day";
   }
 }
 
-method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, Int $clerical-number, Int $ref) {
+method !daycount-from-calendar-round(Int $month, Int $day is copy, Int $clerical-index is copy, Int $clerical-number is copy, Int $ref, Int $daypart) {
+  if $daypart == before-sunrise() {
+    ++ $day;
+  }
+  if $daypart == after-sunset() {
+    -- $clerical-index;
+    -- $clerical-number;
+  }
   # First step: normalize the reference date
   # -- using "on-or-after" instead of the 4 other modes
   # -- using MJD instead of a Date or Date::Calendar::xxx object.
@@ -139,7 +163,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   #   49918 (1995-07-20)  →  "3-15 10-16" (3-Quecholli 10-Cozcacuauhtli)
   #   50283 (1996-07-19)  →  "3-15 11-1"  (3-Quecholli 11-Cipactli)
   my ($month1, $day1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
-  while $cle-idx1 != $clerical-index {
+  while $cle-idx1 != $clerical-index | ($clerical-index + 20) {
     $daycount += VAGUE-YEAR;
     ($day1, $month1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   }
@@ -153,7 +177,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
   #   56123 (2012-07-15)  →  "3-15 1-1"  (3-Quecholli 1-Cipactli)
   #   57583 (2016-07-14)  →  "3-15 5-1"  (3-Quecholli 5-Cipactli)
   #   59043 (2020-07-13)  →  "3-15 9-1"  (3-Quecholli 9-Cipactli)
-  while $cle-num1 != $clerical-number {
+  while $cle-num1 != $clerical-number | ($clerical-number + 13) {
     $daycount += SUB-CALENDAR-ROUND;
     ($day1, $month1, $cle-num1, $cle-idx1) = $.calendar-round-from-daycount($daycount);
   }
@@ -163,7 +187,7 @@ method !daycount-from-calendar-round(Int $month, Int $day, Int $clerical-index, 
 
 method to-date($class = 'Date') {
   # See "Learning Perl 6" page 177
-  my $d = ::($class).new-from-daycount($.daycount);
+  my $d = ::($class).new-from-daycount($.daycount, daypart => $.daypart);
   return $d;
 }
 
