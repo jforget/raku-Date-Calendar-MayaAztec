@@ -1,0 +1,37 @@
+#!/bin/sh
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+#
+# Grepping all strings that has to be checked before commit
+#
+
+cd $THIS_DIR
+
+echo -------------------
+echo tabulations
+echo -------------------
+grep -r --exclude-dir='.git' --exclude-dir='.precomp' -P '\t' *
+
+echo -------------------
+echo end-of-line spaces
+echo -------------------
+grep -r --exclude-dir='.git' --exclude-dir='.precomp' --exclude-dir='doc' -P ' $' *
+
+echo -------------------
+echo version 6.c vs 6.d
+echo -------------------
+grep -r --exclude=grep-all --exclude-dir='.git' --exclude-dir='.precomp' -P '6\.c' *
+
+echo -------------------
+echo perl 6
+echo -------------------
+grep -r --exclude=grep-all --exclude-dir='.git' --exclude-dir='.precomp' -P -i 'perl\s*6' *
+
+echo -------------------
+echo module version and api
+echo -------------------
+grep -r --exclude=grep-all --exclude-dir='.git' --exclude-dir='.precomp' --exclude-dir='doc' -P '\b(ver|api)\b' *
+
+echo -------------------
+echo copyright 202x
+echo -------------------
+grep -r --exclude=grep-all --exclude-dir='.git' --exclude-dir='.precomp' --exclude-dir='doc' -i -P '\bcopyright\b' *|grep 202

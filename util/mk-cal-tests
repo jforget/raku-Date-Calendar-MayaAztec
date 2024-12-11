@@ -1,0 +1,64 @@
+#!/bin/sh
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+#
+# Building the test directories for the tests of date conversions
+#
+
+export OLD=$BASE/version-old
+export NEW=$BASE/version-new
+
+# Raku program merging the "provides" entries from one META6.json file into another.
+export MERGE='use JSON::Fast;
+sub MAIN(Str $from, Str $to) {
+  my Str $text  = $from.IO.slurp;
+  my $from-data = from-json($text);
+  $text = $to.IO.slurp;
+  my $to-data = from-json($text);
+  for $from-data<provides>.kv -> $key, $value {
+    $to-data<provides>{$key} = $value;
+  }
+  $text = to-json($to-data);
+  $to.IO.spurt($text);
+}
+'
+
+cd $BASE
+if [ ! -d $OLD ]
+then
+  mkdir $OLD
+  echo '{}' > $OLD/META6.json
+fi
+if [ ! -d $NEW ]
+then
+  mkdir $NEW
+  echo '{}' > $NEW/META6.json
+fi
+
+cpmod () {
+  echo "directory $1"
+  echo "version $2"
+  cd $BASE/$1
+  git checkout $2 2>/dev/null
+  cp -r lib $OLD
+  raku -e "$MERGE" META6.json $OLD/META6.json
+  git switch - 2>/dev/null
+  cp -r lib $NEW
+  raku -e "$MERGE" META6.json $NEW/META6.json
+}
+
+# .pm6 modules
+cpmod raku-Date-Calendar-Gregorian           v0.0.2
+cpmod raku-Date-Calendar-Julian              v0.0.4
+cpmod raku-Date-Calendar-Hebrew              v0.0.4
+cpmod raku-Date-Calendar-CopticEthiopic      v0.0.3
+cpmod raku-Date-Calendar-MayaAztec           v0.0.3
+cpmod raku-Date-Calendar-FrenchRevolutionary v0.0.6
+cd $OLD
+rm $(find . -name '*.rakumod')
+
+# .rakumod modules
+cpmod raku-Date-Calendar-Bahai               v0.0.2
+cpmod raku-Date-Calendar-Hijri               v0.0.2
+cpmod raku-Date-Calendar-Persian             v0.0.2
+
+exit

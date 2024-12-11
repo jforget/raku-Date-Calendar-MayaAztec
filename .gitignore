@@ -1,4 +1,6 @@
+*~
 /blib/
+/doc/
 /src/*.o
 /src/Makefile
 /.panda-work

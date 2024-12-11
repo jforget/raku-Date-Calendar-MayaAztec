@@ -1,0 +1,27 @@
+#!/bin/sh
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+#
+# Generate the POD6 documentation for the class Date::Calendar::Maya
+#
+
+export DOC=$THIS_DIR/doc
+
+raku --doc=HTML lib/Date/Calendar/MayaAztec.rakumod          > $DOC/Maya-Aztec.html
+raku --doc=HTML lib/Date/Calendar/Maya.rakumod               > $DOC/Maya.html
+raku --doc=HTML lib/Date/Calendar/Maya/Astronomical.rakumod  > $DOC/Maya-Astronomical.html
+raku --doc=HTML lib/Date/Calendar/Maya/Common.rakumod        > $DOC/Maya-Common.html
+raku --doc=HTML lib/Date/Calendar/Maya/Names.rakumod         > $DOC/Maya-Names.html
+raku --doc=HTML lib/Date/Calendar/Maya/Spinden.rakumod       > $DOC/Maya-Spinden.html
+raku --doc=HTML lib/Date/Calendar/Aztec.rakumod              > $DOC/Aztec.html
+raku --doc=HTML lib/Date/Calendar/Aztec/Common.rakumod       > $DOC/Aztec-Common.html
+raku --doc=HTML lib/Date/Calendar/Aztec/Cortes.rakumod       > $DOC/Aztec-Cortes.html
+raku --doc=HTML lib/Date/Calendar/Aztec/Names.rakumod        > $DOC/Aztec-Names.html
+raku --doc=HTML util/gener-test-0.1.0.raku                   > $DOC/Maya-gener-test-0.1.0.raku.html
+
+case $1 in
+   --show)
+     cd $DOC
+     firefox Maya-Aztec.html Maya.html Maya-Astronomical.html Maya-Common.html Maya-Names.html Maya-Spinden.html
+     firefox Aztec.html Aztec-Common.html Aztec-Cortes.html Aztec-Names.html Maya-gener-test-0.1.0.raku.html
+     ;;
+esac
