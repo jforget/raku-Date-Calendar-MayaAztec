@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 #
 # checking the META6.json file
 #

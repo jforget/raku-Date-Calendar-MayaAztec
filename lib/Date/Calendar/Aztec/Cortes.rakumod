@@ -1,10 +1,10 @@
-use v6.c;
+use v6.d;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::MayaAztec;
 use Date::Calendar::Aztec::Common;
 
-unit class Date::Calendar::Aztec::Cortes:ver<0.0.3>:auth<zef:jforget>:api<0>
+unit class Date::Calendar::Aztec::Cortes:ver<0.1.0>:auth<zef:jforget>:api<1>
       does Date::Calendar::MayaAztec
       does Date::Calendar::Aztec::Common
       does Date::Calendar::Strftime;
@@ -22,7 +22,7 @@ Date::Calendar::Aztec::Cortes - conversions to the Aztec calendar with the Franc
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Aztec::Cortes;
 my Date  $d-greg  .= new(2020, 6, 20);

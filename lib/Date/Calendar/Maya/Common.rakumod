@@ -1,8 +1,8 @@
-use v6.c;
+use v6.d;
 use Date::Calendar::Maya::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Maya::Common:ver<0.0.3>:auth<zef:jforget>:api<0>;
+unit role Date::Calendar::Maya::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
 has Int $.kin    where { 0 ≤ $_ ≤ 19 };
 has Int $.uinal  where { 0 ≤ $_ ≤ 17 };

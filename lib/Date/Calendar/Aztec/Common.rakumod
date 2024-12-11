@@ -1,10 +1,10 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
-use v6.c;
+use v6.d;
 use Date::Calendar::Aztec::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Aztec::Common:ver<0.0.3>:auth<zef:jforget>:api<0>;
+unit role Date::Calendar::Aztec::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'nah') {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount);

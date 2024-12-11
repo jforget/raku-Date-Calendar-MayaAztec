@@ -1,50 +1,53 @@
-use v6.c;
+use v6.d;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::MayaAztec;
 use Date::Calendar::Maya::Common;
 
-unit class Date::Calendar::Maya::Spinden:ver<0.0.3>:auth<zef:jforget>:api<0>
+unit class Date::Calendar::Maya::Astronomical:ver<0.1.0>:auth<zef:jforget>:api<1>
       does Date::Calendar::MayaAztec
       does Date::Calendar::Maya::Common
       does Date::Calendar::Strftime;
 
 # Spinden correlation: day 0.0.0.0.0 is 15 October -3373 (or 3374 BC)
 method epoch {
-  489384;
+  584285;
 }
 
 =begin pod
 
 =head1 NAME
 
-Date::Calendar::Maya::Spinden - conversions from/to the Maya calendar
+Date::Calendar::Maya::Astronomical - conversions from/to the Maya calendar
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
-use Date::Calendar::Maya::Spinden;
+use Date::Calendar::Maya::Astronomical;
 my Date $d-greg .= new(2020, 6, 20);
-my Date::Calendar::Maya::Spinden
+my Date::Calendar::Maya::Astronomical
         $d-maya .= new-from-date($d-greg);
 
 say "{.tzolkin} {.haab} {.long-count}" with $d-maya;
-# --> 11 Caban 0 Tzec 13.13.11.3.17
+# --> 10 Cib  19 Zotz 13.0.7.10.16
 $d-maya.locale = 'en';
 say "{.tzolkin} {.haab}" with $d-maya;
-# --> 11 Quake 0 Skull
+# --> 10 Owl 19 Bat
 
 =end code
 
 =head1 DESCRIPTION
 
-Date::Calendar::Maya::Spinden  is a  class which  implements the  Maya
-calendars (long count, Haab and Tzolkin).
+Date::Calendar::Maya::Astronomical  is a  class  which implements  the
+Maya calendars (long count, Haab and Tzolkin).
 
-This  class  uses the  Spinden  correlation.  Other classes  uses  the
-Goodman-Martinez-Thompson correlation or  what is named "Astronomical"
-on the website L<http://research.famsi.org/date_mayaLC.php>.
+This class uses the Astronomical  correlation, as named by the website
+L<http://research.famsi.org/date_mayaLC.php>. This  may refer  to some
+carved stone with a date and  describing an astronomical event such as
+an eclipse, which  has been adopted as the basis  for the correlation.
+Other classes  uses the  Goodman-Martinez-Thompson correlation  or the
+Spinden correlation
 
 Mayas  used  three different  calendars,  the  Long Count,  the  civil
 calendar or "Haab" and the clerical calendar or "Tzolkin".

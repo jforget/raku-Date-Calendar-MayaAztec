@@ -1,7 +1,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
-use v6.c;
+use v6.d;
 
-unit module Date::Calendar::Maya::Names:ver<0.0.3>:auth<zef:jforget>:api<0>;
+unit module Date::Calendar::Maya::Names:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
 my %day-names = 'yua' => qw/ Imix      Ik    Akbal  Kan    Chicchan
                              Cimi      Manik Lamat  Muluc  Oc

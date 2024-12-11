@@ -1,10 +1,10 @@
-use v6.c;
+use v6.d;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::MayaAztec;
 use Date::Calendar::Maya::Common;
 
-unit class Date::Calendar::Maya:ver<0.0.3>:auth<zef:jforget>:api<0>
+unit class Date::Calendar::Maya:ver<0.1.0>:auth<zef:jforget>:api<1>
       does Date::Calendar::MayaAztec
       does Date::Calendar::Maya::Common
       does Date::Calendar::Strftime;
@@ -22,7 +22,7 @@ Date::Calendar::Maya - conversions from/to the Maya calendar
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Maya;
 my Date                 $d-greg .= new(2020, 6, 20);
@@ -94,7 +94,7 @@ displayed.  For the  moment,  you  can use  C<'yua'>  for the  Yucatec
 language,  C<'en'> for  the  English language  and  C<'fr'> a  partial
 support of the French language.
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Maya;
 my Date::Calendar::Maya $d-maya .= new(long-count => '13.0.7.12.15'
@@ -120,7 +120,7 @@ C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
 The  reason why  is explained  in the  B<Issues> chapter,  B<Rollover>
 subchapter below. By default, the c<new> method will use:
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
   nearest => Date.today,
 
@@ -129,7 +129,7 @@ subchapter below. By default, the c<new> method will use:
 In  addition, you  can provide  the optional  parameter C<locale>.  By
 default, it will be C<'yua'> for Yucatec.
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Maya;
 my Date::Calendar::Maya $d-maya1 .= new(month           =>  6         # for Xul
@@ -268,7 +268,7 @@ styles,  a "push"  conversion and  a "pull"  conversion. For  example,
 while converting  "13.0.7.6.11" to the French  Revolutionary calendar,
 you can code:
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Maya;
 use Date::Calendar::FrenchRevolutionary;
@@ -295,7 +295,7 @@ by the  conversion of  another date,  it is  created with  the default
 locale. If  you want the locale  to be transmitted in  the conversion,
 you should add this line:
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 $d-dest-pull.locale = $d-orig.locale;
 

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
-use v6.c;
+use v6.d;
 
 # Warning: "vague year" and "calendar round" are known concepts that you can find in external documentation.
 # On the other hand, "sub calendar round" is only used here.
@@ -13,7 +13,7 @@ constant VAGUE-YEAR         = 365;
 constant SUB-CALENDAR-ROUND = 365 lcm 20;
 constant CALENDAR-ROUND     = 365 lcm 20 lcm 13;
 
-unit role Date::Calendar::MayaAztec:ver<0.0.3>:auth<zef:jforget>:api<0>;
+unit role Date::Calendar::MayaAztec:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
@@ -175,7 +175,7 @@ Date::Calendar::MayaAztec - conversions from/to the Maya calendar and conversion
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;

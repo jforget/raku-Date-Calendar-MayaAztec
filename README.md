@@ -8,7 +8,7 @@ SYNOPSIS
 
 When was the last time the end of the universe happened?
 
-```perl6
+```
 use Date::Calendar::Maya;
 my Date::Calendar::Maya
         $d-maya  .= new(long-count => '13.0.0.0.0');
@@ -21,7 +21,7 @@ The Perl  and Raku conference in  North America was scheduled  to take
 place  in Houston,  starting  on 2020-06-20.  What  does the  southern
 neighbours call this date?
 
-```perl6
+```
 use Date::Calendar::Maya;
 use Date::Calendar::Aztec;
 my Date                  $d-greg  .= new(2020, 6, 20);
