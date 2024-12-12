@@ -124,7 +124,7 @@ $d-aztec .= new(month           => 3
              ,  day             => 2
              ,  clerical-index  => 6
              ,  clerical-number => 8
-             ,  daypart         => after-sunset
+             ,  daypart         => after-sunset()
              ,  locale          => 'fr'
              ,  on-or-after     => Date.new('2001-01-01'));
 
@@ -132,7 +132,7 @@ $d-aztec .= new(xiuhpohualli-index   =>  7
              ,  xiuhpohualli-number  =>  1
              ,  tonalpohualli-index  => 19
              ,  tonalpohualli-number =>  3
-             ,  daypart              => daylight
+             ,  daypart              => daylight()
              ,  before               => Date.new('2050-01-01')
              ,  locale               => 'en');
 
@@ -159,10 +159,10 @@ my  Date::Calendar::Maya  $d-maya;
 my  Date::Calendar::Aztec $d-aztec;
 
 $d-maya .= new(long-count => '13.0.0.0.0'
-            ,  daypart    => before-sunrise
-            ,  locale     => 'en')
+            ,  daypart    => before-sunrise()
+            ,  locale     => 'en');
 
-$d-aztec .= new-from-date-$d-maya);
+$d-aztec .= new-from-date($d-maya);
 $d-aztec.locale = $d-maya.locale;
 
 =end code

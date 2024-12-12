@@ -117,7 +117,7 @@ support of the French language.
 use Date::Calendar::Strftime;
 use Date::Calendar::Maya;
 my Date::Calendar::Maya $d-maya .= new(long-count => '13.0.7.12.15'
-                                     , daypart    => after-sunset
+                                     , daypart    => after-sunset()
                                      , locale     => 'yua');
 
 =end code
@@ -158,7 +158,7 @@ my Date::Calendar::Maya $d-maya1 .= new(month           =>  6         # for Xul
                                       , day             => 19
                                       , clerical-number => 11
                                       , clerical-index  => 16         # For Cib
-                                      , daypart         => daylight
+                                      , daypart         => daylight()
                                       , locale          => 'yua'
                                       , on-or-after     => Date.new('2001-01-01'));
 
@@ -166,7 +166,7 @@ my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 12         # for Ceh
                                       , haab-number    =>  8
                                       , tzolkin-number =>  8
                                       , tzolkin-index  =>  6         # For Cimi
-                                      , daypart        => after-sunset
+                                      , daypart        => after-sunset()
                                       , locale         => 'yua'
                                       , nearest        => Date.new('2020-08-01'));
 
