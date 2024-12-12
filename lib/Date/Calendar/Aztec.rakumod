@@ -62,7 +62,7 @@ Date::Calendar::Aztec is  a class that implements  the Aztec calendars
 (tonalpohualli and xiuhpohualli).
 
 This class uses  the Alfonso Caso correlation. Another  class uses the
-Francisco Cortes correlation, see L<Date::Calendar::Aztec::Cortes>.
+Francisco Cortes correlation, see C<Date::Calendar::Aztec::Cortes>.
 
 Aztecs   used  two   different  calendars,   the  civil   calendar  or
 "xiuhpohualli" and the clerical calendar or "tonalpohualli".
@@ -97,8 +97,8 @@ parameters and Nahuatl parameters.
 You should add  a reference date (from the core  C<Date> class or from
 any  C<Class::Calendar::>R<xxx>  class),  tagged with  a  relationship
 C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
-The  reason why  is explained  in the  B<Issues> chapter,  B<Rollover>
-subchapter below. By default, the c<new> method will use:
+The  reason why  is explained  in the  L<Issues|#ISSUES> chapter,  L<Rollover|#Rollover>
+subchapter below. By default, the C<new> method will use:
 
 =begin code :lang<raku>
 
@@ -106,18 +106,71 @@ subchapter below. By default, the c<new> method will use:
 
 =end code
 
-In  addition, you  can provide  the optional  parameter C<locale>.  By
-default, it will be C<'nah'> for Nahuatl.
+In addition,  you can  provide the  optional parameters  C<locale> and
+C<daypart>.  By  default,  they  will  be  C<'nah'>  for  Nahuatl  and
+C<daylight>.  Other possible  values for  the locale  are C<'en'>  and
+C<'fr'>, other  possible values  for C<daypart>  are C<before-sunrise>
+and C<after-sunset>.
+
+Examples:
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Aztec;
+my  Date::Calendar::Aztec $d-aztec;
+
+$d-aztec .= new(month           => 3
+             ,  day             => 2
+             ,  clerical-index  => 6
+             ,  clerical-number => 8
+             ,  daypart         => after-sunset
+             ,  locale          => 'fr'
+             ,  on-or-after     => Date.new('2001-01-01'));
+
+$d-aztec .= new(xiuhpohualli-index   =>  7
+             ,  xiuhpohualli-number  =>  1
+             ,  tonalpohualli-index  => 19
+             ,  tonalpohualli-number =>  3
+             ,  daypart              => daylight
+             ,  before               => Date.new('2050-01-01')
+             ,  locale               => 'en');
+
+=end code
 
 =head3 new-from-date
 
 Build an  Aztec date  by cloning  an object  from another  class. This
 other   class    can   be    the   core    class   C<Date>    or   any
-C<Date::Calendar::>R<xxx> class with a C<daycount> method.
+C<Date::Calendar::>R<xxx>   class  with   a  C<daycount>   method  and
+hopefully a C<daypart> method.
+
+If the origin object has a C<locale> attribute, it is not copied.
+
+Example:
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Maya;
+use Date::Calendar::Aztec;
+
+my  Date::Calendar::Maya  $d-maya;
+my  Date::Calendar::Aztec $d-aztec;
+
+$d-maya .= new(long-count => '13.0.0.0.0'
+            ,  daypart    => before-sunrise
+            ,  locale     => 'en')
+
+$d-aztec .= new-from-date-$d-maya);
+$d-aztec.locale = $d-maya.locale;
+
+=end code
 
 =head3 new-from-daycount
 
-Build an Aztec date from the Modified Julian Day number.
+Build an Aztec  date from the Modified Julian Day  number and from the
+C<daypart> parameter (optional, defaults to C<daylight>).
 
 =head2 Attribute getters
 
@@ -134,7 +187,7 @@ on the value of the C<locale> attribute.
 
 For C<strftime>, use the C<%B> specifier.
 
-=head3 day
+=head3 day, xiuhpohualli-number
 
 The numeric part of the civil calendar (xiuhpohualli), 1 to 20.
 
@@ -193,7 +246,21 @@ bearer (number and name).
 
 =head3 gist
 
-Print the numeric values for the civil and clerical calendar.
+Print the numeric values for the civil and clerical calendars.
+
+=head3 daycount
+
+The MJD (Modified Julian Date) number for the date.
+
+=head3 daypart
+
+A  number indicating  which part  of the  day. This  number should  be
+filled   and   compared   with   the   following   subroutines,   with
+self-documenting names:
+
+=item before-sunrise
+=item daylight
+=item after-sunset
 
 =head3 locale
 
@@ -208,7 +275,7 @@ for English and C<'fr'> for French.
 
 This method gives a string containing several attributes listed above.
 It is similar  to the homonymous function in other  languages. See the
-L<strftime Specifiers> paragraph below.
+L<strftime Specifiers|#strftime_Specifiers> paragraph below.
 
 =head2 Other Methods
 
@@ -248,7 +315,7 @@ C<Date::Calendar::Gregorian>, a child class to the core class C<Date>.
 Even  if both  calendars use  a C<locale>  attribute, when  a date  is
 created by  the conversion  of another  date, it  is created  with the
 default  locale. If  you  want the  locale to  be  transmitted in  the
-conversion, you should add this line:
+conversion, you should add a line such as:
 
 =begin code :lang<raku>
 
@@ -282,8 +349,9 @@ the year.  This is not interesting  for the Aztec calendar,  because a
 tonalpohualli  20-name cycle  coincidates with  a xiuhpohualli  20-day
 month.  Another way  to describe  the C<%V>  specifier is  "the number
 which  is  usually  printed  associated  to C<%u>  (in  the  ISO  date
-format)".  Since C<%u>  gives the  numeric form  of the  tonalpohualli
-name, C<%V> should give the tonalpohualli number.
+format)". Since C<%u> gives the  tonalpohualli index (i.e. the numeric
+form of the  tonalpohualli name), C<%V> should  give the tonalpohualli
+number.
 
 What about the  year numbers C<%Y> and C<%G>? The  C<%Y> specifier can
 be described  as "the specifier  which keeps  the same value  from 1st
@@ -308,65 +376,82 @@ value, it will be printed without change in the output string.
 
 =head3 Specifiers
 
-=defn C<%A>
+=defn %A
 
 The tonalpohualli name, similar to the name of the day of week.
 
-=defn C<%B>
+=defn %B
 
 The xiuhpohualli name, similar to a month name.
 
-=defn C<%d>
+=defn %d
 
 The xiuhpohualli number, which can be  seen as the numeric form of the
 day of the month (range 01 to 20).
 
-=defn C<%e>
+=defn %e
 
 Like C<%d>, the  xiuhpohualli number or day of the  month as a decimal
 number, but a leading zero is replaced by a space.
 
-=defn C<%f>
+=defn %f
 
 The  numeric form  of the  xiuhpohualli name,  or month  as a  decimal
 number (1 to 19). Unlike C<%m>, a leading zero is replaced by a space.
 
-=defn C<%G>
+=defn %G
 
 The year bearer.
 
-=defn C<%j>
+=defn %j
 
 The day of the year as a decimal number (range 001 to 365).
 
-=defn C<%m>
+=defn %m
 
 The  numeric  form of  the  xiuhpohualli  name,  or  the month,  as  a
 two-digit decimal number (range 01 to 19), including a leading zero if
 necessary.
 
-=defn C<%n>
+=defn %n
 
 A newline character.
 
-=defn C<%t>
+=defn %Ep
+
+Gives a 1-char string representing the day part:
+
+=item C<☾> or C<U+263E> before sunrise,
+=item C<☼> or C<U+263C> during daylight,
+=item C<☽> or C<U+263D> after sunset.
+
+Rationale: in  C or in  other programming languages,  when C<strftime>
+deals with a date-time object, the day is split into two parts, before
+noon and  after noon. The  C<%p> specifier  reflects this by  giving a
+C<"AM"> or C<"PM"> string.
+
+The  3-part   splitting  in   the  C<Date::Calendar::>R<xxx>   may  be
+considered as  an alternate  splitting of  a day.  To reflect  this in
+C<strftime>, we use an alternate version of C<%p>, therefore C<%Ep>.
+
+=defn %t
 
 A tab character.
 
-=defn C<%u>
+=defn %u
 
 The tonalpohualli index,  that is the 1..20 numeric  equivalent of the
 tonalpohualli name.
 
-=defn C<%V>
+=defn %V
 
 The tonalpohualli number.
 
-=defn C<%Y>
+=defn %Y
 
 The year bearer.
 
-=defn C<%%>
+=defn %%
 
 A literal `%' character.
 
@@ -394,7 +479,6 @@ system,  these  were used  to  give  the I<extended>  or  I<localized>
 version of the date attribute. Here, these C<"E"> and C<"O"> modifiers
 are ignored.
 
-
 =head1 ISSUES
 
 =head2 The First Month of the Civil Year
@@ -420,14 +504,19 @@ sequence:
 
 I have decided to discard  Nicholson's alignment and to implement only
 the  plain Alfonso  Caso correlation  (this class)  and the  Francisco
-Cortes correlation (see L<Date::Calendar::Aztec::Cortes>).
+Cortes correlation (see C<Date::Calendar::Aztec::Cortes>).
 
 =head2 Definition of the Day
 
-This class  assumes that days  are midnight  to midnight. My  guess it
-that actually, the Aztecs used another convention, sunset to sunset or
-sunrise to  sunrise. I have not  found any information on  this in the
-sources I have read.
+Reingold and Dershowitz give some  hints about the definitions of days
+in  the Maya  calendars,  but none  on the  definitions  in the  Aztec
+calendars. I  have use the  programmer-friendly option of  reusing the
+same definitions  as the Maya  ones (which are still  suppositions and
+not hard statements):
+
+=item xiuhpohualli days are sunrise to sunrise
+
+=item tonalpohualli days are sunset to sunset
 
 =head2 Rollover
 
@@ -446,7 +535,7 @@ another calendar, so the module will  compute which is the first Aztec
 date on  or after  the reference  date and  with the  requested month,
 name,  clerical  index and  clerical  number  (or  "on or  before  the
 reference date", or "nearest to the reference date", etc). This allows
-the module to compute a  semi-hidden attribute C<daycount>, which will
+the module to compute an attribute C<daycount>, which will
 be used when converting an Aztec date to another calendar.
 
 =head2 The Name of Month 2
@@ -472,31 +561,31 @@ real definition? I have decided to stick with it.
 
 =head2 Raku Software
 
-L<Date::Calendar::Strftime>
+L<Date::Calendar::Strftime|https://raku.land/zef:jforget/Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
-L<Date::Calendar::Gregorian>
+L<Date::Calendar::Gregorian|https://raku.land/zef:jforget/Date::Calendar::Gregorian>
 or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
-L<Date::Calendar::Julian>
+L<Date::Calendar::Julian|https://raku.land/zef:jforget/Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
-L<Date::Calendar::Hebrew>
+L<Date::Calendar::Hebrew|https://raku.land/zef:jforget/Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
-L<Date::Calendar::Hijri>
+L<Date::Calendar::Hijri|https://raku.land/zef:jforget/Date::Calendar::Hijri>
 or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
 
-L<Date::Calendar::Persian>
+L<Date::Calendar::Persian|https://raku.land/zef:jforget/Date::Calendar::Persian>
 or L<https://github.com/jforget/raku-Date-Calendar-Persian>
 
-L<Date::Calendar::CopticEthiopic>
+L<Date::Calendar::CopticEthiopic|https://raku.land/zef:jforget/Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
-L<Date::Calendar::Bahai>
+L<Date::Calendar::Bahai|https://raku.land/zef:jforget/Date::Calendar::Bahai>
 or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
-L<Date::Calendar::FrenchRevolutionary>
+L<Date::Calendar::FrenchRevolutionary|https://raku.land/zef:jforget/Date::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
 
 =head2 Other Software
@@ -514,6 +603,7 @@ ISBN 978-0-521-70238-6 for the third edition.
 
 I<La saga des calendriers>, by Jean Lefort, published by I<Belin> (I<Pour la Science>), ISBN 2-90929-003-5
 See L<https://www.belin-editeur.com/la-saga-des-calendriers>
+(website no longer responding).
 
 I<Histoire comparée des numérations écrites> by Geneviève Guitel, published by I<Flammarion> (I<Nouvelle bibliothèque scientifique>), ISBN 2-08-21114-0
 

@@ -75,6 +75,20 @@ The uinal can  be considered as a  month, its duration is  the same as
 the Haab month. The  tun is a bit shorter than a  solar year, 360 days
 instead of 365.24.
 
+According  to Reingold  and Dershowitz,  there is  definitive evidence
+that the  definition of Haab days  and the definition of  Tzolkin days
+differ. Yet, they do not know  which are the exact definitions for the
+days.  They suppose  that Haab  days are  sunrise-to-sunrise and  that
+Tzolkin  days  are  sunset-to-sunset.  No  information  is  given  for
+long-count days.  So in this  module, I use the  following definitions
+for days:
+
+=item Haab days are sunrise to sunrise
+
+=item Tzolkin days are sunset to sunset
+
+=item Long count days are midnight to midnight.
+
 =head1 METHODS
 
 =head2 Object Creation
@@ -82,12 +96,16 @@ instead of 365.24.
 =head3 new (long count)
 
 Build a  Maya date by giving  a string containing the  long count. The
-method accepts two keyword parameters:
+method accepts three keyword parameters:
 
 =item C<long-count>  a string built  of 5 numbers in  dotted notation.
 These numbers  are the  components of the  long count,  baktun, katun,
 tun, uinal and kin.  Each one is in the 0..19  range, except the uinal
 component which is in the 0..17 range.
+
+=item C<daypart> one of three values C<before-sunrise>, C<daylight> or
+C<after-sunset>,  to  specify how  the  date  will be  converted  into
+calendars in which days are sunset-to-sunset. Default is C<daylight>.
 
 =item C<locale>  a string giving the  language in which the  names are
 displayed.  For the  moment,  you  can use  C<'yua'>  for the  Yucatec
@@ -96,8 +114,10 @@ support of the French language.
 
 =begin code :lang<raku>
 
+use Date::Calendar::Strftime;
 use Date::Calendar::Maya;
 my Date::Calendar::Maya $d-maya .= new(long-count => '13.0.7.12.15'
+                                     , daypart    => after-sunset
                                      , locale     => 'yua');
 
 =end code
@@ -117,8 +137,8 @@ Since the  calendar round values  cannot determine a unique  date, you
 should add a  reference date (from the core C<Date>  class or from any
 C<Class::Calendar::>R<xxx>   class),   tagged  with   a   relationship
 C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
-The  reason why  is explained  in the  B<Issues> chapter,  B<Rollover>
-subchapter below. By default, the c<new> method will use:
+The  reason why  is explained  in the  L<Issues|#ISSUES> chapter,  L<Rollover|#Calendar_Rollover>
+subchapter below. By default, the C<new> method will use:
 
 =begin code :lang<raku>
 
@@ -126,23 +146,27 @@ subchapter below. By default, the c<new> method will use:
 
 =end code
 
-In  addition, you  can provide  the optional  parameter C<locale>.  By
-default, it will be C<'yua'> for Yucatec.
+In addition,  you can  provide the  optional parameters  C<locale> and
+C<daypart>.  By  default,  they  will  be  C<'yua'>  for  Yucatec  and
+C<daylight>.
 
 =begin code :lang<raku>
 
+use Date::Calendar::Strftime;
 use Date::Calendar::Maya;
 my Date::Calendar::Maya $d-maya1 .= new(month           =>  6         # for Xul
                                       , day             => 19
                                       , clerical-number => 11
                                       , clerical-index  => 16         # For Cib
+                                      , daypart         => daylight
                                       , locale          => 'yua'
                                       , on-or-after     => Date.new('2001-01-01'));
 
-my Date::Calendar::Maya $d-maya2 .= new(haab-index     =>  6         # for Xul
-                                      , haab-number    => 19
-                                      , tzolkin-number => 11
-                                      , tzolkin-index  => 16         # For Cib
+my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 12         # for Ceh
+                                      , haab-number    =>  8
+                                      , tzolkin-number =>  8
+                                      , tzolkin-index  =>  6         # For Cimi
+                                      , daypart        => after-sunset
                                       , locale         => 'yua'
                                       , nearest        => Date.new('2020-08-01'));
 
@@ -152,11 +176,30 @@ my Date::Calendar::Maya $d-maya2 .= new(haab-index     =>  6         # for Xul
 
 Build an Maya date by cloning an object from another class. This other
 class can be  the core class C<Date>  or any C<Date::Calendar::>R<xxx>
-class with a C<daycount> method.
+class with a C<daycount> method and hopefully a C<daypart> method.
+
+If the origin instance has a  C<locale> attribute, it is not copied to
+the result instance.
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Gregorian;
+use Date::Calendar::Maya;
+
+my Date::Calendar::Gregorian $d-gr;
+my Date::Calendar::Maya      $d-ma;
+
+$d-gr .= new("2024-11-13", daypart => after-sunset, locale => 'fr');
+$d-ma .= new-from-date($d-gr);
+$d-ma.locale = $d-gr.locale;
+
+=end code
 
 =head3 new-from-daycount
 
-Build an Maya date from the Modified Julian Day number.
+Build an  Maya date from the  Modified Julian Day number  and from the
+C<daypart> parameter (optional, defaults do C<daylight>).
 
 =head2 Attribute getters
 
@@ -166,7 +209,7 @@ The numeric equivalent of the Haab name.
 
 For C<strftime>, use the C<%m> specifier.
 
-=head3 month-name, Haab-name
+=head3 month-name, haab-name
 
 The name part  of the civil calendar (Haab). Its  value depends on the
 value of the C<locale> attribute.
@@ -179,7 +222,7 @@ The numeric part of the civil calendar (Haab), 0 to 19.
 
 For C<strftime>, use the C<%d> or C<%e> specifier.
 
-=head3 Haab
+=head3 haab
 
 A  string merging  the numeric  part and  the name  part of  the civil
 calendar  (Haab). Its  value depends  on  the value  of the  C<locale>
@@ -238,6 +281,16 @@ The long count in dotted notation.
 
 The MJD (Modified Julian Date) number for the date.
 
+=head3 daypart
+
+A  number indicating  which part  of the  day. This  number should  be
+filled   and   compared   with   the   following   subroutines,   with
+self-documenting names:
+
+=item before-sunrise
+=item daylight
+=item after-sunset
+
 =head3 locale
 
 The  abbreviation  of the  language  used  for names.  Actually,  this
@@ -252,7 +305,7 @@ Tzolkin names are translated into French, Haab names are in Yucatec).
 
 This method gives a string containing several attributes listed above.
 It is similar  to the homonymous function in other  languages. See the
-L<strftime Specifiers> paragraph below.
+L<strftime Specifiers|#strftime_Specifiers> paragraph below.
 
 =head2 Other Methods
 
@@ -329,11 +382,13 @@ the long count in dotted notation.
 
 And  the  C<%V> specifier?  It  represents  the  week number  for  the
 Gregorian calendar,  or how many  7-day cycles have elapsed  since the
-beginning of the year. This is  not interesting for the Maya calendar,
+beginning of the  year. Translated into the Maya class,  it would give
+the number of 20-name cycles since  the beginning of the year. This is
+not interesting for the Maya calendar,
 because a Tzolkin 20-name cycle  coincidates with a Haab 20-day month.
 Another way  to describe the C<%V>  specifier is "the number  which is
 usually printed associated  to C<%u> (in the ISO  date format)". Since
-C<%u> gives  the numeric form of  the Tzolkin name, C<%V>  should give
+C<%u> gives the Tzolkin index (the numeric form of  the Tzolkin name), C<%V>  should give
 the Tzolkin number.
 
 What about  the year  numbers C<%Y>  and C<%G>? It  could be  the long
@@ -353,69 +408,86 @@ bearer  with  the  C<%y>  specifier,  which  can  be  defined  as  the
 
 =head3 Specifiers
 
-=defn C<%A>
+=defn %A
 
 The Tzolkin name, similar to the name of the day of week.
 
-=defn C<%B>
+=defn %B
 
 The Haab name, similar to a month name.
 
-=defn C<%d>
+=defn %d
 
 The Haab number, which  can be seen as the numeric form  of the day of
 the month (range 00 to 19).
 
-=defn C<%e>
+=defn %e
 
 Like C<%d>, the Haab  number or day of the month  as a decimal number,
 but a leading zero is replaced by a space.
 
-=defn C<%f>
+=defn %f
 
 The numeric form of the Haab name,  or month as a decimal number (1 to
 19). Unlike C<%m>, a leading zero is replaced by a space.
 
-=defn C<%F>
+=defn %F
 
 The long count, in dotted notation.
 
-=defn C<%G>
+=defn %G
 
 The year bearer.
 
-=defn C<%j>
+=defn %j
 
 The day of the year as a decimal number (range 000 to 364).
 
-=defn C<%m>
+=defn %m
 
 The  numeric form  of the  Haab  name, or  the month,  as a  two-digit
 decimal  number  (range  01  to  12),  including  a  leading  zero  if
 necessary.
 
-=defn C<%n>
+=defn %n
 
 A newline character.
 
-=defn C<%t>
+=defn %Ep
+
+Gives a 1-char string representing the day part:
+
+=item C<☾> or C<U+263E> before sunrise,
+=item C<☼> or C<U+263C> during daylight,
+=item C<☽> or C<U+263D> after sunset.
+
+Rationale: in  C or in  other programming languages,  when C<strftime>
+deals with a date-time object, the day is split into two parts, before
+noon and  after noon. The  C<%p> specifier  reflects this by  giving a
+C<"AM"> or C<"PM"> string.
+
+The  3-part   splitting  in   the  C<Date::Calendar::>R<xxx>   may  be
+considered as  an alternate  splitting of  a day.  To reflect  this in
+C<strftime>, we use an alternate version of C<%p>, therefore C<%Ep>.
+
+=defn %t
 
 A tab character.
 
-=defn C<%u>
+=defn %u
 
 The Tzolkin index, that is the 1..20 numeric equivalent of the Tzolkin
 name.
 
-=defn C<%V>
+=defn %V
 
 The Tzolkin number.
 
-=defn C<%Y>
+=defn %Y
 
 The year bearer.
 
-=defn C<%%>
+=defn %%
 
 A literal `%' character.
 
@@ -452,9 +524,9 @@ the word "Mayan"  applies only to the family of  languages used by the
 Mayas. In all other cases, including  the calendars, we should use the
 word "Maya".
 
-About the  utility module L<Date::Calendar::Maya::Names>:  this module
+About the  utility module C<Date::Calendar::Maya::Names>:  this module
 contains   Mayan  names.   Yet,  I   have  chosen   not  to   call  it
-L<Date::Calendar::Mayan::Names>  for two  reasons:  first, that  would
+C<Date::Calendar::Mayan::Names>  for two  reasons:  first, that  would
 create two nearly similar  subdirectories C<Maya> and C<Mayan>, second
 this module contains  also English and French names, so  this is not a
 module  of I<Mayan  names>, it  is a  module of  I<names for  the Maya
@@ -462,12 +534,20 @@ calendar>.
 
 =head2 Day Definition
 
-This class  assumes that days  are midnight to midnight.  According to
+According to
 Reingold and  Dershowitz, we suppose  that actually the Haab  days are
 sunrise to sunrise and that the Tzolkin days are sunset to sunset. But
 this is only a supposition. On the other hand, Reingold and Dershowitz
 do not give any supposition, much less any definite information, about
 the beginning of loung count days.
+
+As already written above, this class use the following definitions of days:
+
+=item Haab days are sunrise to sunrise
+
+=item Tzolkin days are sunset to sunset
+
+=item Long count days are midnight to midnight.
 
 =head2 Baktun Numbering
 
@@ -516,42 +596,42 @@ computing the year bearer for additional days as for the normal days.
 
 =head2 Raku Software
 
-L<Date::Calendar::Strftime>
+L<Date::Calendar::Strftime|https://raku.land/zef:jforget/Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
-L<Date::Calendar::Gregorian>
+L<Date::Calendar::Gregorian|https://raku.land/zef:jforget/Date::Calendar::Gregorian>
 or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
-L<Date::Calendar::Julian>
+L<Date::Calendar::Julian|https://raku.land/zef:jforget/Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
-L<Date::Calendar::Hebrew>
+L<Date::Calendar::Hebrew|https://raku.land/zef:jforget/Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
-L<Date::Calendar::Hijri>
+L<Date::Calendar::Hijri|https://raku.land/zef:jforget/Date::Calendar::Hijri>
 or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
 
-L<Date::Calendar::Persian>
+L<Date::Calendar::Persian|https://raku.land/zef:jforget/Date::Calendar::Persian>
 or L<https://github.com/jforget/raku-Date-Calendar-Persian>
 
-L<Date::Calendar::CopticEthiopic>
+L<Date::Calendar::CopticEthiopic|https://raku.land/zef:jforget/Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
-L<Date::Calendar::Bahai>
+L<Date::Calendar::Bahai|https://raku.land/zef:jforget/Date::Calendar::Bahai>
 or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
-L<Date::Calendar::FrenchRevolutionary>
+L<Date::Calendar::FrenchRevolutionary|https://raku.land/zef:jforget/Date::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
 
 =head2 Perl 5 Software
 
-L<Date::Maya>
+L<Date::Maya|https://metacpan.org/pod/Date::Maya>
 
-L<DateTime::Calendar::Mayan>
+L<DateTime::Calendar::Mayan|https://metacpan.org/dist/DateTime-Calendar-Mayan/view/lib/DateTime/Calendar/Mayan.pod>
 
 =head2 Other Software
 
-F<calendar/cal-mayan.el>  in Emacs
+C<calendar/cal-mayan.el>  in Emacs
 
 CALENDRICA 4.0 -- Common Lisp, which can be download in the "Resources" section of
 L<https://www.cambridge.org/us/academic/subjects/computer-science/computing-general-interest/calendrical-calculations-ultimate-edition-4th-edition?format=PB&isbn=9781107683167>
@@ -566,6 +646,7 @@ ISBN 978-0-521-70238-6 for the third edition.
 
 I<La saga des calendriers>, by Jean Lefort, published by I<Belin> (I<Pour la Science>), ISBN 2-90929-003-5
 See L<https://www.belin-editeur.com/la-saga-des-calendriers>
+(website no longer responding).
 
 I<Histoire comparée des numérations écrites> by Geneviève Guitel, published by I<Flammarion> (I<Nouvelle bibliothèque scientifique>), ISBN 2-08-21114-0
 

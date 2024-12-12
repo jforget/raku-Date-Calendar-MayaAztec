@@ -77,7 +77,7 @@ The long count consists of five embedded cycles:
 
 The uinal can  be considered as a  month, its duration is  the same as
 the Haab month. The  tun is a bit shorter than a  solar year, 360 days
-instead of 36.24.
+instead of 365.24.
 
 See the full documentation in the main class C<Date::Calendar::Maya>.
 

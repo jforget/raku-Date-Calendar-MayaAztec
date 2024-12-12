@@ -60,7 +60,7 @@ multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$c
 
 multi method BUILD(Int:D    :$haab-index, Int:D    :$haab-number
                  , Int:D :$tzolkin-index, Int:D :$tzolkin-number
-		 , Str   :$locale = 'yua'
+                 , Str   :$locale = 'yua'
                  , Int   :$daypart = daylight()
                  , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   # Checking values

@@ -28,7 +28,7 @@ multi method BUILD(Int:D :$month, Int:D :$day, Int:D :$clerical-index, Int:D :$c
 
 multi method BUILD(Int:D  :$xiuhpohualli-index, Int:D  :$xiuhpohualli-number
                  , Int:D :$tonalpohualli-index, Int:D :$tonalpohualli-number
-		 , Str   :$locale = 'nah'
+                 , Str   :$locale = 'nah'
                  , Int   :$daypart = daylight()
                  , :$before, :$on-or-before, :$after, :$on-or-after, :$nearest) {
   check-locale($locale);
@@ -37,13 +37,13 @@ multi method BUILD(Int:D  :$xiuhpohualli-index, Int:D  :$xiuhpohualli-number
                                                 , nearest => $nearest);
   self!check-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
                          , $tonalpohualli-index, $tonalpohualli-number
-			 , $daypart);
+                         , $daypart);
   my Int $daycount = self!daycount-from-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
                                                     , $tonalpohualli-index, $tonalpohualli-number
-						    , $ref, $daypart);
+                                                    , $ref, $daypart);
   self!build-calendar-round($xiuhpohualli-index,  $xiuhpohualli-number
                          , $tonalpohualli-index, $tonalpohualli-number, $daycount
-			 , $locale, $daypart);
+                         , $locale, $daypart);
 }
 
 sub check-locale(Str $locale) {

@@ -43,7 +43,7 @@ Date::Calendar::Aztec::Cortes  is a  class that  implements the  Aztec
 calendars (tonalpohualli and xiuhpohualli).
 
 This class uses  Francisco Cortes the correlation.  Another class uses
-the Alfonso Caso correlation, see L<Date::Calendar::Aztec>.
+the Alfonso Caso correlation, see C<Date::Calendar::Aztec>.
 
 Aztecs   used  two   different  calendars,   the  civil   calendar  or
 "xiuhpohualli" and the clerical calendar or "tonalpohualli".
@@ -61,7 +61,7 @@ one with numbers 1  to 13, the second one with 20  names. This gives a
 clerical year of 260 days.
 
 See   the   documentation  in   the   other   Aztec  calendar   class,
-L<Date::Calendar::Aztec>.
+C<Date::Calendar::Aztec>.
 
 =head1 AUTHOR
 

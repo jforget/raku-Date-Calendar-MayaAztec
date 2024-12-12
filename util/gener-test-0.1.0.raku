@@ -207,7 +207,7 @@ C<12-conv-aztec-old.rakutest> and C<13-conv-aztec-new.rakutest>.
 In  the  C<rakutest> files  for  old  conversions, copy-and-paste  the
 proper lines  into the C<@data-other> variable.  Then cut-and-past the
 lines for the Gregorian dates  from this variable to the C<@data-greg>
-variable. and add  the Gregorian date with the  'YYYY-MM-AA' format at
+variable  and add  the Gregorian date with the  'YYYY-MM-AA' format at
 the end of each array line. There is no C<@data-maya> variable for the
 Maya  and Aztec  dates,  because you  cannot  test simultaneously  C<<
 D::C::Maya:ver<0.0.3>>> and C<<  D::C::Maya:ver<0.1.0>>>, or even test

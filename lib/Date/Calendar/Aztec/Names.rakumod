@@ -108,7 +108,7 @@ for this calendar.
 
 =head1 SOURCES
 
-The nahuatl names come from L<https://www.azteccalendar.com/> and and
+The nahuatl names come from L<https://www.azteccalendar.com/> and
 from   the  errata   of   Calendrical   Calculations  Third   Edition
 (L<http://www.cs.tau.ac.il/~nachum/calendar-book/third-edition/>).
 

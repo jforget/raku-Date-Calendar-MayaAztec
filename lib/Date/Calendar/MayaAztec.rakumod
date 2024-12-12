@@ -228,49 +228,49 @@ Date::Calendar::Maya implementing the Maya calendars (long count, Haab
 and   Tzolkin)  and   Date::Calendar::Aztec  implementing   the  Aztec
 calendars (tonalpohualli and xiuhpohualli).
 
-See the full documentation  in each class, L<Date::Calendar::Maya> and
-L<Date::Calendar::Aztec>.
+See the full documentation  in each class, C<Date::Calendar::Maya> and
+C<Date::Calendar::Aztec>.
 
 =head1 SEE ALSO
 
 =head2 Raku Software
 
-L<Date::Calendar::Strftime>
+L<Date::Calendar::Strftime|https://raku.land/zef:jforget/Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
-L<Date::Calendar::Gregorian>
+L<Date::Calendar::Gregorian|https://raku.land/zef:jforget/Date::Calendar::Gregorian>
 or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
-L<Date::Calendar::Julian>
+L<Date::Calendar::Julian|https://raku.land/zef:jforget/Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
-L<Date::Calendar::Hebrew>
+L<Date::Calendar::Hebrew|https://raku.land/zef:jforget/Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
-L<Date::Calendar::CopticEthiopic>
+L<Date::Calendar::CopticEthiopic|https://raku.land/zef:jforget/Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
-L<Date::Calendar::FrenchRevolutionary>
+L<Date::Calendar::FrenchRevolutionary|https://raku.land/zef:jforget/Date::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary>
 
-L<Date::Calendar::Hijri>
+L<Date::Calendar::Hijri|https://raku.land/zef:jforget/Date::Calendar::Hijri>
 or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
 
-L<Date::Calendar::Persian>
+L<Date::Calendar::Persian|https://raku.land/zef:jforget/Date::Calendar::Persian>
 or L<https://github.com/jforget/raku-Date-Calendar-Persian>
 
-L<Date::Calendar::Bahai>
+L<Date::Calendar::Bahai|https://raku.land/zef:jforget/Date::Calendar::Bahai>
 or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
 =head2 Perl 5 Software
 
-L<Date::Maya>
+L<Date::Maya|https://metacpan.org/pod/Date::Maya>
 
-L<DateTime::Calendar::Mayan>
+L<DateTime::Calendar::Mayan|https://metacpan.org/dist/DateTime-Calendar-Mayan/view/lib/DateTime/Calendar/Mayan.pod>
 
 =head2 Other Software
 
-F<calendar/cal-mayan.el>  in Emacs
+C<calendar/cal-mayan.el>  in Emacs
 
 CALENDRICA 4.0 -- Common Lisp, which can be download in the "Resources" section of
 L<https://www.cambridge.org/us/academic/subjects/computer-science/computing-general-interest/calendrical-calculations-ultimate-edition-4th-edition?format=PB&isbn=9781107683167>
@@ -285,6 +285,7 @@ ISBN 978-0-521-70238-6 for the third edition.
 
 I<La saga des calendriers>, by Jean Lefort, published by I<Belin> (I<Pour la Science>), ISBN 2-90929-003-5
 See L<https://www.belin-editeur.com/la-saga-des-calendriers>
+(website no longer responding).
 
 I<Histoire comparée des numérations écrites> by Geneviève Guitel, published by I<Flammarion> (I<Nouvelle bibliothèque scientifique>), ISBN 2-08-21114-0
 
