@@ -55,6 +55,34 @@ say $d-greg;
 
 =end code
 
+Conversion while paying attention to sun rise and sun set:
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Gregorian;
+use Date::Calendar::Aztec;
+
+my Date::Calendar::Gregorian $d-gr;
+my Date::Calendar::Aztec     $d-az;
+
+$d-gr .= new('2024-11-13', daypart => before-sunrise());
+$d-az .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B");
+# -->  "7 Coatl 1 Tlacaxipehualiztli"
+
+$d-gr .= new('2024-11-13', daypart => daylight());
+$d-az .= new-from-date($d-gr);
+$d-ma .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B");
+# -->  "7 Coatl 2 Tlacaxipehualiztli"
+
+$d-gr .= new('2024-11-13', daypart => after-sunset());
+$d-az .= new-from-date($d-gr);
+$d-ma .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B");
+# -->  "8 Miquiztli 2 Tlacaxipehualiztli"
+=end code
 
 =head1 DESCRIPTION
 
@@ -241,7 +269,7 @@ These four methods define the year  bearer. Their names are similar to
 the  C<clerical->R<xxx>   and  the   C<tonalpohualli->R<xxx>  methods,
 because the year bearer is a tonalpohualli date.
 
-For C<strftime>,  use the C<%Y> of  C<%G> specifier to print  the year
+For C<strftime>,  use the C<%Y> or  C<%G> specifier to print  the year
 bearer (number and name).
 
 =head3 gist
@@ -258,9 +286,9 @@ A  number indicating  which part  of the  day. This  number should  be
 filled   and   compared   with   the   following   subroutines,   with
 self-documenting names:
 
-=item before-sunrise
-=item daylight
-=item after-sunset
+=item before-sunrise()
+=item daylight()
+=item after-sunset()
 
 =head3 locale
 
@@ -556,6 +584,46 @@ tonalpohualli name of  the previous 5 Nemontemi  and the tonalpohualli
 number of the previous  1 Nemontemi. Is this a bug  in this website or
 is it  a very convoluted definition  of the year bearer,  although the
 real definition? I have decided to stick with it.
+
+=head2 Security issues
+
+As explained in  the C<Date::Calendar::Strftime> documentation, please
+ensure that format-string  passed to C<strftime> comes  from a trusted
+source. Failing  that, the untrusted  source can include  a outrageous
+length in  a C<strftime> specifier and  this will drain your  PC's RAM
+very fast.
+
+=head2 Relations with :ver<0.0.x> classes and with core class Date
+
+Version 0.1.0 (and API 1) was  introduced to ease the conversions with
+between calendars in which the  day is defined as sunset-to-sunset and
+calendars in which the day is defined as midhnight-to-midnight. If all
+C<Date::Calendar::>R<xxx>  classes use  version 0.1.x  and API  1, the
+conversions  will be  correct. But  if some  C<Date::Calendar::>R<xxx>
+classes use version 0.0.x and API 0, there might be problems.
+
+A date from a 0.0.x class has no C<daypart> attribute. But when "seen"
+from  a  0.1.x class,  the  0.0.x  date  seems  to have  a  C<daypart>
+attribute equal to C<daylight>. When converted from a 0.1.x class to a
+0.0.x  class,  the  date  may  just  shift  from  C<after-sunset>  (or
+C<before-sunrise>) to C<daylight>, or it  may shift to the C<daylight>
+part of  the prior (or  next) date. This  means that a  roundtrip with
+cascade conversions  may give the  starting date,  or it may  give the
+date prior or after the starting date.
+
+If  you install  C<<Date::Calendar::MayaAztec:ver<0.1.0>>>, why  would
+you refrain  from upgrading other  C<Date::Calendar::>R<xxxx> classes?
+So  actually, this  issue applies  mainly to  the core  class C<Date>,
+because    you   may    prefer    avoiding    the   installation    of
+C<Date::Calendar::Gregorian>.
+
+=head2 Time
+
+This module  and the C<Date::Calendar::>R<xxx> associated  modules are
+still date  modules, they are not  date-time modules. The user  has to
+give  the C<daypart>  attribute  as a  value among  C<before-sunrise>,
+C<daylight> or C<after-sunset>. There is no provision to give a HHMMSS
+time and convert it to a C<daypart> parameter.
 
 =head1 SEE ALSO
 

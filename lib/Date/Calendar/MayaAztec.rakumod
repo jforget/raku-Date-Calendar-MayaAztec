@@ -221,6 +221,38 @@ say "{.tonalpohualli} {.xiuhpohualli}" with $d-aztec;
 
 =end code
 
+Conversion while paying attention to sun rise and sun set:
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Gregorian;
+use Date::Calendar::Aztec;
+use Date::Calendar::Maya;
+
+my Date::Calendar::Gregorian $d-gr;
+my Date::Calendar::Aztec     $d-az;
+my Date::Calendar::Maya      $d-ma;
+
+$d-gr .= new('2024-11-13', daypart => before-sunrise());
+$d-az .= new-from-date($d-gr);
+$d-ma .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B"), $d-ma.strftime(" / %F %V %A %e %B");
+# -->  "7 Coatl 1 Tlacaxipehualiztli / 13.0.12.1.5 7 Chicchan 7 Ceh"
+
+$d-gr .= new('2024-11-13', daypart => daylight());
+$d-az .= new-from-date($d-gr);
+$d-ma .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B"), $d-ma.strftime(" / %F %V %A %e %B");
+# -->  "7 Coatl 2 Tlacaxipehualiztli / 13.0.12.1.5 7 Chicchan 8 Ceh"
+
+$d-gr .= new('2024-11-13', daypart => after-sunset());
+$d-az .= new-from-date($d-gr);
+$d-ma .= new-from-date($d-gr);
+say $d-az.strftime("%V %A %e %B"), $d-ma.strftime(" / %F %V %A %e %B");
+# -->  "8 Miquiztli 2 Tlacaxipehualiztli / 13.0.12.1.5 8 Cimi Ceh"
+=end code
+
 =head1 DESCRIPTION
 
 Date::Calendar::MayaAztec  is a  distribution with  two main  classes,

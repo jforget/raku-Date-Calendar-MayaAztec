@@ -18,7 +18,7 @@ Advanced Documentation
 If you  want to make advanced  contributions, may be you  should first
 read the "Designer's notes" in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-en.md|https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/blob/master/doc/notes-en.md]
-(or its French translation in
+(or the French translation in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-fr.md|https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/blob/master/doc/notes-fr.md]),
 to  better grasp  the architecture  of the  modules. These  designer's
 notes apply  to all  `Date::Calendar::xxx` modules,  not only  for the

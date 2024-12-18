@@ -36,6 +36,34 @@ say "{.tzolkin} {.haab}" with $d-maya;
 
 =end code
 
+Conversion while paying attention to sun rise and sun set:
+
+=begin code :lang<raku>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Gregorian;
+use Date::Calendar::Maya;
+
+my Date::Calendar::Gregorian $d-gr;
+my Date::Calendar::Maya      $d-ma;
+
+$d-gr .= new('2024-11-13', daypart => before-sunrise());
+$d-ma .= new-from-date($d-gr);
+say $d-ma.strftime("%F %V %A %e %B");
+# -->  "13.0.12.1.5 7 Chicchan 7 Ceh"
+
+$d-gr .= new('2024-11-13', daypart => daylight());
+$d-ma .= new-from-date($d-gr);
+say $d-ma.strftime("%F %V %A %e %B");
+# -->  "13.0.12.1.5 7 Chicchan 8 Ceh"
+
+$d-gr .= new('2024-11-13', daypart => after-sunset());
+$d-ma .= new-from-date($d-gr);
+say $d-ma.strftime("%F %V %A %e %B");
+# -->  "13.0.12.1.5 8 Cimi Ceh"
+=end code
+
+
 =head1 DESCRIPTION
 
 Date::Calendar::Maya is  a class  which implements the  Maya calendars
@@ -103,13 +131,13 @@ These numbers  are the  components of the  long count,  baktun, katun,
 tun, uinal and kin.  Each one is in the 0..19  range, except the uinal
 component which is in the 0..17 range.
 
-=item C<daypart> one of three values C<before-sunrise>, C<daylight> or
-C<after-sunset>,  to  specify how  the  date  will be  converted  into
-calendars in which days are sunset-to-sunset. Default is C<daylight>.
+=item C<daypart> one of three values C<before-sunrise()>, C<daylight()> or
+C<after-sunset()>,  to  specify how  the  date  will be  converted  into
+calendars in which days are sunset-to-sunset. Default is C<daylight()>.
 
 =item C<locale>  a string giving the  language in which the  names are
 displayed.  For the  moment,  you  can use  C<'yua'>  for the  Yucatec
-language,  C<'en'> for  the  English language  and  C<'fr'> a  partial
+language, C<'en'> for  the English language and C<'fr'>  for a partial
 support of the French language.
 
 =begin code :lang<raku>
@@ -137,8 +165,9 @@ Since the  calendar round values  cannot determine a unique  date, you
 should add a  reference date (from the core C<Date>  class or from any
 C<Class::Calendar::>R<xxx>   class),   tagged  with   a   relationship
 C<before>,  C<on-or-before>, C<after>,  C<on-or-after> or  C<nearest>.
-The  reason why  is explained  in the  L<Issues|#ISSUES> chapter,  L<Rollover|#Calendar_Rollover>
-subchapter below. By default, the C<new> method will use:
+The  reason  why  is   explained  in  the  L<Issues|#ISSUES>  chapter,
+L<Calendar Round  Rollover|#Calendar_Round_Rollover> subchapter below.
+By default, the C<new> method will use:
 
 =begin code :lang<raku>
 
@@ -148,7 +177,7 @@ subchapter below. By default, the C<new> method will use:
 
 In addition,  you can  provide the  optional parameters  C<locale> and
 C<daypart>.  By  default,  they  will  be  C<'yua'>  for  Yucatec  and
-C<daylight>.
+C<daylight()>.
 
 =begin code :lang<raku>
 
@@ -190,7 +219,7 @@ use Date::Calendar::Maya;
 my Date::Calendar::Gregorian $d-gr;
 my Date::Calendar::Maya      $d-ma;
 
-$d-gr .= new("2024-11-13", daypart => after-sunset, locale => 'fr');
+$d-gr .= new("2024-11-13", daypart => after-sunset(), locale => 'fr');
 $d-ma .= new-from-date($d-gr);
 $d-ma.locale = $d-gr.locale;
 
@@ -199,7 +228,7 @@ $d-ma.locale = $d-gr.locale;
 =head3 new-from-daycount
 
 Build an  Maya date from the  Modified Julian Day number  and from the
-C<daypart> parameter (optional, defaults do C<daylight>).
+C<daypart> parameter (optional, defaults do C<daylight()>).
 
 =head2 Attribute getters
 
@@ -287,9 +316,9 @@ A  number indicating  which part  of the  day. This  number should  be
 filled   and   compared   with   the   following   subroutines,   with
 self-documenting names:
 
-=item before-sunrise
-=item daylight
-=item after-sunset
+=item before-sunrise()
+=item daylight()
+=item after-sunset()
 
 =head3 locale
 
@@ -572,11 +601,33 @@ This module  assumes that  baktun 13 has  no special  significance and
 that baktuns are  numbered until 19. The  higher-order cycles, piktun,
 calabtun, kinchiltun and alautun are not implemented.
 
-=head2 Calendar Rollover
+=head2 Long Count Rollover
 
 As a  consequence of the  previous paragraph, the calendar  rolls over
 every 20 baktuns, that is, every 7885 years. The next rollover date is
 4772-10-12. So there is time before a fix is needed.
+
+=head2 Calendar Round Rollover
+
+For convenience,  you can use  a C<new>  method with Haab  and Tzolkin
+values,  just  like  it  is  done in  the  C<D::C::Aztec>  class  with
+xiuhpohualli and  tonalpohualli values.  By combining the  Haab (civil
+calendar)  with  the Tzolkin  (clerical  calendar),  we get  different
+combinations for about  52 years. This period is  called the "calendar
+round". So when  given an Maya date with the  four values (Haab number
+and  name,  Tzolkin number  and  name),  you  cannot define  a  unique
+Gregorian date  equivalent to  this Maya date.  The Gregorian  date 52
+years later (or  104, or 156) and the Gregorian  date 52 years earlier
+(or 104 or...) also correspond to this Maya date.
+
+For this reason, when using this kind of C<new> method, Maya dates are
+created with  a reference  date from another  calendar, so  the module
+will compute  which is the first  Maya date on or  after the reference
+date and with  the requested month, name, clerical  index and clerical
+number  (or "on  or before  the reference  date", or  "nearest to  the
+reference date", etc). This allows  the module to compute an attribute
+C<daycount>, which will be used when computing the long count and when
+converting the Maya date to another calendar.
 
 =head2 French Translation
 
@@ -591,6 +642,46 @@ for  additional  days   (uayeb).  On  the  other   hand,  the  website
 L<http://research.famsi.org/date_mayaLC.php> displays  the year bearer
 for additional  days. I have  taken the programmer-friendly  option of
 computing the year bearer for additional days as for the normal days.
+
+=head2 Security issues
+
+As explained in  the C<Date::Calendar::Strftime> documentation, please
+ensure that format-string  passed to C<strftime> comes  from a trusted
+source. Failing  that, the untrusted  source can include  a outrageous
+length in  a C<strftime> specifier and  this will drain your  PC's RAM
+very fast.
+
+=head2 Relations with :ver<0.0.x> classes and with core class Date
+
+Version 0.1.0 (and API 1) was  introduced to ease the conversions with
+between calendars in which the  day is defined as sunset-to-sunset and
+calendars in which the day is defined as midhnight-to-midnight. If all
+C<Date::Calendar::>R<xxx>  classes use  version 0.1.x  and API  1, the
+conversions  will be  correct. But  if some  C<Date::Calendar::>R<xxx>
+classes use version 0.0.x and API 0, there might be problems.
+
+A date from a 0.0.x class has no C<daypart> attribute. But when "seen"
+from  a  0.1.x class,  the  0.0.x  date  seems  to have  a  C<daypart>
+attribute equal to C<daylight>. When converted from a 0.1.x class to a
+0.0.x  class,  the  date  may  just  shift  from  C<after-sunset>  (or
+C<before-sunrise>) to C<daylight>, or it  may shift to the C<daylight>
+part of  the prior (or  next) date. This  means that a  roundtrip with
+cascade conversions  may give the  starting date,  or it may  give the
+date prior or after the starting date.
+
+If  you install  C<<Date::Calendar::MayaAztec:ver<0.1.0>>>, why  would
+you refrain  from upgrading other  C<Date::Calendar::>R<xxxx> classes?
+So  actually, this  issue applies  mainly to  the core  class C<Date>,
+because    you   may    prefer    avoiding    the   installation    of
+C<Date::Calendar::Gregorian>.
+
+=head2 Time
+
+This module  and the C<Date::Calendar::>R<xxx> associated  modules are
+still date  modules, they are not  date-time modules. The user  has to
+give  the C<daypart>  attribute  as a  value among  C<before-sunrise>,
+C<daylight> or C<after-sunset>. There is no provision to give a HHMMSS
+time and convert it to a C<daypart> parameter.
 
 =head1 SEE ALSO
 
