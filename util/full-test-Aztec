@@ -1,4 +1,4 @@
-#!/home/jf/rakudo/bin/perl6 -I../lib
+#!/usr/bin/raku -I../lib
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
 use v6;
@@ -39,7 +39,7 @@ EOF
 
 $sth = $dbh.prepare(q:to/EOF/);
   insert into full_test_Aztec (correlation, month1, day1, cle_num1, cle_idx1, mjd1, date1, mjd2, d2h, d2l, mjd3h, d3h, mjd3l, d3l)
-                values  (?,           ?,      ?,    ?,        ?,        ?,    ?,     ?,    ?,   ?,   ?,     ?,   ?,     ?)
+                      values  (?,           ?,      ?,    ?,        ?,        ?,    ?,     ?,    ?,   ?,   ?,     ?,   ?,     ?)
 EOF
 
 my Date $ref .= new('2001-01-01');
