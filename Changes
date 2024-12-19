@@ -1,5 +1,9 @@
 Revision history for Date-Calendar-MayaAztec
 
+0.1.0 released on 4 Imix 4 Kankin 13.0.12.3.1, or 4 Cipactli 18 Tozoztontli, or Thursday 19 December 2024
+    - use file extensions '.rakumod' and '.rakutest' instead of '.pm6' and '.t'
+    - add a "daypart" method, so the dates will be properly converted from / to midnight-to-midnight calendars and sunset-to-sunset calendars
+
 0.0.3 released on 13 Chiccan 8 Zac 13.0.12.0.5, or 13 Coatl 2 Atlcahualo, or Thursday 24 October 2024
     - add an "api" property to the classes
     - migration from CPAN6 to zef
