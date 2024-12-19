@@ -73,13 +73,11 @@ say $d-az.strftime("%V %A %e %B");
 
 $d-gr .= new('2024-11-13', daypart => daylight());
 $d-az .= new-from-date($d-gr);
-$d-ma .= new-from-date($d-gr);
 say $d-az.strftime("%V %A %e %B");
 # -->  "7 Coatl 2 Tlacaxipehualiztli"
 
 $d-gr .= new('2024-11-13', daypart => after-sunset());
 $d-az .= new-from-date($d-gr);
-$d-ma .= new-from-date($d-gr);
 say $d-az.strftime("%V %A %e %B");
 # -->  "8 Miquiztli 2 Tlacaxipehualiztli"
 =end code
@@ -155,6 +153,8 @@ $d-aztec .= new(month           => 3
              ,  daypart         => after-sunset()
              ,  locale          => 'fr'
              ,  on-or-after     => Date.new('2001-01-01'));
+say $d-aztec.strftime("%V %A %e %B");
+# --> "8 Mort  2 Écorchement des hommes"
 
 $d-aztec .= new(xiuhpohualli-index   =>  7
              ,  xiuhpohualli-number  =>  1
@@ -163,6 +163,8 @@ $d-aztec .= new(xiuhpohualli-index   =>  7
              ,  daypart              => daylight()
              ,  before               => Date.new('2050-01-01')
              ,  locale               => 'en');
+say $d-aztec.strftime("%V %A %e %B");
+# --> "3 Rain  1 Eating bean soup"
 
 =end code
 
@@ -192,6 +194,8 @@ $d-maya .= new(long-count => '13.0.0.0.0'
 
 $d-aztec .= new-from-date($d-maya);
 $d-aztec.locale = $d-maya.locale;
+say $d-aztec.strftime("%V %A %e %B");
+# --> "4 Flower 16 1-vigil"
 
 =end code
 
@@ -331,6 +335,7 @@ my  Date::Calendar::FrenchRevolutionary $d-dest-pull;
 $d-orig .= new(month => 15, day => 5, clerical-number => 11, clerical-index => 3);
 $d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary");
 $d-dest-pull .= new-from-date($d-orig);
+say $d-orig, ' ', $d-dest-push, ' ', $d-dest-pull;
 
 =end code
 

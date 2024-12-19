@@ -190,6 +190,8 @@ my Date::Calendar::Maya $d-maya1 .= new(month           =>  6         # for Xul
                                       , daypart         => daylight()
                                       , locale          => 'yua'
                                       , on-or-after     => Date.new('2001-01-01'));
+say $d-maya1;
+# --> "13.0.7.12.16"
 
 my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 12         # for Ceh
                                       , haab-number    =>  8
@@ -198,6 +200,8 @@ my Date::Calendar::Maya $d-maya2 .= new(haab-index     => 12         # for Ceh
                                       , daypart        => after-sunset()
                                       , locale         => 'yua'
                                       , nearest        => Date.new('2020-08-01'));
+say $d-maya2;
+# --> "13.0.12.1.5"
 
 =end code
 
@@ -222,6 +226,12 @@ my Date::Calendar::Maya      $d-ma;
 $d-gr .= new("2024-11-13", daypart => after-sunset(), locale => 'fr');
 $d-ma .= new-from-date($d-gr);
 $d-ma.locale = $d-gr.locale;
+
+say $d-gr.strftime("%A %e %B %Y");
+# --> "mercredi 13 novembre 2024"
+
+say $d-ma.strftime("%F %e %B %V %A");
+# --> "13.0.12.1.5  8 Ceh 8 Mort"
 
 =end code
 
@@ -362,6 +372,8 @@ my  Date::Calendar::FrenchRevolutionary $d-dest-pull;
 $d-orig .= new(long-count => '13.0.7.6.11');
 $d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary");
 $d-dest-pull .= new-from-date($d-orig);
+say $d-orig, ' ', $d-dest-push, ' ', $d-dest-pull;
+# --> "13.0.7.6.11 0228-07-06 0228-07-06"
 
 =end code
 
