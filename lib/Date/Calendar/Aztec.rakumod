@@ -571,12 +571,16 @@ reference date", or "nearest to the reference date", etc). This allows
 the module to compute an attribute C<daycount>, which will
 be used when converting an Aztec date to another calendar.
 
-=head2 The Name of Month 2
+=head2 The Name of Months
 
-Another   issue    it   month   number   2,    between   Izcalli   and
+Another   issue    is   month   number   2,    between   Izcalli   and
 Tlacaxipehualiztli. Most  sources give the name  "Atlcahualo", but the
 website     L<https://www.azteccalendar.com>     gives    the     name
 "Cuauhuitlehua".
+
+Similarly, month 7 is given as "Etzcualiztli" by
+L<https://www.azteccalendar.com/> and as "Etzalcualiztli" by other
+sources. Maybe just a typo.
 
 =head2 Year Bearers
 

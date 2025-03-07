@@ -304,6 +304,9 @@ L<DateTime::Calendar::Mayan|https://metacpan.org/dist/DateTime-Calendar-Mayan/vi
 
 C<calendar/cal-mayan.el>  in Emacs
 
+L<https://pypi.org/project/convertdate/>
+or L<https://convertdate.readthedocs.io/en/latest/modules/mayan.html>
+
 CALENDRICA 4.0 -- Common Lisp, which can be download in the "Resources" section of
 L<https://www.cambridge.org/us/academic/subjects/computer-science/computing-general-interest/calendrical-calculations-ultimate-edition-4th-edition?format=PB&isbn=9781107683167>
 
@@ -336,6 +339,14 @@ L<https://www.timeanddate.com/calendar/mayan.html>
 L<https://www.azteccalendar.com/>
 
 L<http://research.famsi.org/date_mayaLC.php>
+
+L<https://www.fourmilab.ch/documents/calendar/>
+or its French-speaking versions
+L<https://www.patricklecoq.fr/convert/cnv_calendar.html>
+and L<https://louis-aime.github.io/fourmilab_calendar_upgraded/index-fr.html>
+
+L<https://www.ephemeride.com/calendrier/autrescalendriers/21/autres-types-de-calendriers.html>
+(in French)
 
 =head1 AUTHOR
 
