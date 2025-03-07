@@ -233,7 +233,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2024 Jean Forget, all rights reserved
+Copyright (c) 2024, 2025 Jean Forget, all rights reserved
 
 This program is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

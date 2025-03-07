@@ -5,7 +5,7 @@ use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Aztec::Names;
 use Date::Calendar::MayaAztec;
 
-unit role Date::Calendar::Aztec::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
+unit role Date::Calendar::Aztec::Common:ver<0.1.1>:auth<zef:jforget>:api<1>;
 
 multi method BUILD(Int:D :$daycount, Str :$locale = 'nah', Int :$daypart = daylight()) {
   my ($day, $month, $clerical-number, $clerical-index) = $.calendar-round-from-daycount($daycount, $daypart);
@@ -161,7 +161,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2020, 2023, 2024 Jean Forget
+Copyright (c) 2020, 2023, 2024, 2025 Jean Forget
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

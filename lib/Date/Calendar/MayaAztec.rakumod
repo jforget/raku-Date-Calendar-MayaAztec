@@ -14,7 +14,7 @@ constant VAGUE-YEAR         = 365;
 constant SUB-CALENDAR-ROUND = 365 lcm 20;
 constant CALENDAR-ROUND     = 365 lcm 20 lcm 13;
 
-unit role Date::Calendar::MayaAztec:ver<0.1.0>:auth<zef:jforget>:api<1>;
+unit role Date::Calendar::MayaAztec:ver<0.1.1>:auth<zef:jforget>:api<1>;
 
 has Int $.day             where { 0 ≤ $_ ≤ 20 }; # Haab number (0 to 19) or xiuhpohualli number (1 to 20)
 has Int $.month           where { 1 ≤ $_ ≤ 19 }; # Number equivalent of Haab name or xiuhpohualli name
@@ -354,7 +354,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2020, 2023, 2024 Jean Forget
+Copyright (c) 2020, 2023, 2024, 2025 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.

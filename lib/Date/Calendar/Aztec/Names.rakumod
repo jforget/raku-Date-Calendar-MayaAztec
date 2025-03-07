@@ -1,7 +1,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 use v6.d;
 
-unit module Date::Calendar::Aztec::Names:ver<0.1.0>:auth<zef:jforget>:api<1>;
+unit module Date::Calendar::Aztec::Names:ver<0.1.1>:auth<zef:jforget>:api<1>;
 
 my %day-names = 'nah' => qw/
                            Cipactli      Ehecatl   Calli   Cuetzpalin Coatl
@@ -125,7 +125,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2020, 2023, 2024 Jean Forget
+Copyright (c) 2020, 2023, 2024, 2025 Jean Forget
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.
