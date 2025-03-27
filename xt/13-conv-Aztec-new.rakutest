@@ -6,7 +6,7 @@ use v6.d;
 use Test;
 use lib '../version-new/lib';
 use lib 'lib';
-use Date::Calendar::Strftime:ver<0.1.0>;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::Aztec;
 use Date::Calendar::Aztec::Cortes;
 use Date::Calendar::Bahai;
